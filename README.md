@@ -33,6 +33,8 @@ jumca-portal/
 
 ## Quick start
 
+### Manually
+
 ```bash
 # 1. Install all dependencies (run from repo root)
 npm install
@@ -52,6 +54,34 @@ npm run dev                     # client → :5173  |  server → :5000
 # Or start individually:
 npm run server:dev              # frontend only
 npm run client:dev              # backend only
+```
+
+### Using Docker
+
+```bash
+# Build and start containers (run from repo root)
+docker compose up --build -d
+
+# After running this, you can very easily api test using postman or ui test on the browser. The server will be available at http://localhost:5000 and the client at http://localhost:5173
+
+# View running containers
+docker compose ps
+
+# Stop and remove containers
+docker compose down -v
+
+# View logs
+docker compose logs -f
+
+# Run commands inside the server container
+docker compose exec server bash
+
+# Run commands inside the client container
+docker compose exec client bash
+
+# Run commands inside the database container
+docker compose exec db bash
+
 ```
 
 ## Database commands (run from apps/server)

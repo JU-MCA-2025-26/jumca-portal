@@ -13,8 +13,8 @@ build/
 *.turbo
 
 # Editor settings
-# .vscode/*
-# .zed/*
+.vscode/*
+.zed/*
 
 # Keep migrations committed
 !apps/server/prisma/migrations/

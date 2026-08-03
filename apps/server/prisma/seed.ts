@@ -16,8 +16,15 @@ async function main() {
     return;
   }
 
-  await prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: {
+      email: "admin@jumca.com",
+    },
+    update: {
+      fullName: "Administrator",
+      password,
+    },
+    create: {
       fullName: "Administrator",
 
       email: "admin@jumca.com",
