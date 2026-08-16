@@ -2,13 +2,14 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import type { StringValue } from "ms";
 import { env } from "@/config/env.js";
+import type { Role } from "@jumca/shared";
 
 const ACCESS_SECRET = env.JWT_ACCESS_SECRET!;
 const REFRESH_SECRET = env.JWT_REFRESH_SECRET!;
 
 export interface JwtPayload {
   userId: string;
-  role: string;
+  role: Role;
 }
 
 export const generateAccessToken = (payload: JwtPayload) => {

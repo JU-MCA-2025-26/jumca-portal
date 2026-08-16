@@ -583,10 +583,6 @@ export type EnumResourceCategoryFieldUpdateOperationsInput = {
   set?: $Enums.ResourceCategory
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
