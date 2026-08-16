@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
 import authRoutes from "@/routes/auth.routes.js";
+import usersRoutes from "@/routes/user.routes.js";
 import healthRoutes from "@/routes/health.routes.js";
 
 import { errorHandler } from "@/middleware/errorHandler.js";
@@ -33,6 +34,7 @@ app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 
 // Routes
 app.use(`${API_PREFIX}/auth`, authRoutes);
+app.use(`${API_PREFIX}/users`, usersRoutes);
 app.use(`${API_PREFIX}/health`, healthRoutes);
 
 // Error handling

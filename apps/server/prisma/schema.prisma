@@ -37,11 +37,16 @@ model User {
   role       Role
   batch      String
 
+  isActive Boolean @default(true)
+
   profile    Profile?
   resources  Resource[]
   interviews InterviewExperience[]
 
   refreshToken String?
+  resetPasswordToken String?
+  resetPasswordExpires DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

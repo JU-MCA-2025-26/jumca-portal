@@ -5,7 +5,10 @@ export const loginSchema = z
     identifier: z
       .email({ error: "Invalid email format" })
       .or(z.string().regex(/^\d{12}$/, { error: "Roll number must be exactly 12 digits" })),
-    password: z.string().min(8, { error: "Password must be at least 8 characters long" }),
+    password: z
+      .string()
+      .min(8, { error: "Password must be at least 8 characters long" })
+      .max(72, { error: "Password is too long" }),
   })
   .strict();
 
