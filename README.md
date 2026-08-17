@@ -50,8 +50,8 @@ npm run server:prisma:seed       # seeds admin user
 npm run dev                     # client → :5173  |  server → :5000
 
 # Or start individually:
-npm run server:dev              # frontend only
-npm run client:dev              # backend only
+npm run client:dev              # frontend only
+npm run server:dev              # backend only
 ```
 
 ## Database commands (run from apps/server)
