@@ -5,6 +5,8 @@ build
 .vite
 .next
 
+*vite.config.js
+
 package-lock.json
 
 *.log

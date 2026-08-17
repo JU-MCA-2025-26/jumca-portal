@@ -8,6 +8,7 @@ dist/
 build/
 .tsbuildinfo
 *.tsbuildinfo
+*vite.config.js
 
 .turbo/cache
 *.turbo
