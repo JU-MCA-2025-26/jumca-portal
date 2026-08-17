@@ -5,7 +5,6 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "module": "nodenext",
-    "types": ["vite/client"],
     "allowArbitraryExtensions": true,
 
     /* Bundler mode */
