@@ -20,7 +20,7 @@ function LandingPage() {
 
       <button
         type="button"
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/login")}
         className="mt-6 rounded px-6 py-2.5 text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-text-inverse bg-primary shadow-glow-sm transition-colors hover:bg-primary-hover"
       >
         Login
