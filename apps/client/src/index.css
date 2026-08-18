@@ -229,13 +229,13 @@
   /* Section label  →  // label text */
   .section-label {
     font-size: 0.625rem;
-    font-weight: 700;
+    font-weight: 300;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-text-muted);
+    color: var(--color-primary);
   }
   .section-label::before {
-    content: "// ";
+    content: "— ";
     color: var(--color-primary);
   }
 
