@@ -9,16 +9,10 @@ export const apiLimiter = rateLimit({
   legacyHeaders: false,
 
   handler: (_req, _res, next, options) => {
-    next(
-      new ApiError(
-        429,
-        options.message
-      )
-    );
+    next(new ApiError(429, options.message));
   },
 
-  message:
-    "Too many requests. Please try again later.",
+  message: "Too many requests. Please try again later.",
 });
 
 export const authLimiter = rateLimit({
@@ -29,16 +23,10 @@ export const authLimiter = rateLimit({
   legacyHeaders: false,
 
   handler: (_req, _res, next, options) => {
-    next(
-      new ApiError(
-        429,
-        options.message
-      )
-    );
+    next(new ApiError(429, options.message));
   },
 
-  message:
-    "Too many authentication requests. Please try again later.",
+  message: "Too many authentication requests. Please try again later.",
 });
 
 export const loginLimiter = rateLimit({
@@ -49,16 +37,10 @@ export const loginLimiter = rateLimit({
   legacyHeaders: false,
 
   handler: (_req, _res, next, options) => {
-    next(
-      new ApiError(
-        429,
-        options.message
-      )
-    );
+    next(new ApiError(429, options.message));
   },
 
-  message:
-    "Too many login attempts. Please try again in 15 minutes.",
+  message: "Too many login attempts. Please try again in 15 minutes.",
 });
 
 export const passwordResetLimiter = rateLimit({
@@ -69,14 +51,8 @@ export const passwordResetLimiter = rateLimit({
   legacyHeaders: false,
 
   handler: (_req, _res, next, options) => {
-    next(
-      new ApiError(
-        429,
-        options.message
-      )
-    );
+    next(new ApiError(429, options.message));
   },
 
-  message:
-    "Too many password reset requests. Please try again later.",
+  message: "Too many password reset requests. Please try again later.",
 });

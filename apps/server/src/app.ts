@@ -35,24 +35,23 @@ app.use(cookieParser(env.COOKIE_SECRET));
 
 //CSRF protection
 const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
-  getSecret: () => process.env.CSRF_SECRET || 'default-csrf-secret',
+  getSecret: () => process.env.CSRF_SECRET || "default-csrf-secret",
   getSessionIdentifier: (req) => req.cookies["access_token"] || "anonymous",
-  cookieName: 'csrf-token',
+  cookieName: "csrf-token",
   cookieOptions: {
     httpOnly: true,
-    sameSite: 'strict',
-    secure: process.env.NODE_ENV === 'production'
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
   },
   size: 64,
-  ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
+  ignoredMethods: ["GET", "HEAD", "OPTIONS"],
 });
-
 
 // Logging middleware
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 
 // Rate limiting
-app.use(`${API_PREFIX}`, apiLimiter)
+app.use(`${API_PREFIX}`, apiLimiter);
 
 // CSRF token generation route
 app.get(`${API_PREFIX}/csrf-token`, (req, res) => {
