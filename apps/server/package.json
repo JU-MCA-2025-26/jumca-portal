@@ -7,10 +7,10 @@
   "scripts": {
     "dev": "tsx --watch src/server.ts",
     "build": "tsc",
-    "db:generate": "prisma generate --config prisma.config.ts",
-    "db:migrate": "prisma migrate dev --config prisma.config.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio --config prisma.config.ts"
+    "db:studio": "prisma studio"
   },
   "dependencies": {
     "@jumca/shared": "*",
@@ -25,7 +25,7 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0",
     "multer": "^2.2.0",
-    "prisma": "^6.12.0",
+    "prisma": "^7.9.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
