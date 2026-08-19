@@ -37,11 +37,16 @@ model User {
   role       Role
   batch      String
 
+  isActive Boolean @default(true)
+
   profile    Profile?
   resources  Resource[]
   interviews InterviewExperience[]
 
   refreshToken String?
+  resetPasswordToken String?
+  resetPasswordExpires DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -56,6 +61,9 @@ model Profile {
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Course & Resource Models
@@ -131,6 +139,9 @@ model InterviewRound {
   interviewExperience   InterviewExperience @relation(fields: [interviewExperienceId], references: [id], onDelete: Cascade)
 
   questions Question[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Question {
@@ -140,4 +151,7 @@ model Question {
 
   roundId String
   round   InterviewRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

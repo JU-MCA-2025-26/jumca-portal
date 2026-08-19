@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Profile
@@ -32,6 +32,8 @@ export type ProfileMinAggregateOutputType = {
   gfg: string | null
   codeforces: string | null
   userId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ProfileMaxAggregateOutputType = {
@@ -42,6 +44,8 @@ export type ProfileMaxAggregateOutputType = {
   gfg: string | null
   codeforces: string | null
   userId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ProfileCountAggregateOutputType = {
@@ -52,6 +56,8 @@ export type ProfileCountAggregateOutputType = {
   gfg: number
   codeforces: number
   userId: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -64,6 +70,8 @@ export type ProfileMinAggregateInputType = {
   gfg?: true
   codeforces?: true
   userId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type ProfileMaxAggregateInputType = {
@@ -74,6 +82,8 @@ export type ProfileMaxAggregateInputType = {
   gfg?: true
   codeforces?: true
   userId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type ProfileCountAggregateInputType = {
@@ -84,6 +94,8 @@ export type ProfileCountAggregateInputType = {
   gfg?: true
   codeforces?: true
   userId?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -167,6 +179,8 @@ export type ProfileGroupByOutputType = {
   gfg: string | null
   codeforces: string | null
   userId: string
+  createdAt: Date
+  updatedAt: Date
   _count: ProfileCountAggregateOutputType | null
   _min: ProfileMinAggregateOutputType | null
   _max: ProfileMaxAggregateOutputType | null
@@ -198,6 +212,8 @@ export type ProfileWhereInput = {
   gfg?: Prisma.StringNullableFilter<"Profile"> | string | null
   codeforces?: Prisma.StringNullableFilter<"Profile"> | string | null
   userId?: Prisma.StringFilter<"Profile"> | string
+  createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -209,6 +225,8 @@ export type ProfileOrderByWithRelationInput = {
   gfg?: Prisma.SortOrderInput | Prisma.SortOrder
   codeforces?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -223,6 +241,8 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   leetcode?: Prisma.StringNullableFilter<"Profile"> | string | null
   gfg?: Prisma.StringNullableFilter<"Profile"> | string | null
   codeforces?: Prisma.StringNullableFilter<"Profile"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId">
 
@@ -234,6 +254,8 @@ export type ProfileOrderByWithAggregationInput = {
   gfg?: Prisma.SortOrderInput | Prisma.SortOrder
   codeforces?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.ProfileCountOrderByAggregateInput
   _max?: Prisma.ProfileMaxOrderByAggregateInput
   _min?: Prisma.ProfileMinOrderByAggregateInput
@@ -250,6 +272,8 @@ export type ProfileScalarWhereWithAggregatesInput = {
   gfg?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   codeforces?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   userId?: Prisma.StringWithAggregatesFilter<"Profile"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
 }
 
 export type ProfileCreateInput = {
@@ -259,6 +283,8 @@ export type ProfileCreateInput = {
   leetcode?: string | null
   gfg?: string | null
   codeforces?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutProfileInput
 }
 
@@ -270,6 +296,8 @@ export type ProfileUncheckedCreateInput = {
   gfg?: string | null
   codeforces?: string | null
   userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ProfileUpdateInput = {
@@ -279,6 +307,8 @@ export type ProfileUpdateInput = {
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutProfileNestedInput
 }
 
@@ -290,6 +320,8 @@ export type ProfileUncheckedUpdateInput = {
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ProfileCreateManyInput = {
@@ -300,6 +332,8 @@ export type ProfileCreateManyInput = {
   gfg?: string | null
   codeforces?: string | null
   userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ProfileUpdateManyMutationInput = {
@@ -309,6 +343,8 @@ export type ProfileUpdateManyMutationInput = {
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ProfileUncheckedUpdateManyInput = {
@@ -319,6 +355,8 @@ export type ProfileUncheckedUpdateManyInput = {
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ProfileNullableScalarRelationFilter = {
@@ -334,6 +372,8 @@ export type ProfileCountOrderByAggregateInput = {
   gfg?: Prisma.SortOrder
   codeforces?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ProfileMaxOrderByAggregateInput = {
@@ -344,6 +384,8 @@ export type ProfileMaxOrderByAggregateInput = {
   gfg?: Prisma.SortOrder
   codeforces?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ProfileMinOrderByAggregateInput = {
@@ -354,6 +396,8 @@ export type ProfileMinOrderByAggregateInput = {
   gfg?: Prisma.SortOrder
   codeforces?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ProfileCreateNestedOneWithoutUserInput = {
@@ -395,6 +439,8 @@ export type ProfileCreateWithoutUserInput = {
   leetcode?: string | null
   gfg?: string | null
   codeforces?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ProfileUncheckedCreateWithoutUserInput = {
@@ -404,6 +450,8 @@ export type ProfileUncheckedCreateWithoutUserInput = {
   leetcode?: string | null
   gfg?: string | null
   codeforces?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ProfileCreateOrConnectWithoutUserInput = {
@@ -429,6 +477,8 @@ export type ProfileUpdateWithoutUserInput = {
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ProfileUncheckedUpdateWithoutUserInput = {
@@ -438,6 +488,8 @@ export type ProfileUncheckedUpdateWithoutUserInput = {
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -450,6 +502,8 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   gfg?: boolean
   codeforces?: boolean
   userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profile"]>
 
@@ -461,6 +515,8 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   gfg?: boolean
   codeforces?: boolean
   userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profile"]>
 
@@ -472,6 +528,8 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   gfg?: boolean
   codeforces?: boolean
   userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profile"]>
 
@@ -483,9 +541,11 @@ export type ProfileSelectScalar = {
   gfg?: boolean
   codeforces?: boolean
   userId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bio" | "github" | "leetcode" | "gfg" | "codeforces" | "userId", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bio" | "github" | "leetcode" | "gfg" | "codeforces" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -509,6 +569,8 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     gfg: string | null
     codeforces: string | null
     userId: string
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["profile"]>
   composites: {}
 }
@@ -940,6 +1002,8 @@ export interface ProfileFieldRefs {
   readonly gfg: Prisma.FieldRef<"Profile", 'String'>
   readonly codeforces: Prisma.FieldRef<"Profile", 'String'>
   readonly userId: Prisma.FieldRef<"Profile", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Profile", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Profile", 'DateTime'>
 }
     
 

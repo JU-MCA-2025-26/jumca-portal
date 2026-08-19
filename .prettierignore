@@ -5,6 +5,8 @@ build
 .vite
 .next
 
+*vite.config.js
+
 package-lock.json
 
 *.log
@@ -17,3 +19,4 @@ apps/server/prisma/migrations
 
 public
 .turbo/cache
+*vite.config.js

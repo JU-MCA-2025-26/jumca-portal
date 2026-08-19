@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models'
-export type * from './prismaNamespace'
+export type * from '../models.js'
+export type * from './prismaNamespace.js'
 
 export const Decimal = runtime.Decimal
 
@@ -85,7 +85,10 @@ export const UserScalarFieldEnum = {
   fullName: 'fullName',
   role: 'role',
   batch: 'batch',
+  isActive: 'isActive',
   refreshToken: 'refreshToken',
+  resetPasswordToken: 'resetPasswordToken',
+  resetPasswordExpires: 'resetPasswordExpires',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -100,7 +103,9 @@ export const ProfileScalarFieldEnum = {
   leetcode: 'leetcode',
   gfg: 'gfg',
   codeforces: 'codeforces',
-  userId: 'userId'
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -164,7 +169,9 @@ export const InterviewRoundScalarFieldEnum = {
   roundName: 'roundName',
   orderNumber: 'orderNumber',
   description: 'description',
-  interviewExperienceId: 'interviewExperienceId'
+  interviewExperienceId: 'interviewExperienceId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type InterviewRoundScalarFieldEnum = (typeof InterviewRoundScalarFieldEnum)[keyof typeof InterviewRoundScalarFieldEnum]
@@ -174,7 +181,9 @@ export const QuestionScalarFieldEnum = {
   id: 'id',
   text: 'text',
   solution: 'solution',
-  roundId: 'roundId'
+  roundId: 'roundId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]

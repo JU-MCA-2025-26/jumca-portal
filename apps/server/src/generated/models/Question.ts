@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Question
@@ -29,6 +29,8 @@ export type QuestionMinAggregateOutputType = {
   text: string | null
   solution: string | null
   roundId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type QuestionMaxAggregateOutputType = {
@@ -36,6 +38,8 @@ export type QuestionMaxAggregateOutputType = {
   text: string | null
   solution: string | null
   roundId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type QuestionCountAggregateOutputType = {
@@ -43,6 +47,8 @@ export type QuestionCountAggregateOutputType = {
   text: number
   solution: number
   roundId: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -52,6 +58,8 @@ export type QuestionMinAggregateInputType = {
   text?: true
   solution?: true
   roundId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type QuestionMaxAggregateInputType = {
@@ -59,6 +67,8 @@ export type QuestionMaxAggregateInputType = {
   text?: true
   solution?: true
   roundId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type QuestionCountAggregateInputType = {
@@ -66,6 +76,8 @@ export type QuestionCountAggregateInputType = {
   text?: true
   solution?: true
   roundId?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -146,6 +158,8 @@ export type QuestionGroupByOutputType = {
   text: string
   solution: string | null
   roundId: string
+  createdAt: Date
+  updatedAt: Date
   _count: QuestionCountAggregateOutputType | null
   _min: QuestionMinAggregateOutputType | null
   _max: QuestionMaxAggregateOutputType | null
@@ -174,6 +188,8 @@ export type QuestionWhereInput = {
   text?: Prisma.StringFilter<"Question"> | string
   solution?: Prisma.StringNullableFilter<"Question"> | string | null
   roundId?: Prisma.StringFilter<"Question"> | string
+  createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   round?: Prisma.XOR<Prisma.InterviewRoundScalarRelationFilter, Prisma.InterviewRoundWhereInput>
 }
 
@@ -182,6 +198,8 @@ export type QuestionOrderByWithRelationInput = {
   text?: Prisma.SortOrder
   solution?: Prisma.SortOrderInput | Prisma.SortOrder
   roundId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   round?: Prisma.InterviewRoundOrderByWithRelationInput
 }
 
@@ -193,6 +211,8 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<{
   text?: Prisma.StringFilter<"Question"> | string
   solution?: Prisma.StringNullableFilter<"Question"> | string | null
   roundId?: Prisma.StringFilter<"Question"> | string
+  createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   round?: Prisma.XOR<Prisma.InterviewRoundScalarRelationFilter, Prisma.InterviewRoundWhereInput>
 }, "id">
 
@@ -201,6 +221,8 @@ export type QuestionOrderByWithAggregationInput = {
   text?: Prisma.SortOrder
   solution?: Prisma.SortOrderInput | Prisma.SortOrder
   roundId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.QuestionCountOrderByAggregateInput
   _max?: Prisma.QuestionMaxOrderByAggregateInput
   _min?: Prisma.QuestionMinOrderByAggregateInput
@@ -214,12 +236,16 @@ export type QuestionScalarWhereWithAggregatesInput = {
   text?: Prisma.StringWithAggregatesFilter<"Question"> | string
   solution?: Prisma.StringNullableWithAggregatesFilter<"Question"> | string | null
   roundId?: Prisma.StringWithAggregatesFilter<"Question"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Question"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Question"> | Date | string
 }
 
 export type QuestionCreateInput = {
   id?: string
   text: string
   solution?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   round: Prisma.InterviewRoundCreateNestedOneWithoutQuestionsInput
 }
 
@@ -228,12 +254,16 @@ export type QuestionUncheckedCreateInput = {
   text: string
   solution?: string | null
   roundId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type QuestionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
   solution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   round?: Prisma.InterviewRoundUpdateOneRequiredWithoutQuestionsNestedInput
 }
 
@@ -242,6 +272,8 @@ export type QuestionUncheckedUpdateInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
   solution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   roundId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type QuestionCreateManyInput = {
@@ -249,12 +281,16 @@ export type QuestionCreateManyInput = {
   text: string
   solution?: string | null
   roundId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type QuestionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
   solution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type QuestionUncheckedUpdateManyInput = {
@@ -262,6 +298,8 @@ export type QuestionUncheckedUpdateManyInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
   solution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   roundId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type QuestionListRelationFilter = {
@@ -279,6 +317,8 @@ export type QuestionCountOrderByAggregateInput = {
   text?: Prisma.SortOrder
   solution?: Prisma.SortOrder
   roundId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type QuestionMaxOrderByAggregateInput = {
@@ -286,6 +326,8 @@ export type QuestionMaxOrderByAggregateInput = {
   text?: Prisma.SortOrder
   solution?: Prisma.SortOrder
   roundId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type QuestionMinOrderByAggregateInput = {
@@ -293,6 +335,8 @@ export type QuestionMinOrderByAggregateInput = {
   text?: Prisma.SortOrder
   solution?: Prisma.SortOrder
   roundId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type QuestionCreateNestedManyWithoutRoundInput = {
@@ -341,12 +385,16 @@ export type QuestionCreateWithoutRoundInput = {
   id?: string
   text: string
   solution?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type QuestionUncheckedCreateWithoutRoundInput = {
   id?: string
   text: string
   solution?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type QuestionCreateOrConnectWithoutRoundInput = {
@@ -383,30 +431,40 @@ export type QuestionScalarWhereInput = {
   text?: Prisma.StringFilter<"Question"> | string
   solution?: Prisma.StringNullableFilter<"Question"> | string | null
   roundId?: Prisma.StringFilter<"Question"> | string
+  createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
 }
 
 export type QuestionCreateManyRoundInput = {
   id?: string
   text: string
   solution?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type QuestionUpdateWithoutRoundInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
   solution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type QuestionUncheckedUpdateWithoutRoundInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
   solution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type QuestionUncheckedUpdateManyWithoutRoundInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   text?: Prisma.StringFieldUpdateOperationsInput | string
   solution?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -416,6 +474,8 @@ export type QuestionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   text?: boolean
   solution?: boolean
   roundId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   round?: boolean | Prisma.InterviewRoundDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["question"]>
 
@@ -424,6 +484,8 @@ export type QuestionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   text?: boolean
   solution?: boolean
   roundId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   round?: boolean | Prisma.InterviewRoundDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["question"]>
 
@@ -432,6 +494,8 @@ export type QuestionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   text?: boolean
   solution?: boolean
   roundId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   round?: boolean | Prisma.InterviewRoundDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["question"]>
 
@@ -440,9 +504,11 @@ export type QuestionSelectScalar = {
   text?: boolean
   solution?: boolean
   roundId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "text" | "solution" | "roundId", ExtArgs["result"]["question"]>
+export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "text" | "solution" | "roundId" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
 export type QuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   round?: boolean | Prisma.InterviewRoundDefaultArgs<ExtArgs>
 }
@@ -463,6 +529,8 @@ export type $QuestionPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     text: string
     solution: string | null
     roundId: string
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["question"]>
   composites: {}
 }
@@ -891,6 +959,8 @@ export interface QuestionFieldRefs {
   readonly text: Prisma.FieldRef<"Question", 'String'>
   readonly solution: Prisma.FieldRef<"Question", 'String'>
   readonly roundId: Prisma.FieldRef<"Question", 'String'>
+  readonly createdAt: Prisma.FieldRef<"Question", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Question", 'DateTime'>
 }
     
 

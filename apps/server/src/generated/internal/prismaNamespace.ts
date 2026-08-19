@@ -16,10 +16,10 @@
  */
 
 import * as runtime from "@prisma/client/runtime/client"
-import type * as Prisma from "../models"
-import { type PrismaClient } from "./class"
+import type * as Prisma from "../models.js"
+import { type PrismaClient } from "./class.js"
 
-export type * from '../models'
+export type * from '../models.js'
 
 export type DMMF = typeof runtime.DMMF
 
@@ -1063,7 +1063,10 @@ export const UserScalarFieldEnum = {
   fullName: 'fullName',
   role: 'role',
   batch: 'batch',
+  isActive: 'isActive',
   refreshToken: 'refreshToken',
+  resetPasswordToken: 'resetPasswordToken',
+  resetPasswordExpires: 'resetPasswordExpires',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1078,7 +1081,9 @@ export const ProfileScalarFieldEnum = {
   leetcode: 'leetcode',
   gfg: 'gfg',
   codeforces: 'codeforces',
-  userId: 'userId'
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -1142,7 +1147,9 @@ export const InterviewRoundScalarFieldEnum = {
   roundName: 'roundName',
   orderNumber: 'orderNumber',
   description: 'description',
-  interviewExperienceId: 'interviewExperienceId'
+  interviewExperienceId: 'interviewExperienceId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type InterviewRoundScalarFieldEnum = (typeof InterviewRoundScalarFieldEnum)[keyof typeof InterviewRoundScalarFieldEnum]
@@ -1152,7 +1159,9 @@ export const QuestionScalarFieldEnum = {
   id: 'id',
   text: 'text',
   solution: 'solution',
-  roundId: 'roundId'
+  roundId: 'roundId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
@@ -1217,6 +1226,13 @@ export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -1241,13 +1257,6 @@ export type EnumResourceCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'ResourceCategory[]'
  */
 export type ListEnumResourceCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResourceCategory[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

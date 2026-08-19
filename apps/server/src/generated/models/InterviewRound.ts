@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model InterviewRound
@@ -40,6 +40,8 @@ export type InterviewRoundMinAggregateOutputType = {
   orderNumber: number | null
   description: string | null
   interviewExperienceId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type InterviewRoundMaxAggregateOutputType = {
@@ -48,6 +50,8 @@ export type InterviewRoundMaxAggregateOutputType = {
   orderNumber: number | null
   description: string | null
   interviewExperienceId: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type InterviewRoundCountAggregateOutputType = {
@@ -56,6 +60,8 @@ export type InterviewRoundCountAggregateOutputType = {
   orderNumber: number
   description: number
   interviewExperienceId: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -74,6 +80,8 @@ export type InterviewRoundMinAggregateInputType = {
   orderNumber?: true
   description?: true
   interviewExperienceId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type InterviewRoundMaxAggregateInputType = {
@@ -82,6 +90,8 @@ export type InterviewRoundMaxAggregateInputType = {
   orderNumber?: true
   description?: true
   interviewExperienceId?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type InterviewRoundCountAggregateInputType = {
@@ -90,6 +100,8 @@ export type InterviewRoundCountAggregateInputType = {
   orderNumber?: true
   description?: true
   interviewExperienceId?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -185,6 +197,8 @@ export type InterviewRoundGroupByOutputType = {
   orderNumber: number
   description: string | null
   interviewExperienceId: string
+  createdAt: Date
+  updatedAt: Date
   _count: InterviewRoundCountAggregateOutputType | null
   _avg: InterviewRoundAvgAggregateOutputType | null
   _sum: InterviewRoundSumAggregateOutputType | null
@@ -216,6 +230,8 @@ export type InterviewRoundWhereInput = {
   orderNumber?: Prisma.IntFilter<"InterviewRound"> | number
   description?: Prisma.StringNullableFilter<"InterviewRound"> | string | null
   interviewExperienceId?: Prisma.StringFilter<"InterviewRound"> | string
+  createdAt?: Prisma.DateTimeFilter<"InterviewRound"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"InterviewRound"> | Date | string
   interviewExperience?: Prisma.XOR<Prisma.InterviewExperienceScalarRelationFilter, Prisma.InterviewExperienceWhereInput>
   questions?: Prisma.QuestionListRelationFilter
 }
@@ -226,6 +242,8 @@ export type InterviewRoundOrderByWithRelationInput = {
   orderNumber?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   interviewExperienceId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   interviewExperience?: Prisma.InterviewExperienceOrderByWithRelationInput
   questions?: Prisma.QuestionOrderByRelationAggregateInput
 }
@@ -239,6 +257,8 @@ export type InterviewRoundWhereUniqueInput = Prisma.AtLeast<{
   orderNumber?: Prisma.IntFilter<"InterviewRound"> | number
   description?: Prisma.StringNullableFilter<"InterviewRound"> | string | null
   interviewExperienceId?: Prisma.StringFilter<"InterviewRound"> | string
+  createdAt?: Prisma.DateTimeFilter<"InterviewRound"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"InterviewRound"> | Date | string
   interviewExperience?: Prisma.XOR<Prisma.InterviewExperienceScalarRelationFilter, Prisma.InterviewExperienceWhereInput>
   questions?: Prisma.QuestionListRelationFilter
 }, "id">
@@ -249,6 +269,8 @@ export type InterviewRoundOrderByWithAggregationInput = {
   orderNumber?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   interviewExperienceId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.InterviewRoundCountOrderByAggregateInput
   _avg?: Prisma.InterviewRoundAvgOrderByAggregateInput
   _max?: Prisma.InterviewRoundMaxOrderByAggregateInput
@@ -265,6 +287,8 @@ export type InterviewRoundScalarWhereWithAggregatesInput = {
   orderNumber?: Prisma.IntWithAggregatesFilter<"InterviewRound"> | number
   description?: Prisma.StringNullableWithAggregatesFilter<"InterviewRound"> | string | null
   interviewExperienceId?: Prisma.StringWithAggregatesFilter<"InterviewRound"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"InterviewRound"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"InterviewRound"> | Date | string
 }
 
 export type InterviewRoundCreateInput = {
@@ -272,6 +296,8 @@ export type InterviewRoundCreateInput = {
   roundName: string
   orderNumber: number
   description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   interviewExperience: Prisma.InterviewExperienceCreateNestedOneWithoutRoundsInput
   questions?: Prisma.QuestionCreateNestedManyWithoutRoundInput
 }
@@ -282,6 +308,8 @@ export type InterviewRoundUncheckedCreateInput = {
   orderNumber: number
   description?: string | null
   interviewExperienceId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutRoundInput
 }
 
@@ -290,6 +318,8 @@ export type InterviewRoundUpdateInput = {
   roundName?: Prisma.StringFieldUpdateOperationsInput | string
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   interviewExperience?: Prisma.InterviewExperienceUpdateOneRequiredWithoutRoundsNestedInput
   questions?: Prisma.QuestionUpdateManyWithoutRoundNestedInput
 }
@@ -300,6 +330,8 @@ export type InterviewRoundUncheckedUpdateInput = {
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interviewExperienceId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutRoundNestedInput
 }
 
@@ -309,6 +341,8 @@ export type InterviewRoundCreateManyInput = {
   orderNumber: number
   description?: string | null
   interviewExperienceId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type InterviewRoundUpdateManyMutationInput = {
@@ -316,6 +350,8 @@ export type InterviewRoundUpdateManyMutationInput = {
   roundName?: Prisma.StringFieldUpdateOperationsInput | string
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InterviewRoundUncheckedUpdateManyInput = {
@@ -324,6 +360,8 @@ export type InterviewRoundUncheckedUpdateManyInput = {
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interviewExperienceId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InterviewRoundListRelationFilter = {
@@ -342,6 +380,8 @@ export type InterviewRoundCountOrderByAggregateInput = {
   orderNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   interviewExperienceId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type InterviewRoundAvgOrderByAggregateInput = {
@@ -354,6 +394,8 @@ export type InterviewRoundMaxOrderByAggregateInput = {
   orderNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   interviewExperienceId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type InterviewRoundMinOrderByAggregateInput = {
@@ -362,6 +404,8 @@ export type InterviewRoundMinOrderByAggregateInput = {
   orderNumber?: Prisma.SortOrder
   description?: Prisma.SortOrder
   interviewExperienceId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type InterviewRoundSumOrderByAggregateInput = {
@@ -434,6 +478,8 @@ export type InterviewRoundCreateWithoutInterviewExperienceInput = {
   roundName: string
   orderNumber: number
   description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   questions?: Prisma.QuestionCreateNestedManyWithoutRoundInput
 }
 
@@ -442,6 +488,8 @@ export type InterviewRoundUncheckedCreateWithoutInterviewExperienceInput = {
   roundName: string
   orderNumber: number
   description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutRoundInput
 }
 
@@ -480,6 +528,8 @@ export type InterviewRoundScalarWhereInput = {
   orderNumber?: Prisma.IntFilter<"InterviewRound"> | number
   description?: Prisma.StringNullableFilter<"InterviewRound"> | string | null
   interviewExperienceId?: Prisma.StringFilter<"InterviewRound"> | string
+  createdAt?: Prisma.DateTimeFilter<"InterviewRound"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"InterviewRound"> | Date | string
 }
 
 export type InterviewRoundCreateWithoutQuestionsInput = {
@@ -487,6 +537,8 @@ export type InterviewRoundCreateWithoutQuestionsInput = {
   roundName: string
   orderNumber: number
   description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   interviewExperience: Prisma.InterviewExperienceCreateNestedOneWithoutRoundsInput
 }
 
@@ -496,6 +548,8 @@ export type InterviewRoundUncheckedCreateWithoutQuestionsInput = {
   orderNumber: number
   description?: string | null
   interviewExperienceId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type InterviewRoundCreateOrConnectWithoutQuestionsInput = {
@@ -519,6 +573,8 @@ export type InterviewRoundUpdateWithoutQuestionsInput = {
   roundName?: Prisma.StringFieldUpdateOperationsInput | string
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   interviewExperience?: Prisma.InterviewExperienceUpdateOneRequiredWithoutRoundsNestedInput
 }
 
@@ -528,6 +584,8 @@ export type InterviewRoundUncheckedUpdateWithoutQuestionsInput = {
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interviewExperienceId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InterviewRoundCreateManyInterviewExperienceInput = {
@@ -535,6 +593,8 @@ export type InterviewRoundCreateManyInterviewExperienceInput = {
   roundName: string
   orderNumber: number
   description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type InterviewRoundUpdateWithoutInterviewExperienceInput = {
@@ -542,6 +602,8 @@ export type InterviewRoundUpdateWithoutInterviewExperienceInput = {
   roundName?: Prisma.StringFieldUpdateOperationsInput | string
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.QuestionUpdateManyWithoutRoundNestedInput
 }
 
@@ -550,6 +612,8 @@ export type InterviewRoundUncheckedUpdateWithoutInterviewExperienceInput = {
   roundName?: Prisma.StringFieldUpdateOperationsInput | string
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutRoundNestedInput
 }
 
@@ -558,6 +622,8 @@ export type InterviewRoundUncheckedUpdateManyWithoutInterviewExperienceInput = {
   roundName?: Prisma.StringFieldUpdateOperationsInput | string
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -597,6 +663,8 @@ export type InterviewRoundSelect<ExtArgs extends runtime.Types.Extensions.Intern
   orderNumber?: boolean
   description?: boolean
   interviewExperienceId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   interviewExperience?: boolean | Prisma.InterviewExperienceDefaultArgs<ExtArgs>
   questions?: boolean | Prisma.InterviewRound$questionsArgs<ExtArgs>
   _count?: boolean | Prisma.InterviewRoundCountOutputTypeDefaultArgs<ExtArgs>
@@ -608,6 +676,8 @@ export type InterviewRoundSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   orderNumber?: boolean
   description?: boolean
   interviewExperienceId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   interviewExperience?: boolean | Prisma.InterviewExperienceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["interviewRound"]>
 
@@ -617,6 +687,8 @@ export type InterviewRoundSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   orderNumber?: boolean
   description?: boolean
   interviewExperienceId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   interviewExperience?: boolean | Prisma.InterviewExperienceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["interviewRound"]>
 
@@ -626,9 +698,11 @@ export type InterviewRoundSelectScalar = {
   orderNumber?: boolean
   description?: boolean
   interviewExperienceId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type InterviewRoundOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roundName" | "orderNumber" | "description" | "interviewExperienceId", ExtArgs["result"]["interviewRound"]>
+export type InterviewRoundOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roundName" | "orderNumber" | "description" | "interviewExperienceId" | "createdAt" | "updatedAt", ExtArgs["result"]["interviewRound"]>
 export type InterviewRoundInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   interviewExperience?: boolean | Prisma.InterviewExperienceDefaultArgs<ExtArgs>
   questions?: boolean | Prisma.InterviewRound$questionsArgs<ExtArgs>
@@ -653,6 +727,8 @@ export type $InterviewRoundPayload<ExtArgs extends runtime.Types.Extensions.Inte
     orderNumber: number
     description: string | null
     interviewExperienceId: string
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["interviewRound"]>
   composites: {}
 }
@@ -1083,6 +1159,8 @@ export interface InterviewRoundFieldRefs {
   readonly orderNumber: Prisma.FieldRef<"InterviewRound", 'Int'>
   readonly description: Prisma.FieldRef<"InterviewRound", 'String'>
   readonly interviewExperienceId: Prisma.FieldRef<"InterviewRound", 'String'>
+  readonly createdAt: Prisma.FieldRef<"InterviewRound", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"InterviewRound", 'DateTime'>
 }
     
 

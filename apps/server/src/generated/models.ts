@@ -8,12 +8,12 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/User'
-export type * from './models/Profile'
-export type * from './models/Course'
-export type * from './models/Resource'
-export type * from './models/Company'
-export type * from './models/InterviewExperience'
-export type * from './models/InterviewRound'
-export type * from './models/Question'
-export type * from './commonInputTypes'
+export type * from './models/User.js'
+export type * from './models/Profile.js'
+export type * from './models/Course.js'
+export type * from './models/Resource.js'
+export type * from './models/Company.js'
+export type * from './models/InterviewExperience.js'
+export type * from './models/InterviewRound.js'
+export type * from './models/Question.js'
+export type * from './commonInputTypes.js'

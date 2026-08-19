@@ -6,8 +6,10 @@ node_modules/
 #Build output
 dist/
 build/
+*vite.config.js
 .tsbuildinfo
 *.tsbuildinfo
+*vite.config.js
 
 .turbo/cache
 *.turbo
