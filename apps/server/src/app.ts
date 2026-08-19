@@ -29,10 +29,6 @@ app.use(
 
 app.set("trust proxy", 1);
 
-// Body parsing middleware
-app.use(express.json());
-app.use(cookieParser(env.COOKIE_SECRET));
-
 //CSRF protection
 const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
   getSecret: () => process.env.CSRF_SECRET || "default-csrf-secret",
@@ -47,6 +43,13 @@ const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
   ignoredMethods: ["GET", "HEAD", "OPTIONS"],
 });
 
+// Apply CSRF protection to all routes under the API prefix
+app.use(doubleCsrfProtection);
+
+// Body parsing middleware
+app.use(express.json());
+app.use(cookieParser(env.COOKIE_SECRET));
+
 // Logging middleware
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 
@@ -58,9 +61,6 @@ app.get(`${API_PREFIX}/csrf-token`, (req, res) => {
   const token = generateCsrfToken(req, res);
   res.json({ csrfToken: token });
 });
-
-// Apply CSRF protection to all routes under the API prefix
-app.use(`${API_PREFIX}`, doubleCsrfProtection);
 
 // Routes
 app.use(`${API_PREFIX}/auth`, authRoutes);
