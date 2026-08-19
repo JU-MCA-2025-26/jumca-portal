@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "55297114-7572-443f-9605-e587f22db730",
-    "name": "JUMCA",
+    "name": "JUMCA Portal",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "26592182"
   },
@@ -21,8 +21,13 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/auth/me",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "me"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
             }
           },
           "response": []
@@ -55,6 +60,13 @@
                 "packages": {},
                 "requests": {}
               }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "packages": {},
+                "type": "text/javascript"
+              }
             }
           ],
           "request": {
@@ -63,6 +75,11 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
               }
             ],
             "body": {
@@ -71,8 +88,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "login"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
             },
             "description": "Login as an existing user. The refresh token is stored automatically as an HttpOnly cookie by the server. The test script stores the access token in the collection variable."
           },
@@ -114,6 +136,11 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
               }
             ],
             "body": {
@@ -122,8 +149,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "login"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
             },
             "description": "Login as an existing user. The refresh token is stored automatically as an HttpOnly cookie by the server. The test script stores the access token in the collection variable."
           },
@@ -135,13 +167,15 @@
             {
               "listen": "test",
               "script": {
-                "type": "text/javascript",
                 "exec": [
                   "pm.test('Logout succeeded', function () {",
                   "    pm.response.to.have.status(200);",
                   "});",
                   "pm.collectionVariables.unset('accessToken');"
-                ]
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -151,12 +185,22 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
               }
             ],
             "url": {
               "raw": "{{baseUrl}}/auth/logout",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "logout"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
             },
             "description": "Invalidates the stored refresh token and clears the refreshToken cookie."
           },
@@ -170,6 +214,11 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
               }
             ],
             "body": {
@@ -178,8 +227,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/forgot-password",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "forgot-password"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "forgot-password"
+              ]
             },
             "description": "Currently logs the raw reset token on the server during development. Later this should send an email."
           },
@@ -193,6 +247,11 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
               }
             ],
             "body": {
@@ -201,8 +260,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/reset-password",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "reset-password"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "reset-password"
+              ]
             },
             "description": "Paste the reset token printed by the server into the resetToken collection variable before running."
           },
@@ -214,7 +278,6 @@
             {
               "listen": "test",
               "script": {
-                "type": "text/javascript",
                 "exec": [
                   "pm.test('Refresh succeeded', function () {",
                   "    pm.response.to.have.status(200);",
@@ -224,17 +287,31 @@
                   "if (json?.data?.accessToken) {",
                   "    pm.collectionVariables.set('accessToken', json.data.accessToken);",
                   "}"
-                ]
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/auth/refresh",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "refresh"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
             },
             "description": "Uses the refreshToken cookie automatically maintained by Postman. No Authorization header is required."
           },
@@ -257,6 +334,11 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
               }
             ],
             "body": {
@@ -265,8 +347,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/users/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "{{userId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
             }
           },
           "response": []
@@ -295,8 +382,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/users/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "{{userId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
             }
           },
           "response": []
@@ -333,6 +425,11 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
               }
             ],
             "body": {
@@ -341,8 +438,12 @@
             },
             "url": {
               "raw": "{{baseUrl}}/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["users"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
             }
           },
           "response": []
@@ -359,8 +460,12 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["users"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
             }
           },
           "response": []
@@ -373,12 +478,23 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
               }
             ],
             "url": {
               "raw": "{{baseUrl}}/users/deactivate/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "deactivate", "{{userId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "deactivate",
+                "{{userId}}"
+              ]
             },
             "description": "Soft-deletes/deactivates the user by setting isActive=false and invalidating their refresh token."
           },
@@ -392,12 +508,23 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
               }
             ],
             "url": {
               "raw": "{{baseUrl}}/users/activate/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "activate", "{{userId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "activate",
+                "{{userId}}"
+              ]
             },
             "description": "Soft-deletes/deactivates the user by setting isActive=false and invalidating their refresh token."
           },
@@ -411,12 +538,22 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "x-csrf-token",
+                "value": "{{csrf_token}}",
+                "type": "text"
               }
             ],
             "url": {
               "raw": "{{baseUrl}}/users/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "{{userId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ]
             },
             "description": "Soft-deletes/deactivates the user by setting isActive=false and invalidating their refresh token."
           },
@@ -430,9 +567,58 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{prefix}}/health",
-          "host": ["{{prefix}}"],
-          "path": ["health"]
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CRSF token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Login succeeded', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "const res = pm.response.json();",
+              "const token = res.csrfToken;",
+              "",
+              "const cookieJar = pm.cookies.jar();",
+              "const cookie = pm.cookies.add({",
+              "    url: pm.request.url.toString(),",
+              "    key: 'csrf-token',",
+              "    value: token,",
+              "    expires: new Date(Date.now() + 3600000 * 24 * 7) // 1 hour from now",
+              "});",
+              "",
+              "pm.globals.set(\"csrf_token\", res.csrfToken);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/csrf-token",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "csrf-token"
+          ]
         }
       },
       "response": []
@@ -445,7 +631,9 @@
         "type": "text/javascript",
         "packages": {},
         "requests": {},
-        "exec": [""]
+        "exec": [
+          ""
+        ]
       }
     },
     {
@@ -454,7 +642,9 @@
         "type": "text/javascript",
         "packages": {},
         "requests": {},
-        "exec": [""]
+        "exec": [
+          ""
+        ]
       }
     }
   ],
