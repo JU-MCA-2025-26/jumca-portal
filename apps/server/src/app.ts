@@ -43,12 +43,12 @@ const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
   ignoredMethods: ["GET", "HEAD", "OPTIONS"],
 });
 
-// Apply CSRF protection to all routes under the API prefix
-app.use(doubleCsrfProtection);
-
 // Body parsing middleware
 app.use(express.json());
 app.use(cookieParser(env.COOKIE_SECRET));
+
+// Apply CSRF protection to all routes under the API prefix
+app.use(doubleCsrfProtection);
 
 // Logging middleware
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
