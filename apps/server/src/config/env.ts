@@ -5,6 +5,7 @@ const envSchema = z.object({
   CLIENT_URL: z.url().default("http://localhost:5173"),
   PORT: z.coerce.number().default(3000),
   DATABASE_URL: z.url(),
+  COOKIE_SECRET: z.string().min(43),
   JWT_ACCESS_SECRET: z.string().min(43),
   JWT_REFRESH_SECRET: z.string().min(43),
   ACCESS_TOKEN_EXPIRES: z.string().default("15m"),

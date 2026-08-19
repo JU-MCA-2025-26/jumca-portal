@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import { doubleCsrf } from "csrf-csrf";
 
 import authRoutes from "@/routes/auth.routes.js";
 import usersRoutes from "@/routes/user.routes.js";
@@ -30,13 +31,37 @@ app.set("trust proxy", 1);
 
 // Body parsing middleware
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser(env.COOKIE_SECRET));
+
+//CSRF protection
+const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
+  getSecret: () => process.env.CSRF_SECRET || 'default-csrf-secret',
+  getSessionIdentifier: (req) => req.cookies["access_token"] || "anonymous",
+  cookieName: 'csrf-token',
+  cookieOptions: {
+    httpOnly: true,
+    sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'production'
+  },
+  size: 64,
+  ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
+});
+
 
 // Logging middleware
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 
 // Rate limiting
 app.use(`${API_PREFIX}`, apiLimiter)
+
+// CSRF token generation route
+app.get(`${API_PREFIX}/csrf-token`, (req, res) => {
+  const token = generateCsrfToken(req, res);
+  res.json({ csrfToken: token });
+});
+
+// Apply CSRF protection to all routes under the API prefix
+app.use(`${API_PREFIX}`, doubleCsrfProtection);
 
 // Routes
 app.use(`${API_PREFIX}/auth`, authRoutes);
