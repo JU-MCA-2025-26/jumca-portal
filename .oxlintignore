@@ -13,3 +13,4 @@ apps/server/generated
 
 *.d.ts
 .turbo/cache
+*vite.config.js

@@ -19,3 +19,4 @@ apps/server/prisma/migrations
 
 public
 .turbo/cache
+*vite.config.js
