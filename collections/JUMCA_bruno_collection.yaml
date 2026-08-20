@@ -6,12 +6,12 @@ config:
     inherit: true
     config:
       protocol: http
-      hostname: ''
-      port: ''
+      hostname: ""
+      port: ""
       auth:
-        username: ''
-        password: ''
-      bypassProxy: ''
+        username: ""
+        password: ""
+      bypassProxy: ""
 items:
   - info:
       name: CRSF token
@@ -19,7 +19,7 @@ items:
       seq: 4
     http:
       method: GET
-      url: '{{baseUrl}}/csrf-token'
+      url: "{{baseUrl}}/csrf-token"
       auth: inherit
     runtime:
       scripts:
@@ -52,7 +52,7 @@ items:
       seq: 3
     http:
       method: GET
-      url: '{{baseUrl}}/health'
+      url: "{{baseUrl}}/health"
       auth: inherit
     settings:
       encodeUrl: true
@@ -72,12 +72,12 @@ items:
           seq: 5
         http:
           method: POST
-          url: '{{baseUrl}}/auth/forgot-password'
+          url: "{{baseUrl}}/auth/forgot-password"
           headers:
             - name: Content-Type
               value: application/json
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           body:
             type: json
             data: |-
@@ -97,7 +97,7 @@ items:
           seq: 1
         http:
           method: GET
-          url: '{{baseUrl}}/auth/me'
+          url: "{{baseUrl}}/auth/me"
           headers:
             - name: Authorization
               value: Bearer {{accessToken}}
@@ -113,12 +113,12 @@ items:
           seq: 2
         http:
           method: POST
-          url: '{{baseUrl}}/auth/login'
+          url: "{{baseUrl}}/auth/login"
           headers:
             - name: Content-Type
               value: application/json
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           body:
             type: json
             data: |-
@@ -159,12 +159,12 @@ items:
           seq: 3
         http:
           method: POST
-          url: '{{baseUrl}}/auth/login'
+          url: "{{baseUrl}}/auth/login"
           headers:
             - name: Content-Type
               value: application/json
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           body:
             type: json
             data: |-
@@ -205,12 +205,12 @@ items:
           seq: 4
         http:
           method: POST
-          url: '{{baseUrl}}/auth/logout'
+          url: "{{baseUrl}}/auth/logout"
           headers:
             - name: Authorization
               value: Bearer {{accessToken}}
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           auth: inherit
         runtime:
           scripts:
@@ -232,10 +232,10 @@ items:
           seq: 7
         http:
           method: POST
-          url: '{{baseUrl}}/auth/refresh'
+          url: "{{baseUrl}}/auth/refresh"
           headers:
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           auth: inherit
         runtime:
           scripts:
@@ -261,12 +261,12 @@ items:
           seq: 6
         http:
           method: POST
-          url: '{{baseUrl}}/auth/reset-password'
+          url: "{{baseUrl}}/auth/reset-password"
           headers:
             - name: Content-Type
               value: application/json
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           body:
             type: json
             data: |-
@@ -295,12 +295,12 @@ items:
           seq: 6
         http:
           method: POST
-          url: '{{baseUrl}}/users/activate/{{userId}}'
+          url: "{{baseUrl}}/users/activate/{{userId}}"
           headers:
             - name: Authorization
               value: Bearer {{accessToken}}
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           auth: inherit
         settings:
           encodeUrl: true
@@ -314,14 +314,14 @@ items:
           seq: 3
         http:
           method: POST
-          url: '{{baseUrl}}/users'
+          url: "{{baseUrl}}/users"
           headers:
             - name: Content-Type
               value: application/json
             - name: Authorization
               value: Bearer {{accessToken}}
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           body:
             type: json
             data: |-
@@ -357,12 +357,12 @@ items:
           seq: 5
         http:
           method: DELETE
-          url: '{{baseUrl}}/users/deactivate/{{userId}}'
+          url: "{{baseUrl}}/users/deactivate/{{userId}}"
           headers:
             - name: Authorization
               value: Bearer {{accessToken}}
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           auth: inherit
         settings:
           encodeUrl: true
@@ -376,12 +376,12 @@ items:
           seq: 7
         http:
           method: DELETE
-          url: '{{baseUrl}}/users/{{userId}}'
+          url: "{{baseUrl}}/users/{{userId}}"
           headers:
             - name: Authorization
               value: Bearer {{accessToken}}
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           auth: inherit
         settings:
           encodeUrl: true
@@ -395,13 +395,13 @@ items:
           seq: 2
         http:
           method: GET
-          url: '{{baseUrl}}/users/{{userId}}'
+          url: "{{baseUrl}}/users/{{userId}}"
           headers:
             - name: Authorization
               value: Bearer {{accessToken}}
           body:
             type: json
-            data: ''
+            data: ""
           auth: inherit
         settings:
           encodeUrl: true
@@ -414,7 +414,7 @@ items:
           seq: 4
         http:
           method: GET
-          url: '{{baseUrl}}/users'
+          url: "{{baseUrl}}/users"
           headers:
             - name: Authorization
               value: Bearer {{accessToken}}
@@ -430,14 +430,14 @@ items:
           seq: 1
         http:
           method: PATCH
-          url: '{{baseUrl}}/users/{{userId}}'
+          url: "{{baseUrl}}/users/{{userId}}"
           headers:
             - name: Content-Type
               value: application/json
             - name: Authorization
               value: Bearer {{accessToken}}
             - name: x-csrf-token
-              value: '{{csrf_token}}'
+              value: "{{csrf_token}}"
           body:
             type: json
             data: |-
@@ -456,24 +456,24 @@ items:
 request:
   variables:
     - name: baseUrl
-      value: ''
+      value: ""
     - name: userId
-      value: ''
+      value: ""
     - name: resetToken
-      value: ''
+      value: ""
     - name: testUserEmail
-      value: ''
+      value: ""
     - name: testUserRollNumber
-      value: ''
+      value: ""
     - name: userEmail
-      value: ''
+      value: ""
     - name: accessToken
-      value: ''
+      value: ""
 bundled: true
 extensions:
   bruno:
     ignore:
       - node_modules
       - .git
-    exportedAt: '2026-08-19T20:10:41.345Z'
+    exportedAt: "2026-08-19T20:10:41.345Z"
     exportedUsing: Bruno
