@@ -2,18 +2,24 @@ When you are done making a backend endpoint, add it to this file with the follow
 
 ### Endpoint Name
 
-- **Method**: GET/POST/PATCH/DELETE
+- **Method**: GET/POST/PATCH/PUT/DELETE
 - **URL**: /api/endpoint/url
 - **Description**: A brief description of what the endpoint does.
 - **Request Body**: (if applicable) A description of the expected request body, including any required fields and their types.
 - **Response**: A description of the expected response, including any relevant status codes and response body structure.
 - **Authentication**: (if applicable) A description of the authentication requirements for the endpoint, including any required headers, cookies, or tokens.
+- **CSRF Protection**: For every `POST`, `PATCH`, `PUT`, and `DELETE` request, first call `GET /csrf-token`, save the returned/set CSRF cookie, and send the token in the `x-csrf-token` header with the mutating request. `GET` requests do not require the CSRF header.
 - **Example Request**
 
 ```bash
+# For POST/PATCH/PUT/DELETE only, first fetch a CSRF token and save cookies.
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X METHOD "http://localhost:5000/api/endpoint/url" \
+  -b cookies.txt \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN" \
   -d '{
     "field1": "Field 1 value does this",
     "field2": "Field 2 value does this"
@@ -32,7 +38,67 @@ curl -X METHOD "http://localhost:5000/api/endpoint/url" \
 }
 ```
 
+## CSRF Requirement
+
+All mutating requests must be protected with CSRF validation.
+
+Before making any `POST`, `PATCH`, `PUT`, or `DELETE` request:
+
+1. Call `GET /csrf-token`.
+2. Save the CSRF cookie returned by the server.
+3. Read the returned CSRF token from the response body.
+4. Send the mutating request with:
+   - the saved CSRF cookie
+   - an `x-csrf-token` header containing the returned token
+
+`GET` requests do not require a CSRF token.
+
+Example flow:
+
+```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
+curl -X POST "http://localhost:5000/api/auth/login" \
+  -b cookies.txt \
+  -H "Content-Type: application/json" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN" \
+  -d '{
+    "identifier": "student@example.com",
+    "password": "password123"
+  }'
+```
+
 ## Endpoints
+
+### Get CSRF Token
+
+- **Method**: GET
+- **URL**: /csrf-token
+- **Description**: Generates a CSRF token and sets/synchronizes the CSRF cookie required for later mutating requests.
+- **Request Body**: None.
+- **Response**: `200 OK` on success.
+
+```json
+{
+  "csrfToken": "CSRF_TOKEN"
+}
+```
+
+- **Authentication**: None.
+- **CSRF Protection**: Not required. This endpoint is called before protected mutating requests.
+- **Example Request**
+
+```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+```
+
+- **Example Response**
+
+```json
+{
+  "csrfToken": "CSRF_TOKEN"
+}
+```
 
 ### Login
 
@@ -71,11 +137,16 @@ curl -X METHOD "http://localhost:5000/api/endpoint/url" \
 ```
 
 - **Authentication**: None.
+- **CSRF Protection**: Required. First call `GET /csrf-token`, save the CSRF cookie, then send the returned token in `x-csrf-token`.
 - **Example Request**
 
 ```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X POST "http://localhost:5000/api/auth/login" \
+  -b cookies.txt \
   -H "Content-Type: application/json" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN" \
   -d '{
     "identifier": "student@example.com",
     "password": "password123"
@@ -133,12 +204,16 @@ curl -X POST "http://localhost:5000/api/auth/login" \
 ```
 
 - **Authentication**: Requires a valid `refreshToken` cookie.
+- **CSRF Protection**: Required. First call `GET /csrf-token`, save the CSRF cookie, then send the returned token in `x-csrf-token` along with the refresh token cookie.
 - **Example Request**
 
 ```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X POST "http://localhost:5000/api/auth/refresh" \
+  -b cookies.txt \
   -H "Content-Type: application/json" \
-  -b "refreshToken=YOUR_REFRESH_TOKEN"
+  -H "x-csrf-token: YOUR_CSRF_TOKEN"
 ```
 
 - **Example Response**
@@ -179,11 +254,16 @@ curl -X POST "http://localhost:5000/api/auth/refresh" \
 ```
 
 - **Authentication**: Requires a valid access token in the `Authorization: Bearer YOUR_ACCESS_TOKEN` header.
+- **CSRF Protection**: Required. First call `GET /csrf-token`, save the CSRF cookie, then send the returned token in `x-csrf-token`.
 - **Example Request**
 
 ```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X POST "http://localhost:5000/api/auth/logout" \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+  -b cookies.txt \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN"
 ```
 
 - **Example Response**
@@ -223,6 +303,7 @@ curl -X POST "http://localhost:5000/api/auth/logout" \
 ```
 
 - **Authentication**: Requires a valid access token in the `Authorization: Bearer YOUR_ACCESS_TOKEN` header.
+- **CSRF Protection**: Not required for `GET` requests.
 - **Example Request**
 
 ```bash
@@ -274,11 +355,16 @@ curl -X GET "http://localhost:5000/api/auth/me" \
 ```
 
 - **Authentication**: None.
+- **CSRF Protection**: Required. First call `GET /csrf-token`, save the CSRF cookie, then send the returned token in `x-csrf-token`.
 - **Example Request**
 
 ```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X POST "http://localhost:5000/api/auth/forgot-password" \
+  -b cookies.txt \
   -H "Content-Type: application/json" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN" \
   -d '{
     "email": "student@example.com"
   }'
@@ -318,11 +404,16 @@ curl -X POST "http://localhost:5000/api/auth/forgot-password" \
 ```
 
 - **Authentication**: None.
+- **CSRF Protection**: Required. First call `GET /csrf-token`, save the CSRF cookie, then send the returned token in `x-csrf-token`.
 - **Example Request**
 
 ```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X POST "http://localhost:5000/api/auth/reset-password" \
+  -b cookies.txt \
   -H "Content-Type: application/json" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN" \
   -d '{
     "email": "student@example.com",
     "token": "RESET_TOKEN_FROM_RESET_LINK",
@@ -380,12 +471,17 @@ curl -X POST "http://localhost:5000/api/auth/reset-password" \
 ```
 
 - **Authentication**: Requires a valid admin access token in the `Authorization: Bearer YOUR_ACCESS_TOKEN` header.
+- **CSRF Protection**: Required. First call `GET /csrf-token`, save the CSRF cookie, then send the returned token in `x-csrf-token`.
 - **Example Request**
 
 ```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X POST "http://localhost:5000/api/users" \
+  -b cookies.txt \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ADMIN_ACCESS_TOKEN" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN" \
   -d '{
     "rollNumber": "002510503034",
     "email": "student@example.com",
@@ -446,6 +542,7 @@ curl -X POST "http://localhost:5000/api/users" \
 ```
 
 - **Authentication**: Requires a valid admin access token in the `Authorization: Bearer YOUR_ACCESS_TOKEN` header.
+- **CSRF Protection**: Not required for `GET` requests.
 - **Example Request**
 
 ```bash
@@ -500,6 +597,7 @@ curl -X GET "http://localhost:5000/api/users" \
 ```
 
 - **Authentication**: None in the current route definition.
+- **CSRF Protection**: Not required for `GET` requests.
 - **Example Request**
 
 ```bash
@@ -563,11 +661,16 @@ curl -X GET "http://localhost:5000/api/users/cm123456789"
 ```
 
 - **Authentication**: None in the current route definition.
+- **CSRF Protection**: Required. First call `GET /csrf-token`, save the CSRF cookie, then send the returned token in `x-csrf-token`.
 - **Example Request**
 
 ```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X PATCH "http://localhost:5000/api/users/cm123456789" \
+  -b cookies.txt \
   -H "Content-Type: application/json" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN" \
   -d '{
     "fullName": "Updated Student Name",
     "batch": "2024"
@@ -621,11 +724,16 @@ curl -X PATCH "http://localhost:5000/api/users/cm123456789" \
 ```
 
 - **Authentication**: Requires a valid admin access token in the `Authorization: Bearer YOUR_ACCESS_TOKEN` header.
+- **CSRF Protection**: Required. First call `GET /csrf-token`, save the CSRF cookie, then send the returned token in `x-csrf-token`.
 - **Example Request**
 
 ```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X DELETE "http://localhost:5000/api/users/deactivate/cm123456789" \
-  -H "Authorization: Bearer ADMIN_ACCESS_TOKEN"
+  -b cookies.txt \
+  -H "Authorization: Bearer ADMIN_ACCESS_TOKEN" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN"
 ```
 
 - **Example Response**
@@ -675,11 +783,16 @@ curl -X DELETE "http://localhost:5000/api/users/deactivate/cm123456789" \
 ```
 
 - **Authentication**: Requires a valid admin access token in the `Authorization: Bearer YOUR_ACCESS_TOKEN` header.
+- **CSRF Protection**: Required. First call `GET /csrf-token`, save the CSRF cookie, then send the returned token in `x-csrf-token`.
 - **Example Request**
 
 ```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X POST "http://localhost:5000/api/users/activate/cm123456789" \
-  -H "Authorization: Bearer ADMIN_ACCESS_TOKEN"
+  -b cookies.txt \
+  -H "Authorization: Bearer ADMIN_ACCESS_TOKEN" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN"
 ```
 
 - **Example Response**
@@ -729,11 +842,16 @@ curl -X POST "http://localhost:5000/api/users/activate/cm123456789" \
 ```
 
 - **Authentication**: Requires a valid admin access token in the `Authorization: Bearer YOUR_ACCESS_TOKEN` header.
+- **CSRF Protection**: Required. First call `GET /csrf-token`, save the CSRF cookie, then send the returned token in `x-csrf-token`.
 - **Example Request**
 
 ```bash
+curl -c cookies.txt "http://localhost:5000/csrf-token"
+
 curl -X DELETE "http://localhost:5000/api/users/cm123456789" \
-  -H "Authorization: Bearer ADMIN_ACCESS_TOKEN"
+  -b cookies.txt \
+  -H "Authorization: Bearer ADMIN_ACCESS_TOKEN" \
+  -H "x-csrf-token: YOUR_CSRF_TOKEN"
 ```
 
 - **Example Response**
@@ -777,6 +895,7 @@ curl -X DELETE "http://localhost:5000/api/users/cm123456789" \
 ```
 
 - **Authentication**: None.
+- **CSRF Protection**: Not required for `GET` requests.
 - **Example Request**
 
 ```bash

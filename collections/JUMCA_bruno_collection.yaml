@@ -1,0 +1,479 @@
+opencollection: 1.0.0
+info:
+  name: JUMCA Portal
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+items:
+  - info:
+      name: CRSF token
+      type: http
+      seq: 4
+    http:
+      method: GET
+      url: "{{baseUrl}}/csrf-token"
+      auth: inherit
+    runtime:
+      scripts:
+        - type: after-response
+          code: |-
+            test('Login succeeded', function () {
+                expect(res.getStatus()).to.equal(200);
+            });
+
+            const res = res.getBody();
+            const token = res.csrfToken;
+
+            const cookieJar = bru.cookies.jar();
+            const cookie = bru.cookies.add({
+                url: req.getUrl().toString(),
+                key: 'csrf-token',
+                value: token,
+                expires: new Date(Date.now() + 3600000 * 24 * 7) // 1 hour from now
+            });
+
+            bru.setGlobalEnvVar("csrf_token", res.csrfToken);
+    settings:
+      encodeUrl: true
+      timeout: 0
+      followRedirects: true
+      maxRedirects: 5
+  - info:
+      name: health
+      type: http
+      seq: 3
+    http:
+      method: GET
+      url: "{{baseUrl}}/health"
+      auth: inherit
+    settings:
+      encodeUrl: true
+      timeout: 0
+      followRedirects: true
+      maxRedirects: 5
+  - info:
+      name: auth
+      type: folder
+      seq: 1
+    request:
+      auth: inherit
+    items:
+      - info:
+          name: Forgot Password
+          type: http
+          seq: 5
+        http:
+          method: POST
+          url: "{{baseUrl}}/auth/forgot-password"
+          headers:
+            - name: Content-Type
+              value: application/json
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          body:
+            type: json
+            data: |-
+              {
+                "email": "{{testUserEmail}}"
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+        docs: Currently logs the raw reset token on the server during development. Later this should send an email.
+      - info:
+          name: Get Current User
+          type: http
+          seq: 1
+        http:
+          method: GET
+          url: "{{baseUrl}}/auth/me"
+          headers:
+            - name: Authorization
+              value: Bearer {{accessToken}}
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: Login Admin
+          type: http
+          seq: 2
+        http:
+          method: POST
+          url: "{{baseUrl}}/auth/login"
+          headers:
+            - name: Content-Type
+              value: application/json
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          body:
+            type: json
+            data: |-
+              {
+                "identifier": "admin@jumca.com",
+                "password": "newpassword123"
+              }
+          auth: inherit
+        runtime:
+          scripts:
+            - type: after-response
+              code: |-
+                test('Login succeeded', function () {
+                    expect(res.getStatus()).to.equal(200);
+                });
+
+                const json = res.getBody();
+                if (json?.data?.accessToken) {
+                    bru.setCollectionVar('accessToken', json.data.accessToken);
+                }
+
+                if (json?.data?.user?.id) {
+                    bru.setCollectionVar('userId', json.data.user.id);
+                }
+
+                if(json?.data?.user?.email) {
+                    bru.setCollectionVar('userEmail', json.data.user.email);
+                }
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+        docs: Login as an existing user. The refresh token is stored automatically as an HttpOnly cookie by the server. The test script stores the access token in the collection variable.
+      - info:
+          name: Login User
+          type: http
+          seq: 3
+        http:
+          method: POST
+          url: "{{baseUrl}}/auth/login"
+          headers:
+            - name: Content-Type
+              value: application/json
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          body:
+            type: json
+            data: |-
+              {
+                  "identifier":"11052003ac@gmail.com",
+                  "password":"newpassword123"
+              }
+          auth: inherit
+        runtime:
+          scripts:
+            - type: after-response
+              code: |-
+                test('Login succeeded', function () {
+                    expect(res.getStatus()).to.equal(200);
+                });
+
+                const json = res.getBody();
+                if (json?.data?.accessToken) {
+                    bru.setCollectionVar('accessToken', json.data.accessToken);
+                }
+
+                if (json?.data?.user?.id) {
+                    bru.setCollectionVar('userId', json.data.user.id);
+                }
+
+                if(json?.data?.user?.email) {
+                    bru.setCollectionVar('userEmail', json.data.user.email);
+                }
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+        docs: Login as an existing user. The refresh token is stored automatically as an HttpOnly cookie by the server. The test script stores the access token in the collection variable.
+      - info:
+          name: Logout
+          type: http
+          seq: 4
+        http:
+          method: POST
+          url: "{{baseUrl}}/auth/logout"
+          headers:
+            - name: Authorization
+              value: Bearer {{accessToken}}
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          auth: inherit
+        runtime:
+          scripts:
+            - type: after-response
+              code: |-
+                test('Logout succeeded', function () {
+                    expect(res.getStatus()).to.equal(200);
+                });
+                bru.deleteCollectionVar('accessToken');
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+        docs: Invalidates the stored refresh token and clears the refreshToken cookie.
+      - info:
+          name: Refresh Access Token
+          type: http
+          seq: 7
+        http:
+          method: POST
+          url: "{{baseUrl}}/auth/refresh"
+          headers:
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          auth: inherit
+        runtime:
+          scripts:
+            - type: after-response
+              code: |-
+                test('Refresh succeeded', function () {
+                    expect(res.getStatus()).to.equal(200);
+                });
+
+                const json = res.getBody();
+                if (json?.data?.accessToken) {
+                    bru.setCollectionVar('accessToken', json.data.accessToken);
+                }
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+        docs: Uses the refreshToken cookie automatically maintained by Postman. No Authorization header is required.
+      - info:
+          name: Reset Password
+          type: http
+          seq: 6
+        http:
+          method: POST
+          url: "{{baseUrl}}/auth/reset-password"
+          headers:
+            - name: Content-Type
+              value: application/json
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          body:
+            type: json
+            data: |-
+              {
+                "email": "{{testUserEmail}}",
+                "token": "{{resetToken}}",
+                "password": "newpassword123"
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+        docs: Paste the reset token printed by the server into the resetToken collection variable before running.
+  - info:
+      name: user
+      type: folder
+      seq: 2
+    request:
+      auth: inherit
+    items:
+      - info:
+          name: Activate User
+          type: http
+          seq: 6
+        http:
+          method: POST
+          url: "{{baseUrl}}/users/activate/{{userId}}"
+          headers:
+            - name: Authorization
+              value: Bearer {{accessToken}}
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+        docs: Soft-deletes/deactivates the user by setting isActive=false and invalidating their refresh token.
+      - info:
+          name: Create User
+          type: http
+          seq: 3
+        http:
+          method: POST
+          url: "{{baseUrl}}/users"
+          headers:
+            - name: Content-Type
+              value: application/json
+            - name: Authorization
+              value: Bearer {{accessToken}}
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          body:
+            type: json
+            data: |-
+              {
+                "rollNumber": "{{testUserRollNumber}}",
+                "email": "{{testUserEmail}}",
+                "password": "student123",
+                "fullName": "Anubhav Chakraborty",
+                "role": "STUDENT",
+                "batch": "2025-26"
+              }
+          auth: inherit
+        runtime:
+          scripts:
+            - type: after-response
+              code: |-
+                test('User created', function () {
+                    expect(res.getStatus()).to.equal(201);
+                });
+
+                const json = res.getBody();
+                if (json?.data?.id) {
+                    bru.setCollectionVar('userId', json.data.id);
+                }
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: Deactivate User
+          type: http
+          seq: 5
+        http:
+          method: DELETE
+          url: "{{baseUrl}}/users/deactivate/{{userId}}"
+          headers:
+            - name: Authorization
+              value: Bearer {{accessToken}}
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+        docs: Soft-deletes/deactivates the user by setting isActive=false and invalidating their refresh token.
+      - info:
+          name: Delete User
+          type: http
+          seq: 7
+        http:
+          method: DELETE
+          url: "{{baseUrl}}/users/{{userId}}"
+          headers:
+            - name: Authorization
+              value: Bearer {{accessToken}}
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+        docs: Soft-deletes/deactivates the user by setting isActive=false and invalidating their refresh token.
+      - info:
+          name: Get User By ID
+          type: http
+          seq: 2
+        http:
+          method: GET
+          url: "{{baseUrl}}/users/{{userId}}"
+          headers:
+            - name: Authorization
+              value: Bearer {{accessToken}}
+          body:
+            type: json
+            data: ""
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: List Users
+          type: http
+          seq: 4
+        http:
+          method: GET
+          url: "{{baseUrl}}/users"
+          headers:
+            - name: Authorization
+              value: Bearer {{accessToken}}
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: Update User
+          type: http
+          seq: 1
+        http:
+          method: PATCH
+          url: "{{baseUrl}}/users/{{userId}}"
+          headers:
+            - name: Content-Type
+              value: application/json
+            - name: Authorization
+              value: Bearer {{accessToken}}
+            - name: x-csrf-token
+              value: "{{csrf_token}}"
+          body:
+            type: json
+            data: |-
+              {
+                "fullName": "Updated Test Student",
+                "batch": "2025-26",
+                "role": "STUDENT",
+                "isActive": true
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+request:
+  variables:
+    - name: baseUrl
+      value: ""
+    - name: userId
+      value: ""
+    - name: resetToken
+      value: ""
+    - name: testUserEmail
+      value: ""
+    - name: testUserRollNumber
+      value: ""
+    - name: userEmail
+      value: ""
+    - name: accessToken
+      value: ""
+bundled: true
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git
+    exportedAt: "2026-08-19T20:10:41.345Z"
+    exportedUsing: Bruno
