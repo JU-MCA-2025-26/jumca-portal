@@ -1,5 +1,6 @@
 import { NavLink, type NavLinkRenderProps } from "react-router-dom";
-import { LayoutGrid, BookOpen, Briefcase, MessageSquare, Users, User, Menu } from "lucide-react";
+import { LayoutGrid, BookOpen, Briefcase, MessageSquare, Users, User, X } from "lucide-react";
+import { useAuth } from "@/features/auth/hooks/useAuth.ts";
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutGrid },
@@ -14,16 +15,19 @@ function NavRow({
   label,
   Icon,
   end = false,
+  onClick,
 }: {
   to: string;
   label: string;
   Icon: React.ElementType;
   end?: boolean;
+  onClick?: () => void;
 }) {
   return (
     <NavLink
       to={to}
       end={end}
+      onClick={onClick}
       className={({ isActive }: NavLinkRenderProps) =>
         [
           "relative flex items-center gap-3 px-5 py-2.5 text-[0.6875rem] font-bold tracking-[0.15em] uppercase transition-colors",
@@ -44,7 +48,13 @@ function NavRow({
   );
 }
 
-function Sidebar() {
+interface SidebarProps {
+  onClose?: () => void;
+}
+
+function Sidebar({ onClose }: SidebarProps) {
+  const { user } = useAuth();
+
   return (
     <aside className="flex h-full w-60 flex-col border-r border-border bg-bg">
       {/* Brand */}
@@ -57,10 +67,11 @@ function Sidebar() {
         </div>
         <button
           type="button"
-          aria-label="Toggle sidebar"
-          className="text-text-muted transition-colors hover:text-text-secondary"
+          aria-label="Close sidebar"
+          onClick={onClose}
+          className="text-text-muted transition-colors hover:text-text-secondary md:hidden"
         >
-          <Menu size={18} />
+          <X size={18} />
         </button>
       </div>
 
@@ -73,14 +84,32 @@ function Sidebar() {
             label={item.label}
             Icon={item.icon}
             end={item.to === "/dashboard"}
+            onClick={onClose}
           />
         ))}
       </nav>
 
       {/* Profile pinned to the bottom */}
       <div className="border-t border-border py-2">
-        <NavRow to="/dashboard/profile" label="Profile" Icon={User} />
+        <NavRow to="/dashboard/profile" label="Profile" Icon={User} onClick={onClose} />
       </div>
+
+      {/* User footer preview on mobile drawer bottom if user exists */}
+      {user && (
+        <div className="border-t border-border px-5 py-3.5 flex items-center gap-3 bg-surface">
+          <div className="h-9 w-9 rounded bg-surface2 border border-border2 flex items-center justify-center overflow-hidden shrink-0">
+            {user.profile?.avatarUrl ? (
+              <img src={user.profile.avatarUrl} alt={user.fullName} className="h-full w-full object-cover" />
+            ) : (
+              <User size={16} className="text-text-muted" />
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-bold text-text truncate">{user.fullName}</p>
+            <p className="text-[0.625rem] text-text-muted truncate">{user.rollNumber}</p>
+          </div>
+        </div>
+      )}
     </aside>
   );
 }
