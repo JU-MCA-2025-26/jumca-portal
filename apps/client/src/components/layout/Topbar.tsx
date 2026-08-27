@@ -1,7 +1,11 @@
 import { useLocation } from "react-router-dom";
-import { Search, Bell } from "lucide-react";
+import { Search, Bell, Menu } from "lucide-react";
 
-function Topbar() {
+interface TopbarProps {
+  onOpenSidebar: () => void;
+}
+
+function Topbar({ onOpenSidebar }: TopbarProps) {
   const { pathname } = useLocation();
 
   const crumbs = pathname
@@ -12,13 +16,23 @@ function Topbar() {
   const breadcrumb = ["JUMCA", "DASHBOARD", ...crumbs.map((c) => c.toUpperCase())];
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border px-6">
-      <p className="text-[0.6875rem] font-bold tracking-[0.2em] text-text-muted">
-        {breadcrumb.join(" / ")}
-      </p>
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border px-4 md:px-6">
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          aria-label="Open sidebar"
+          onClick={onOpenSidebar}
+          className="flex h-9 w-9 items-center justify-center rounded border border-border2 text-text-secondary transition-colors hover:text-text md:hidden"
+        >
+          <Menu size={16} />
+        </button>
+        <p className="text-[0.625rem] md:text-[0.6875rem] font-bold tracking-[0.2em] text-text-muted truncate">
+          {breadcrumb.join(" / ")}
+        </p>
+      </div>
 
       <div className="flex items-center gap-3">
-        <div className="relative">
+        <div className="relative hidden sm:block">
           <Search
             size={14}
             className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
@@ -26,7 +40,7 @@ function Topbar() {
           <input
             type="text"
             placeholder="Search portal..."
-            className="input-base w-64 py-2! pl-8 text-xs"
+            className="input-base w-48 lg:w-64 py-2! pl-8 text-xs"
           />
         </div>
 
