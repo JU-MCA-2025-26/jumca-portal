@@ -41,6 +41,8 @@ model User {
 
   profile    Profile?
   resources  Resource[]
+  driveResources  DriveResource[]
+  placementOffers PlacementOffer[]
   interviews InterviewExperience[]
 
   refreshToken String?
@@ -53,6 +55,7 @@ model User {
 
 model Profile {
   id         String  @id @default(cuid())
+  avatarUrl  String?
   bio        String?
   github     String?
   leetcode   String?
@@ -97,13 +100,75 @@ model Resource {
   updatedAt DateTime @updatedAt
 }
 
+// Placement
+
+model PlacementDrive {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id])
+
+  role        String
+  driveDate   DateTime?
+  minCTC      String?
+  maxCTC      String?
+  minCGPA     Float?
+  description String?
+  status      String              
+  sector      String?             
+  jd          String?  @db.Text  
+  applyLink   String?             
+  createdAt   DateTime @default(now())
+  offers      PlacementOffer[]
+  resources   DriveResource[]
+}
+
+enum OfferStatus {
+  OFFERED
+  REJECTED
+}
+
+model PlacementOffer {
+  id        String         @id @default(cuid())
+  driveId   String
+  drive     PlacementDrive @relation(fields: [driveId], references: [id])
+
+  userId    String
+  user      User           @relation(fields: [userId], references: [id])
+  
+  status    OfferStatus    @default(OFFERED)
+  ctc       String
+  role      String
+
+  @@index([driveId])
+  @@index([userId])
+  @@index([status])
+}
+
+
+model DriveResource {
+  id         String         @id @default(cuid())
+  driveId    String
+  drive      PlacementDrive @relation(fields: [driveId], references: [id], onDelete: Cascade)
+  uploadedBy String
+  uploader   User           @relation(fields: [uploadedBy], references: [id])
+
+  title      String
+  fileUrl    String
+  type       String         // "OA_PAPER" | "INTERVIEW_NOTES" | "JD" | "RESUME_TIPS" | "OTHER"
+  createdAt  DateTime       @default(now())
+}
+
 // Company & Interview Experience Models
 
 model Company {
-  id   String @id @default(cuid())
-  name String @unique
+  id      String @id @default(cuid())
+  name    String @unique
+  sector  String            // "PRODUCT" | "SERVICE" | "INTERNPPO"
+  website String?
+  logoUrl String?
 
   interviews InterviewExperience[]
+  drives PlacementDrive[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

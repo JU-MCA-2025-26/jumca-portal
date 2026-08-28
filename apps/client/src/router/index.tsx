@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import LandingPage from "../pages/LandingPage.tsx";
 import DashboardLayout from "../components/layout/DashboardLayout.tsx";
-import { LoginPage, ProfilePage } from "@/pages/index.ts";
+import { LoginPage, PlacementPage, ProfilePage } from "@/pages/index.ts";
 import { ProtectedRoute } from "../features/auth/components/ProtectedRoute.tsx";
 import ComingSoon from "@/components/ui/ComingSoon.tsx";
 
@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "placements",
-            element: <ComingSoon label="Placements" />,
+            element: <PlacementPage />,
           },
           {
             path: "interviews",
