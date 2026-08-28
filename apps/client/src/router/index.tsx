@@ -1,9 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import LandingPage from "../pages/LandingPage.tsx";
 import DashboardLayout from "../components/layout/DashboardLayout.tsx";
-import { LoginPage } from "../features/auth/pages/LoginPage.tsx";
+import { LoginPage, ProfilePage } from "@/pages/index.ts";
 import { ProtectedRoute } from "../features/auth/components/ProtectedRoute.tsx";
-import { ProfilePage } from "../features/profile/pages/ProfilePage.tsx";
 
 // Placeholder component
 function ComingSoon({ label }: { label: string }) {

@@ -4,6 +4,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth.ts";
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutGrid },
+  { to: "/dashboard/profile", label: "Profile", icon: User },
   { to: "/dashboard/classes", label: "Classes", icon: BookOpen },
   { to: "/dashboard/placements", label: "Placements", icon: Briefcase },
   { to: "/dashboard/interviews", label: "Interviews", icon: MessageSquare },
@@ -89,17 +90,16 @@ function Sidebar({ onClose }: SidebarProps) {
         ))}
       </nav>
 
-      {/* Profile pinned to the bottom */}
-      <div className="border-t border-border py-2">
-        <NavRow to="/dashboard/profile" label="Profile" Icon={User} onClick={onClose} />
-      </div>
-
       {/* User footer preview on mobile drawer bottom if user exists */}
       {user && (
         <div className="border-t border-border px-5 py-3.5 flex items-center gap-3 bg-surface">
           <div className="h-9 w-9 rounded bg-surface2 border border-border2 flex items-center justify-center overflow-hidden shrink-0">
             {user.profile?.avatarUrl ? (
-              <img src={user.profile.avatarUrl} alt={user.fullName} className="h-full w-full object-cover" />
+              <img
+                src={user.profile.avatarUrl}
+                alt={user.fullName}
+                className="h-full w-full object-cover"
+              />
             ) : (
               <User size={16} className="text-text-muted" />
             )}
