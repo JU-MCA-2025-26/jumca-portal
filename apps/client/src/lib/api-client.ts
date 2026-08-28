@@ -3,6 +3,38 @@ import { getToken, setToken, removeToken } from "./token-storage.ts";
 const API_BASE = "";
 
 let refreshInFlight: Promise<boolean> | null = null;
+let csrfToken: string | null = null;
+let csrfTokenInFlight: Promise<string> | null = null;
+
+const getCsrfToken = async (): Promise<string> => {
+  if (csrfToken) {
+    return csrfToken;
+  }
+
+  if (!csrfTokenInFlight) {
+    csrfTokenInFlight = fetch(`${API_BASE}/api/csrf-token`, {
+      credentials: "include",
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error("Unable to initialize CSRF protection");
+        }
+
+        const data = (await res.json()) as { csrfToken?: string };
+        if (!data.csrfToken) {
+          throw new Error("CSRF token missing from response");
+        }
+
+        csrfToken = data.csrfToken;
+        return csrfToken;
+      })
+      .finally(() => {
+        csrfTokenInFlight = null;
+      });
+  }
+
+  return csrfTokenInFlight;
+};
 
 const refreshSession = async (): Promise<boolean> => {
   if (!refreshInFlight) {
@@ -39,14 +71,18 @@ const refreshSession = async (): Promise<boolean> => {
 export const apiClient = async <T>(endpoint: string, options: RequestInit = {}): Promise<T> => {
   const isAuthEndpoint =
     endpoint.includes("/api/auth/refresh") || endpoint.includes("/api/auth/login");
+  const method = options.method?.toUpperCase() ?? "GET";
+  const requiresCsrfToken = !["GET", "HEAD", "OPTIONS"].includes(method);
 
   const token = getToken();
+  const requestCsrfToken = requiresCsrfToken ? await getCsrfToken() : null;
 
   const doFetch = () =>
     fetch(`${API_BASE}${endpoint}`, {
       ...options,
       headers: {
         "Content-Type": "application/json",
+        ...(requestCsrfToken ? { "X-CSRF-Token": requestCsrfToken } : {}),
         ...(token && !isAuthEndpoint ? { Authorization: `Bearer ${token}` } : {}),
         ...options.headers,
       },
