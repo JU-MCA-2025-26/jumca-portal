@@ -7,6 +7,18 @@ export interface SemesterCourse {
   attendance: number; // 0–100
 }
 
+// Semester SGPA record
+export interface SemesterSGPA {
+  sem: string;
+  sgpa: number;
+}
+
+// Achievement record
+export interface Achievement {
+  title: string;
+  date: string;
+}
+
 // Placement status
 export type PlacementStatus = "ELIGIBLE" | "NOT_ELIGIBLE" | "PLACED";
 
@@ -16,3 +28,4 @@ export interface SocialLink {
   label: string;
   url: string;
 }
+
