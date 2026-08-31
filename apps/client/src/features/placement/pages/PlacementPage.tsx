@@ -31,14 +31,18 @@ export function PlacementPage() {
     <div className="flex flex-col gap-6 p-6">
       <div>
         <p className="section-label mb-1">Career &amp; Placements</p>
-        <h1 className="text-2xl font-bold text-text tracking-tight">Placement Portal</h1>
-        <p className="mt-1 text-sm text-text-secondary">
+        <h1 className="text-xl sm:text-2xl font-bold text-text tracking-tight">Placement Portal</h1>
+        <p className="mt-1 text-xs sm:text-sm text-text-secondary">
           {season}
-          {stats && ` — ${stats.eligibleCount} eligible students across batch`}
+          {stats && (
+            <span className="hidden sm:inline">
+              {` — ${stats.eligibleCount} eligible students across batch`}
+            </span>
+          )}
         </p>
       </div>
 
-      <div className="flex gap-4 flex-wrap">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard
           icon={<Building2 />}
           value={statsLoading ? "…" : (stats?.companiesCount ?? 0)}
@@ -70,27 +74,28 @@ export function PlacementPage() {
       </div>
 
       {stats && (
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2" style={{ height: "240px" }}>
+        <div className="grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-2">
           <PlacementBarChart data={stats.yearlyStats} />
           <SalaryBandChart data={stats.salaryBands} />
         </div>
       )}
 
       {!stats && !statsLoading && (
-        <div className="card flex items-center justify-center h-40 text-text-muted text-sm">
+        <div className="card flex items-center justify-center h-32 sm:h-40 text-text-muted text-sm">
           No historical stats available yet.
         </div>
       )}
 
       <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 overflow-x-auto -mb-1 pb-1">
           {FILTERS.map((f) => (
             <button
               key={f.value}
               type="button"
               onClick={() => setSector(f.value)}
               className={[
-                "px-3.5 py-1.5 text-[0.625rem] font-bold uppercase tracking-widest",
+                "shrink-0 px-3 sm:px-3.5 py-1.5",
+                "text-[0.575rem] sm:text-[0.625rem] font-bold uppercase tracking-widest",
                 "rounded-sm border transition-colors",
                 sector === f.value
                   ? "bg-primary text-white border-primary"
@@ -102,7 +107,7 @@ export function PlacementPage() {
           ))}
         </div>
 
-        <span className="text-[0.7rem] text-text-muted shrink-0">
+        <span className="text-[0.65rem] sm:text-[0.7rem] text-text-muted shrink-0">
           {drivesLoading
             ? "Loading…"
             : `${drives.length} compan${drives.length === 1 ? "y" : "ies"} shown`}
@@ -110,14 +115,14 @@ export function PlacementPage() {
       </div>
 
       {drivesLoading && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="card h-36 animate-pulse">
-              <div className="p-5 flex gap-3">
-                <div className="h-9 w-9 rounded-sm bg-surface2" />
+            <div key={i} className="card h-32 sm:h-36 animate-pulse">
+              <div className="p-4 sm:p-5 flex gap-3">
+                <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-sm bg-surface2 shrink-0" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-4 w-32 rounded bg-surface2" />
-                  <div className="h-3 w-20 rounded bg-surface2" />
+                  <div className="h-3.5 w-28 rounded bg-surface2" />
+                  <div className="h-2.5 w-16 rounded bg-surface2" />
                 </div>
               </div>
             </div>
@@ -126,7 +131,7 @@ export function PlacementPage() {
       )}
 
       {!drivesLoading && drives.length === 0 && (
-        <div className="card flex flex-col items-center justify-center py-16 gap-3">
+        <div className="card flex flex-col items-center justify-center py-12 sm:py-16 gap-3">
           <Building2 size={28} className="text-text-muted" />
           <p className="text-sm text-text-muted">
             No drives found for <span className="font-bold">{sector}</span>.
@@ -135,7 +140,7 @@ export function PlacementPage() {
       )}
 
       {!drivesLoading && drives.length > 0 && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2">
           {drives.map((drive) => (
             <DriveCard key={drive.id} drive={drive} onClick={(id) => setSelectedId(id)} />
           ))}

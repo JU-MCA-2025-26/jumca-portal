@@ -16,24 +16,28 @@ export function StatCard({ icon, value, label, sublabel, loading }: StatCardProp
     >
       {/* Icon */}
       <div
-        className="mb-4 inline-flex h-8 w-8 items-center justify-center rounded-sm"
+        className="mb-3 md:mb-4 inline-flex h-7 w-7 md:h-8 md:w-8 items-center justify-center rounded-sm"
         style={{ background: "color-mix(in srgb, var(--color-primary) 12%, transparent)" }}
       >
-        <span className="text-primary [&>svg]:size-4">{icon}</span>
+        <span className="text-primary [&>svg]:size-3.5 md:[&>svg]:size-4">{icon}</span>
       </div>
 
       {/* Value */}
       {loading ? (
-        <div className="mb-2 h-8 w-24 animate-pulse rounded bg-surface2" />
+        <div className="mb-2 h-7 w-20 animate-pulse rounded bg-surface2" />
       ) : (
-        <p className="stat-value mb-1">{value}</p>
+        <p className="text-[1.4rem] md:text-[1.75rem] font-bold text-text tabular mb-1 leading-none">
+          {value}
+        </p>
       )}
 
       {/* Labels */}
-      <p className="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+      <p className="text-[0.55rem] md:text-[0.625rem] font-bold uppercase tracking-[0.15em] md:tracking-[0.18em] text-text-muted mt-1.5">
         {label}
       </p>
-      <p className="mt-0.5 text-[0.75rem] text-text-secondary">{sublabel}</p>
+      <p className="mt-0.5 text-[0.7rem] md:text-[0.75rem] text-text-secondary truncate">
+        {sublabel}
+      </p>
     </div>
   );
 }

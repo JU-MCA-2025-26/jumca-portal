@@ -15,7 +15,7 @@ import {
 import { useDriveDetail } from "../api/placements.ts";
 import type { DriveStatus, PlacedAlumni, DriveResource } from "../types/index.ts";
 
-// Helpers
+// Helpers (unchanged)
 function abbr(name: string): string {
   const words = name.trim().split(/\s+/);
   if (words.length === 1) return name.slice(0, 3).toUpperCase();
@@ -81,7 +81,6 @@ function AlumniCircle({
       className="group flex flex-col items-center gap-1.5"
       aria-label={`View ${alumni.fullName}'s profile`}
     >
-      {/* Avatar circle */}
       <div
         className="relative h-12 w-12 rounded-full overflow-hidden
                    border-2 border-border2 group-hover:border-primary
@@ -102,8 +101,6 @@ function AlumniCircle({
             {initials(alumni.fullName)}
           </div>
         )}
-
-        {/* Accepted checkmark overlay */}
         {alumni.offer.status === "ACCEPTED" && (
           <span
             className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-success
@@ -113,8 +110,6 @@ function AlumniCircle({
           </span>
         )}
       </div>
-
-      {/* Name truncated */}
       <span
         className="w-12 text-center text-[0.55rem] font-bold uppercase
                    tracking-wide text-text-muted group-hover:text-text
@@ -157,11 +152,11 @@ function ResourceRow({ res }: { res: DriveResource }) {
 
 function ModalSkeleton() {
   return (
-    <div className="flex flex-col gap-5 animate-pulse p-8">
+    <div className="flex flex-col gap-5 animate-pulse p-4 sm:p-8">
       <div className="h-7 w-48 rounded bg-surface2" />
       <div className="h-4 w-32 rounded bg-surface2" />
       <div className="mt-2 h-32 rounded bg-surface2" />
-      <div className="grid grid-cols-3 gap-3 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
         {[1, 2, 3].map((i) => (
           <div key={i} className="h-16 rounded bg-surface2" />
         ))}
@@ -180,7 +175,6 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const { data: drive, isLoading, isError } = useDriveDetail(driveId);
 
-  // Close on Escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -189,7 +183,6 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  // Lock scroll
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -197,7 +190,6 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
     };
   }, []);
 
-  // Focus trap on open
   useEffect(() => {
     panelRef.current?.focus();
   }, []);
@@ -211,7 +203,7 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8"
+      className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-8"
       role="dialog"
       aria-modal="true"
       aria-label={drive?.company.name ?? "Drive details"}
@@ -225,35 +217,31 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
       <div
         ref={panelRef}
         tabIndex={-1}
-        style={{
-          width: "min(1080px, 95vw)",
-          height: "min(760px, 92vh)",
-          outline: "none",
-        }}
-        className="relative z-10 flex flex-col bg-surface border border-border rounded-md
-                   shadow-card-hover animate-slide-up overflow-hidden"
+        className="relative z-10 flex flex-col bg-surface border border-border
+                   rounded-none sm:rounded-md shadow-card-hover animate-slide-up
+                   overflow-hidden w-full max-w-270 h-auto max-h-screen sm:max-h-[92vh]"
       >
         {!isLoading && drive && (
           <div
-            className="shrink-0 flex items-center justify-between gap-4 px-6 py-4
+            className="shrink-0 flex flex-wrap items-center justify-between gap-2 px-4 py-3 sm:px-6 sm:py-4
                        border-b border-border"
             style={{
               background: "linear-gradient(90deg, #1a0505 0%, var(--color-surface) 60%)",
             }}
           >
-            <div className="flex items-center gap-4">
-              {/* Logo block */}
+            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
               <div
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm
-                           text-[0.7rem] font-bold text-text-secondary border border-border2"
+                className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-sm
+                           text-[0.65rem] sm:text-[0.7rem] font-bold text-text-secondary border border-border2"
                 style={{ background: "var(--color-surface2)" }}
               >
                 {abbr(drive.company.name)}
               </div>
-
-              <div>
-                <div className="flex items-center gap-2.5">
-                  <h2 className="text-lg font-bold text-text leading-none">{drive.company.name}</h2>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 className="text-base sm:text-lg font-bold text-text leading-none truncate">
+                    {drive.company.name}
+                  </h2>
                   {cfg && (
                     <span
                       className={`tag-base ${cfg.bg} ${cfg.text}`}
@@ -263,7 +251,7 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
                     </span>
                   )}
                 </div>
-                <p className="mt-0.5 text-[0.8rem] text-text-secondary">
+                <p className="mt-0.5 text-[0.7rem] sm:text-[0.8rem] text-text-secondary truncate">
                   {drive.role}
                   {drive.company.sector && (
                     <span className="ml-2 text-text-muted">· {drive.company.sector}</span>
@@ -272,15 +260,15 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               {drive.applyLink && (
                 <a
                   href={drive.applyLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 rounded-sm px-4 py-2
+                  className="flex items-center gap-1.5 rounded-sm px-3 py-1.5 sm:px-4 sm:py-2
                              bg-primary hover:bg-primary-hover text-white
-                             text-[0.625rem] font-bold uppercase tracking-widest
+                             text-[0.55rem] sm:text-[0.625rem] font-bold uppercase tracking-widest
                              transition-colors"
                 >
                   Apply Now <ExternalLink size={11} />
@@ -299,7 +287,6 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
           </div>
         )}
 
-        {/* Close button when loading/error */}
         {(isLoading || isError) && (
           <div className="absolute top-3 right-3 z-10">
             <button
@@ -315,17 +302,16 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
         {isLoading && <ModalSkeleton />}
 
         {isError && (
-          <div className="flex flex-1 items-center justify-center text-text-muted text-sm">
+          <div className="flex flex-1 items-center justify-center text-text-muted text-sm p-4">
             Failed to load drive details. Please try again.
           </div>
         )}
 
         {!isLoading && !isError && drive && (
-          <div className="flex flex-1 min-h-0 divide-x divide-border">
+          <div className="flex flex-1 min-h-0 flex-col sm:flex-row divide-y sm:divide-x divide-border">
             {/* Left: JD + drive info */}
-            <div className="flex flex-col flex-3 min-w-0 overflow-y-auto p-6 gap-5">
-              {/* Drive details strip */}
-              <div className="grid grid-cols-3 gap-3">
+            <div className="flex-1 min-w-0 overflow-y-auto p-4 sm:p-6 gap-4 sm:gap-5 flex flex-col">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                   {
                     icon: TrendingUp,
@@ -347,7 +333,6 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
                 ))}
               </div>
 
-              {/* Job description */}
               <div>
                 <p className="section-label mb-3">About the Role</p>
                 {drive.jd ? (
@@ -367,9 +352,8 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
             </div>
 
             {/* Right: Alumni + Resources */}
-            <div className="flex flex-col flex-2 min-w-0 overflow-y-auto">
-              {/* Alumni section */}
-              <div className="p-5 border-b border-border">
+            <div className="flex-1 min-w-0 overflow-y-auto flex flex-col">
+              <div className="p-4 sm:p-5 border-b border-border">
                 <div className="flex items-center gap-2 mb-4">
                   <Users size={14} className="text-primary" />
                   <p className="section-label">
@@ -380,7 +364,7 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
                 </div>
 
                 {drive.placedAlumni.length > 0 ? (
-                  <div className="flex flex-wrap gap-4">
+                  <div className="flex flex-wrap gap-3 sm:gap-4">
                     {drive.placedAlumni.map((a) => (
                       <AlumniCircle key={a.id} alumni={a} onNavigate={goToProfile} />
                     ))}
@@ -392,8 +376,7 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
                 )}
               </div>
 
-              {/* Resources section */}
-              <div className="flex-1 p-5">
+              <div className="flex-1 p-4 sm:p-5">
                 <div className="flex items-center justify-between mb-4">
                   <p className="section-label">Prep Resources</p>
                   {drive.resources.length > 0 && (
@@ -424,9 +407,8 @@ export function DriveDetailModal({ driveId, onClose }: DriveDetailModalProps) {
                 )}
               </div>
 
-              {/* View all alumni link */}
               {drive.placedAlumni.length > 0 && (
-                <div className="shrink-0 px-5 pb-4">
+                <div className="shrink-0 px-4 sm:px-5 pb-3 sm:pb-4">
                   <button
                     type="button"
                     onClick={() => {
