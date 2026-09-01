@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Search, Bell, Menu } from "lucide-react";
+import { LogoutButton } from "../ui/LogoutButton.tsx";
 
 interface TopbarProps {
   onOpenSidebar: () => void;
@@ -52,6 +53,8 @@ function Topbar({ onOpenSidebar }: TopbarProps) {
           <Bell size={15} />
           <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-primary" />
         </button>
+
+        <LogoutButton />
       </div>
     </header>
   );
