@@ -5,3 +5,5 @@ export * from "./Role.js";
 export * from "./HealthResponse.js";
 export * from "./UserRequest.js";
 export * from "./AuthRequest.js";
+export * from "./Alumni.js";
+export * from "./ConnectionRequestStatus.js";

@@ -8,6 +8,7 @@ import { doubleCsrf } from "csrf-csrf";
 import authRoutes from "@/routes/auth.routes.js";
 import usersRoutes from "@/routes/user.routes.js";
 import placementRoutes from "@/routes/placement.route.js";
+import alumniRoutes from "@/routes/alumni.routes.js";
 import healthRoutes from "@/routes/health.routes.js";
 
 import { errorHandler } from "@/middleware/errorHandler.js";
@@ -67,6 +68,7 @@ app.get(`${API_PREFIX}/csrf-token`, (req, res) => {
 app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/users`, usersRoutes);
 app.use(`${API_PREFIX}/placements`, placementRoutes);
+app.use(`${API_PREFIX}/alumni`, alumniRoutes);
 app.use(`${API_PREFIX}/health`, healthRoutes);
 
 // Error handling

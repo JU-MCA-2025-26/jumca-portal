@@ -192,6 +192,174 @@ async function main() {
     },
   });
 
+  // ALUMNI
+  await prisma.profile.update({
+    where: { userId: alumni1.id },
+    data: {
+      company: "Google",
+      jobRole: "Senior Software Engineer",
+      location: "Bangalore",
+      tags: ["ML", "Infrastructure"],
+      graduationYear: 2020,
+      openToConnect: true,
+      linkedinUrl: "https://linkedin.com/in/ananya-roy",
+    },
+  });
+
+  await prisma.profile.update({
+    where: { userId: alumni2.id },
+    data: {
+      company: "Microsoft Research",
+      jobRole: "Research Engineer",
+      location: "Hyderabad",
+      tags: ["AI", "NLP"],
+      graduationYear: 2019,
+      openToConnect: true,
+      linkedinUrl: "https://linkedin.com/in/sourav-mukherjee",
+    },
+  });
+
+  const alumniPassword2 = await bcrypt.hash("alumni123", 12);
+
+  const extraAlumni: Array<{
+    fullName: string;
+    email: string;
+    rollNumber: string;
+    batch: string;
+    company: string;
+    jobRole: string;
+    location: string;
+    tags: string[];
+    graduationYear: number;
+    openToConnect: boolean;
+  }> = [
+    {
+      fullName: "Siddharth Rao",
+      email: "alumni3@jumca.com",
+      rollNumber: "002310503001",
+      batch: "2019-21",
+      company: "Amazon",
+      jobRole: "SDE-2",
+      location: "Seattle, USA",
+      tags: ["Distributed Systems", "AWS"],
+      graduationYear: 2021,
+      openToConnect: false,
+    },
+    {
+      fullName: "Meera Joshi",
+      email: "alumni4@jumca.com",
+      rollNumber: "002310503002",
+      batch: "2016-18",
+      company: "Stripe",
+      jobRole: "Staff Engineer",
+      location: "San Francisco",
+      tags: ["Fintech", "Payments"],
+      graduationYear: 2018,
+      openToConnect: true,
+    },
+    {
+      fullName: "Karan Khanna",
+      email: "alumni5@jumca.com",
+      rollNumber: "002310503003",
+      batch: "2018-20",
+      company: "Flipkart",
+      jobRole: "SDE-1",
+      location: "Bangalore",
+      tags: ["Backend", "Java"],
+      graduationYear: 2020,
+      openToConnect: true,
+    },
+    {
+      fullName: "Divya Menon",
+      email: "alumni6@jumca.com",
+      rollNumber: "002310503004",
+      batch: "2017-19",
+      company: "Goldman Sachs",
+      jobRole: "VP Technology",
+      location: "Mumbai",
+      tags: ["Trading Systems", "C++"],
+      graduationYear: 2019,
+      openToConnect: false,
+    },
+    {
+      fullName: "Abhishek Tiwari",
+      email: "alumni7@jumca.com",
+      rollNumber: "002310503005",
+      batch: "2015-17",
+      company: "Apple",
+      jobRole: "Principal Engineer",
+      location: "Cupertino, USA",
+      tags: ["iOS", "Swift"],
+      graduationYear: 2017,
+      openToConnect: true,
+    },
+    {
+      fullName: "Nisha Gupta",
+      email: "alumni8@jumca.com",
+      rollNumber: "002310503006",
+      batch: "2020-22",
+      company: "Zomato",
+      jobRole: "Data Scientist",
+      location: "Gurgaon",
+      tags: ["ML", "Analytics"],
+      graduationYear: 2022,
+      openToConnect: true,
+    },
+  ];
+
+  for (const a of extraAlumni) {
+    const user = await prisma.user.upsert({
+      where: { email: a.email },
+      update: {},
+      create: {
+        fullName: a.fullName,
+        email: a.email,
+        rollNumber: a.rollNumber,
+        password: alumniPassword2,
+        role: $Enums.Role.ALUMNI,
+        batch: a.batch,
+      },
+    });
+
+    await prisma.profile.upsert({
+      where: { userId: user.id },
+      update: {},
+      create: {
+        userId: user.id,
+        bio: `${a.jobRole} at ${a.company}. JUMCA Class of ${a.graduationYear}.`,
+        company: a.company,
+        jobRole: a.jobRole,
+        location: a.location,
+        tags: a.tags,
+        graduationYear: a.graduationYear,
+        openToConnect: a.openToConnect,
+      },
+    });
+  }
+
+  console.log("Alumni network profiles seeded.");
+
+  // CONNECT
+  await prisma.connectRequest.create({
+    data: {
+      requesterId: student1.id,
+      alumniId: alumni1.id,
+      message: "Hi Ananya, I'd love some guidance on breaking into ML infra roles.",
+      status: $Enums.ConnectRequestStatus.PENDING,
+    },
+  });
+
+  await prisma.connectRequest.create({
+    data: {
+      requesterId: student2.id,
+      alumniId: alumni2.id,
+      message: "Would appreciate any tips on the Microsoft Research interview process.",
+      status: $Enums.ConnectRequestStatus.APPROVED,
+    },
+  });
+
+  console.log("Connect requests seeded.");
+
   // COURSES
   const courses = await Promise.all([
     prisma.course.upsert({
