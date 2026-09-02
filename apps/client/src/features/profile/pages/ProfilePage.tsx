@@ -14,7 +14,6 @@ import {
   Plus,
   Trash2,
   Loader2,
-  BookOpen,
 } from "lucide-react";
 import { useAuth } from "@/features/auth/hooks/useAuth.ts";
 import EditProfileModal from "../components/EditProfileModal.tsx";
@@ -125,8 +124,20 @@ const DEFAULT_ELECTIVES: ElectiveCourse[] = [
 // Placeholder courses matching design
 const PLACEHOLDER_COURSES: SemesterCourse[] = [
   { code: "CSE/MCA/T/211A", name: "Software Engineering", credits: 4, grade: "A", attendance: 89 },
-  { code: "CSE/MCA/T/212A", name: "Automata and Language Processors", credits: 3, grade: "A-", attendance: 82 },
-  { code: "CSE/MCA/T/213A", name: "Data Communication & Networks", credits: 3, grade: "A+", attendance: 95 },
+  {
+    code: "CSE/MCA/T/212A",
+    name: "Automata and Language Processors",
+    credits: 3,
+    grade: "A-",
+    attendance: 82,
+  },
+  {
+    code: "CSE/MCA/T/213A",
+    name: "Data Communication & Networks",
+    credits: 3,
+    grade: "A+",
+    attendance: 95,
+  },
 ];
 
 const DEFAULT_TECHNICAL_SKILLS = [
@@ -226,7 +237,9 @@ const InfoRow = ({ label, value }: { label: string; value: string }) => {
       <span className="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-text-muted shrink-0">
         {label}
       </span>
-      <span className="text-[0.8rem] font-medium text-text tabular font-mono text-right">{value}</span>
+      <span className="text-[0.8rem] font-medium text-text tabular font-mono text-right">
+        {value}
+      </span>
     </div>
   );
 };
@@ -400,9 +413,7 @@ const CoursesTable = ({
                 <span className="text-[0.8rem] font-bold text-primary font-mono whitespace-nowrap">
                   {elective.code}
                 </span>
-                <span className="text-xs text-text font-medium min-w-[140px]">
-                  {elective.name}
-                </span>
+                <span className="text-xs text-text font-medium min-w-[140px]">{elective.name}</span>
                 <span className="text-[0.75rem] text-text-secondary font-mono whitespace-nowrap">
                   {elective.credits} cr
                 </span>
@@ -425,13 +436,7 @@ const CoursesTable = ({
   );
 };
 
-const SemesterSgpaCard = ({
-  semData,
-  onEdit,
-}: {
-  semData: SemesterSGPA[];
-  onEdit: () => void;
-}) => {
+const SemesterSgpaCard = ({ semData, onEdit }: { semData: SemesterSGPA[]; onEdit: () => void }) => {
   return (
     <div className="card p-5">
       <div className="flex items-center justify-between mb-5">
@@ -514,13 +519,7 @@ const AchievementsCard = ({
   );
 };
 
-const TechnicalSkillsCard = ({
-  skills,
-  onEdit,
-}: {
-  skills: string[];
-  onEdit: () => void;
-}) => {
+const TechnicalSkillsCard = ({ skills, onEdit }: { skills: string[]; onEdit: () => void }) => {
   return (
     <div className="card p-5">
       <div className="flex items-center justify-between mb-4">
@@ -632,9 +631,7 @@ const ProfileCard = ({
         </p>
 
         {bio && (
-          <p className="mt-2 text-xs text-text-secondary italic line-clamp-2 px-2">
-            "{bio}"
-          </p>
+          <p className="mt-2 text-xs text-text-secondary italic line-clamp-2 px-2">"{bio}"</p>
         )}
 
         {/* Status badges */}
@@ -684,7 +681,11 @@ const ProfileCard = ({
           )}
           {codeforces && (
             <a
-              href={codeforces.startsWith("http") ? codeforces : `https://codeforces.com/profile/${codeforces}`}
+              href={
+                codeforces.startsWith("http")
+                  ? codeforces
+                  : `https://codeforces.com/profile/${codeforces}`
+              }
               target="_blank"
               rel="noreferrer"
               className="text-text-muted hover:text-primary transition-colors text-xs font-bold font-mono px-1.5 py-0.5 rounded border border-border2"
@@ -761,7 +762,9 @@ export const ProfilePage = () => {
 
   // Elective picker state (3 slots)
   const [activeSlot, setActiveSlot] = useState<number>(0);
-  const [electiveTab, setElectiveTab] = useState<"Core Elective" | "Open Elective">("Core Elective");
+  const [electiveTab, setElectiveTab] = useState<"Core Elective" | "Open Elective">(
+    "Core Elective",
+  );
   const [tempElectives, setTempElectives] = useState<ElectiveCourse[]>(DEFAULT_ELECTIVES);
 
   const openSubModal = (type: NonNullable<ModalType>, slotIndex = 0) => {
@@ -1029,7 +1032,7 @@ export const ProfilePage = () => {
               {ELECTIVE_CATALOG.filter((e) => e.category === electiveTab).map((e) => {
                 const isSelectedInActiveSlot = tempElectives[activeSlot]?.code === e.code;
                 const isSelectedInOtherSlot = tempElectives.some(
-                  (item, i) => i !== activeSlot && item.code === e.code
+                  (item, i) => i !== activeSlot && item.code === e.code,
                 );
 
                 return (
@@ -1048,8 +1051,8 @@ export const ProfilePage = () => {
                       isSelectedInActiveSlot
                         ? "border-primary bg-primary/10"
                         : isSelectedInOtherSlot
-                        ? "border-border2 bg-surface1/40 opacity-50 cursor-not-allowed"
-                        : "border-border2 bg-surface1 hover:border-border hover:bg-surface2"
+                          ? "border-border2 bg-surface1/40 opacity-50 cursor-not-allowed"
+                          : "border-border2 bg-surface1 hover:border-border hover:bg-surface2"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-3">
@@ -1103,7 +1106,10 @@ export const ProfilePage = () => {
                 Selected Electives Summary:
               </p>
               {tempElectives.map((el, i) => (
-                <p key={i} className="text-[0.75rem] text-text-secondary font-mono flex justify-between">
+                <p
+                  key={i}
+                  className="text-[0.75rem] text-text-secondary font-mono flex justify-between"
+                >
                   <span>
                     Elective {i + 1}: <strong className="text-text">{el.code}</strong> — {el.name}
                   </span>
@@ -1128,9 +1134,7 @@ export const ProfilePage = () => {
           <div className="space-y-3">
             {tempSem.map((s, i) => (
               <div key={s.sem} className="flex items-center gap-3">
-                <span className="text-xs font-mono text-text-secondary w-16 shrink-0">
-                  {s.sem}
-                </span>
+                <span className="text-xs font-mono text-text-secondary w-16 shrink-0">{s.sem}</span>
                 <input
                   type="range"
                   min="0"
@@ -1140,8 +1144,8 @@ export const ProfilePage = () => {
                   onChange={(e) =>
                     setTempSem((prev) =>
                       prev.map((item, idx) =>
-                        idx === i ? { ...item, sgpa: parseFloat(e.target.value) } : item
-                      )
+                        idx === i ? { ...item, sgpa: parseFloat(e.target.value) } : item,
+                      ),
                     )
                   }
                   className="flex-1 accent-primary cursor-pointer"
@@ -1155,7 +1159,7 @@ export const ProfilePage = () => {
                   onChange={(e) => {
                     const v = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                     setTempSem((prev) =>
-                      prev.map((item, idx) => (idx === i ? { ...item, sgpa: v } : item))
+                      prev.map((item, idx) => (idx === i ? { ...item, sgpa: v } : item)),
                     );
                   }}
                   className="w-16 input-base text-center text-xs font-mono py-1 px-1"
@@ -1175,7 +1179,10 @@ export const ProfilePage = () => {
         >
           <div className="space-y-4">
             {tempAch.map((a, i) => (
-              <div key={i} className="border border-border2 rounded p-3 space-y-2.5 relative bg-surface1">
+              <div
+                key={i}
+                className="border border-border2 rounded p-3 space-y-2.5 relative bg-surface1"
+              >
                 <button
                   type="button"
                   onClick={() => setTempAch((prev) => prev.filter((_, idx) => idx !== i))}
@@ -1196,7 +1203,7 @@ export const ProfilePage = () => {
                         type="button"
                         onClick={() =>
                           setTempAch((prev) =>
-                            prev.map((item, idx) => (idx === i ? { ...item, icon: opt } : item))
+                            prev.map((item, idx) => (idx === i ? { ...item, icon: opt } : item)),
                           )
                         }
                         className={`p-1.5 rounded border transition-colors ${
@@ -1217,7 +1224,9 @@ export const ProfilePage = () => {
                   value={a.title}
                   onChange={(e) =>
                     setTempAch((prev) =>
-                      prev.map((item, idx) => (idx === i ? { ...item, title: e.target.value } : item))
+                      prev.map((item, idx) =>
+                        idx === i ? { ...item, title: e.target.value } : item,
+                      ),
                     )
                   }
                   placeholder="Achievement title or description"
@@ -1229,7 +1238,9 @@ export const ProfilePage = () => {
                   value={a.date}
                   onChange={(e) =>
                     setTempAch((prev) =>
-                      prev.map((item, idx) => (idx === i ? { ...item, date: e.target.value } : item))
+                      prev.map((item, idx) =>
+                        idx === i ? { ...item, date: e.target.value } : item,
+                      ),
                     )
                   }
                   placeholder="Date / Year (e.g. Nov 2025)"
@@ -1241,10 +1252,7 @@ export const ProfilePage = () => {
             <button
               type="button"
               onClick={() =>
-                setTempAch((prev) => [
-                  ...prev,
-                  { icon: "Award", title: "", date: "" },
-                ])
+                setTempAch((prev) => [...prev, { icon: "Award", title: "", date: "" }])
               }
               className="w-full py-2.5 border border-dashed border-border2 text-xs font-bold uppercase tracking-wider text-text-muted hover:text-primary hover:border-primary/50 transition-colors flex items-center justify-center gap-2 rounded"
             >

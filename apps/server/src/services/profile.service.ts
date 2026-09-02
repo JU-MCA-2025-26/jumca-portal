@@ -49,7 +49,7 @@ class ProfileService {
       });
     }
 
-    const updatedProfile = await prisma.profile.upsert({
+    await prisma.profile.upsert({
       where: { userId },
       update: {
         avatarUrl: data.avatarUrl !== undefined ? data.avatarUrl : undefined,

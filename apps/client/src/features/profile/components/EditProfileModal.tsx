@@ -23,7 +23,7 @@ export default function EditProfileModal({ user, onClose }: EditProfileModalProp
 
   // Technical skills tags
   const [tags, setTags] = useState<string[]>(
-    user.profile?.tags || ["C++", "Python", "Java", "SQL", "React", "Node.js", "Git", "DSA"]
+    user.profile?.tags || ["C++", "Python", "Java", "SQL", "React", "Node.js", "Git", "DSA"],
   );
   const [tagInput, setTagInput] = useState("");
 
