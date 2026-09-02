@@ -33,7 +33,7 @@ app.use(
 app.set("trust proxy", 1);
 
 //CSRF protection
-const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
+export const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
   getSecret: () => process.env.CSRF_SECRET || "default-csrf-secret",
   getSessionIdentifier: (req) => req.cookies["access_token"] || "anonymous",
   cookieName: "csrf-token",
