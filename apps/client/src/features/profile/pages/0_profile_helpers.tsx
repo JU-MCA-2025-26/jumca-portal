@@ -1,11 +1,7 @@
-// Helpers to ensure user-provided URLs are safe before rendering in the DOM
-const isSafeUrl = (value?: string | null): boolean => {
-  if (!value || typeof value !== "string") return false;
-  // Only allow http(s) URLs to avoid javascript:, data:, or other dangerous schemes
-  return /^https?:\/\//i.test(value.trim());
-};
-
-const buildExternalProfileUrl = (platform: string, value?: string | null): string | undefined => {
+export const buildExternalProfileUrl = (
+  platform: string,
+  value?: string | null,
+): string | undefined => {
   if (!value || typeof value !== "string") return undefined;
   const v = value.trim();
   if (/^https?:\/\//i.test(v)) {
@@ -30,6 +26,7 @@ const buildExternalProfileUrl = (platform: string, value?: string | null): strin
         return undefined;
     }
   } catch (err) {
+    console.error("Error building external profile URL:", err);
     return undefined;
   }
 };
