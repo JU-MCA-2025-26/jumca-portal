@@ -93,16 +93,20 @@ class ProfileService {
     const sanitizedAvatar = sanitizeUrl(data.avatarUrl);
     const sanitizedBio = sanitizeString(data.bio, 1024);
     const sanitizedGithub = sanitizeUrl(data.github);
-    const sanitizedLeet = sanitizeUrl(data.leetcode) || sanitizeString(data.leetcode, 128);
-    const sanitizedGfg = sanitizeUrl(data.gfg) || sanitizeString(data.gfg, 128);
-    const sanitizedCF = sanitizeUrl(data.codeforces) || sanitizeString(data.codeforces, 128);
+    const sanitizedLeet =
+      sanitizeUrl(data.leetcode) || sanitizeString(data.leetcode, 128);
+    const sanitizedGfg =
+      sanitizeUrl(data.gfg) || sanitizeString(data.gfg, 128);
+    const sanitizedCF =
+      sanitizeUrl(data.codeforces) || sanitizeString(data.codeforces, 128);
     const sanitizedLinkedin = sanitizeUrl(data.linkedinUrl);
     const sanitizedCompany = sanitizeString(data.company, 128);
     const sanitizedJobRole = sanitizeString(data.jobRole, 128);
     const sanitizedLocation = sanitizeString(data.location, 128);
     const sanitizedTags = sanitizeTags(data.tags);
     const sanitizedGradYear = sanitizeYear(data.graduationYear);
-    const sanitizedOpenToConnect = typeof data.openToConnect === "boolean" ? data.openToConnect : undefined;
+    const sanitizedOpenToConnect =
+      typeof data.openToConnect === "boolean" ? data.openToConnect : undefined;
 
     await prisma.profile.upsert({
       where: { userId },
@@ -113,13 +117,18 @@ class ProfileService {
         leetcode: sanitizedLeet !== undefined ? sanitizedLeet : undefined,
         gfg: sanitizedGfg !== undefined ? sanitizedGfg : undefined,
         codeforces: sanitizedCF !== undefined ? sanitizedCF : undefined,
-        linkedinUrl: sanitizedLinkedin !== undefined ? sanitizedLinkedin : undefined,
+        linkedinUrl:
+          sanitizedLinkedin !== undefined ? sanitizedLinkedin : undefined,
         company: sanitizedCompany !== undefined ? sanitizedCompany : undefined,
         jobRole: sanitizedJobRole !== undefined ? sanitizedJobRole : undefined,
         location: sanitizedLocation !== undefined ? sanitizedLocation : undefined,
         tags: sanitizedTags !== undefined ? sanitizedTags : undefined,
-        graduationYear: sanitizedGradYear !== undefined ? sanitizedGradYear : undefined,
-        openToConnect: sanitizedOpenToConnect !== undefined ? sanitizedOpenToConnect : undefined,
+        graduationYear:
+          sanitizedGradYear !== undefined ? sanitizedGradYear : undefined,
+        openToConnect:
+          sanitizedOpenToConnect !== undefined
+            ? sanitizedOpenToConnect
+            : undefined,
       },
       create: {
         userId,
