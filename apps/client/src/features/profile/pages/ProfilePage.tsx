@@ -705,9 +705,9 @@ export const ProfilePage = () => {
           <div className="space-y-4">
             <div className="flex justify-center">
               <div className="h-24 w-24 rounded-xs border-2 border-border2 bg-surface2 overflow-hidden flex items-center justify-center">
-                {tempImg ? (
+                {tempImg && /^https?:\/\//i.test(tempImg.trim()) ? (
                   <img
-                    src={tempImg}
+                    src={tempImg.trim()}
                     alt="Preview"
                     className="h-full w-full object-cover"
                     onError={(e) => {
