@@ -50,13 +50,8 @@ const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
 app.use(express.json());
 app.use(cookieParser(env.COOKIE_SECRET));
 
-// Apply CSRF protection globally on all requests, skipping only the csrf-token endpoint
-app.use((req, res, next) => {
-  if (req.path === `${API_PREFIX}/csrf-token`) {
-    return next();
-  }
-  return doubleCsrfProtection(req, res, next);
-});
+// CSRF protection middleware (CodeQL pattern requires direct app.use(doubleCsrfProtection))
+app.use(doubleCsrfProtection);
 
 // Logging middleware
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
