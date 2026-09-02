@@ -8,6 +8,7 @@ import { doubleCsrf } from "csrf-csrf";
 import authRoutes from "@/routes/auth.routes.js";
 import usersRoutes from "@/routes/user.routes.js";
 import placementRoutes from "@/routes/placement.route.js";
+import alumniRoutes from "@/routes/alumni.routes.js";
 import healthRoutes from "@/routes/health.routes.js";
 
 import { errorHandler } from "@/middleware/errorHandler.js";
@@ -48,26 +49,28 @@ const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
 app.use(express.json());
 app.use(cookieParser(env.COOKIE_SECRET));
 
-// Apply CSRF protection to all routes under the API prefix
-app.use(doubleCsrfProtection);
-
 // Logging middleware
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 
 // Rate limiting
 app.use(`${API_PREFIX}`, apiLimiter);
 
-// CSRF token generation route
+// CSRF token generation route (must be available before CSRF enforcement)
 app.get(`${API_PREFIX}/csrf-token`, (req, res) => {
   const token = generateCsrfToken(req, res);
   res.json({ csrfToken: token });
 });
 
+app.use(`${API_PREFIX}/health`, healthRoutes);
+
+// Apply CSRF protection to all routes under the API prefix
+app.use(doubleCsrfProtection);
+
 // Routes
 app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/users`, usersRoutes);
 app.use(`${API_PREFIX}/placements`, placementRoutes);
-app.use(`${API_PREFIX}/health`, healthRoutes);
+app.use(`${API_PREFIX}/alumni`, alumniRoutes);
 
 // Error handling
 app.use(errorHandler);

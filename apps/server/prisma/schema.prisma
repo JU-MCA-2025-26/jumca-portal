@@ -26,6 +26,12 @@ enum ResourceCategory {
   OTHER
 }
 
+enum ConnectRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 // User & Profile Models
 
 model User {
@@ -45,6 +51,9 @@ model User {
   placementOffers PlacementOffer[]
   interviews InterviewExperience[]
 
+  connectRequestsSent     ConnectRequest[] @relation("ConnectRequestsSent")
+  connectRequestsReceived ConnectRequest[] @relation("ConnectRequestsReceived")
+
   refreshToken String?
   resetPasswordToken String?
   resetPasswordExpires DateTime?
@@ -62,12 +71,40 @@ model Profile {
   gfg        String?
   codeforces String?
 
+  company        String?
+  jobRole        String?
+  location       String?
+  tags           String[] @default([]) // skills/interest tags shown as badges
+  graduationYear Int?
+  linkedinUrl    String?
+  openToConnect  Boolean  @default(false)
+
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model ConnectRequest {
+  id      String               @id @default(cuid())
+  message String?
+  status  ConnectRequestStatus @default(PENDING)
+
+  requesterId String
+  requester   User @relation("ConnectRequestsSent", fields: [requesterId], references: [id], onDelete: Cascade)
+
+  alumniId String
+  alumni   User @relation("ConnectRequestsReceived", fields: [alumniId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([alumniId])
+  @@index([requesterId])
+  @@index([status])
+}
+
 
 // Course & Resource Models
 

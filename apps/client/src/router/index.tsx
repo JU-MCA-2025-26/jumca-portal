@@ -1,7 +1,13 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import LandingPage from "../pages/LandingPage.tsx";
 import DashboardLayout from "../components/layout/DashboardLayout.tsx";
-import { LoginPage, PlacementPage, ProfilePage } from "@/pages/index.ts";
+import {
+  LoginPage,
+  PlacementPage,
+  ProfilePage,
+  AlumniListPage,
+  AlumniProfilePage,
+} from "@/pages/index.ts";
 import { ProtectedRoute } from "../features/auth/components/ProtectedRoute.tsx";
 import ComingSoon from "@/components/ui/ComingSoon.tsx";
 
@@ -49,7 +55,16 @@ export const router = createBrowserRouter([
           },
           {
             path: "alumni",
-            element: <ComingSoon label="Alumni" />,
+            children: [
+              {
+                index: true,
+                element: <AlumniListPage />,
+              },
+              {
+                path: ":id",
+                element: <AlumniProfilePage />,
+              },
+            ],
           },
         ],
       },
