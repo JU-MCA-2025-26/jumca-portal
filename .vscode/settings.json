@@ -1,5 +1,8 @@
 {
-  "files.associations": {
-    "*.css": "tailwindcss"
+  "prisma.schema": "apps/server/prisma/schema.prisma",
+  "prisma.env": "apps/server/.env",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma",
+    "editor.formatOnSave": true
   }
 }

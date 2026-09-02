@@ -361,71 +361,971 @@ async function main() {
   console.log("Connect requests seeded.");
 
   // COURSES
-  const courses = await Promise.all([
-    prisma.course.upsert({
-      where: {
-        name: "Data Structures & Algorithms",
-      },
-      update: {},
-      create: {
-        name: "Data Structures & Algorithms",
-      },
-    }),
+  const coursesData = [
+    // Bridge Courses
+    { code: "CSE/MCA/T/B11", name: "Fundamentals of Computer Science" },
+    { code: "CSE/MCA/T/B12", name: "Basic Electronics" },
 
-    prisma.course.upsert({
-      where: {
-        name: "Database Management Systems",
-      },
-      update: {},
-      create: {
-        name: "Database Management Systems",
-      },
-    }),
+    // First Year First Semester - Theory
+    {
+      code: "CSE/MCA/T/111A",
+      name: "Programming Fundamentals and Object Oriented Concepts",
+    },
+    {
+      code: "CSE/MCA/Math/T/112A",
+      name: "Mathematical Foundations",
+    },
+    {
+      code: "CSE/MCA/T/113A",
+      name: "Management Information Systems",
+    },
+    {
+      code: "CSE/MCA/T/114A",
+      name: "Digital Systems",
+    },
+    {
+      code: "CSE/MCA/T/115A",
+      name: "Graph theory and Combinatorics",
+    },
 
-    prisma.course.upsert({
-      where: {
-        name: "Operating Systems",
-      },
-      update: {},
-      create: {
-        name: "Operating Systems",
-      },
-    }),
+    // First Year First Semester - Sessional
+    {
+      code: "CSE/MCA/S/111",
+      name: "Computer Programming Lab",
+    },
+    {
+      code: "CSE/MCA/S/112",
+      name: "Digital Systems Lab",
+    },
+    {
+      code: "CSE/MCA/Hum/S/113",
+      name: "Communication Skills and Language Lab",
+    },
 
-    prisma.course.upsert({
-      where: {
-        name: "Computer Networks",
-      },
-      update: {},
-      create: {
-        name: "Computer Networks",
-      },
-    }),
+    // First Year Second Semester - Theory
+    {
+      code: "CSE/MCA/T/121A",
+      name: "Data Structures and Algorithms",
+    },
+    {
+      code: "CSE/MCA/T/122A",
+      name: "Advanced Programming with Java and Python",
+    },
+    {
+      code: "CSE/MCA/T/123A",
+      name: "Computer Organization and Architecture",
+    },
+    {
+      code: "CSE/MCA/T/124A",
+      name: "Operating Systems",
+    },
+    {
+      code: "CSE/MCA/T/125A",
+      name: "Database Management Systems",
+    },
 
-    prisma.course.upsert({
-      where: {
-        name: "Object Oriented Programming",
-      },
-      update: {},
-      create: {
-        name: "Object Oriented Programming",
-      },
-    }),
+    // First Year Second Semester - Sessional
+    {
+      code: "CSE/MCA/S/121",
+      name: "Data Structures and Algorithms Lab",
+    },
+    {
+      code: "CSE/MCA/S/122",
+      name: "Operating Systems Lab",
+    },
+    {
+      code: "CSE/MCA/S/123",
+      name: "Database Management Systems Lab",
+    },
+    {
+      code: "CSE/MCA/S/124",
+      name: "Advanced Programming lab",
+    },
 
-    prisma.course.upsert({
-      where: {
-        name: "Software Engineering",
-      },
-      update: {},
-      create: {
-        name: "Software Engineering",
-      },
-    }),
-  ]);
+    // Second Year First Semester - Theory
+    {
+      code: "CSE/MCA/T/211A",
+      name: "Software Engineering",
+    },
+    {
+      code: "CSE/MCA/T/212A",
+      name: "Automata and Language Processors",
+    },
+    {
+      code: "CSE/MCA/T/213A",
+      name: "Data Communication and Computer Networks",
+    },
 
-  const [dsaCourse, dbmsCourse, osCourse, cnCourse, oopCourse, seCourse] = courses;
+    // Second Year First Semester - Sessional
+    {
+      code: "CSE/MCA/S/211",
+      name: "Software Engineering Lab",
+    },
+    {
+      code: "CSE/MCA/S/212",
+      name: "Data Communication and Computer Networks Lab",
+    },
+
+    // Second Year Second Semester - Sessional
+    {
+      code: "CSE/MCA/S/221",
+      name: "Seminar",
+    },
+    {
+      code: "CSE/MCA/S/222",
+      name: "Project",
+    },
+
+    // Elective I
+    {
+      code: "CSE/MCA/T/214A",
+      name: "Artificial Intelligence and Applications",
+    },
+    {
+      code: "CSE/MCA/T/214B",
+      name: "Machine Learning",
+    },
+    {
+      code: "CSE/MCA/T/214C",
+      name: "Pattern Recognition",
+    },
+    {
+      code: "CSE/MCA/T/214D",
+      name: "Introduction to Data Science",
+    },
+    {
+      code: "CSE/MCA/T/214E",
+      name: "Optimization Techniques",
+    },
+    {
+      code: "CSE/MCA/T/214F",
+      name: "Soft Computing",
+    },
+
+    // Elective II
+    {
+      code: "CSE/MCA/T/215A",
+      name: "Distributed computing",
+    },
+    {
+      code: "CSE/MCA/T/215B",
+      name: "Internet of Things (IOT)",
+    },
+    {
+      code: "CSE/MCA/T/215C",
+      name: "Network Security",
+    },
+    {
+      code: "CSE/MCA/T/215D",
+      name: "Web Technologies",
+    },
+    {
+      code: "CSE/MCA/T/215E",
+      name: "Software Project Management",
+    },
+    {
+      code: "CSE/MCA/T/215F",
+      name: "Microprocessors and Embedded systems",
+    },
+
+    // Elective III
+    {
+      code: "CSE/MCA/T/216A",
+      name: "Computer Graphics",
+    },
+    {
+      code: "CSE/MCA/T/216B",
+      name: "Computer Vision",
+    },
+    {
+      code: "CSE/MCA/T/216C",
+      name: "Bioinformatics",
+    },
+    {
+      code: "CSE/MCA/T/216D",
+      name: "Information Retrieval",
+    },
+    {
+      code: "CSE/MCA/T/216E",
+      name: "Natural Language Processing",
+    },
+    {
+      code: "CSE/MCA/T/216F",
+      name: "Multimedia",
+    },
+    {
+      code: "CSE/MCA/T/216G",
+      name: "Biometric Systems",
+    },
+  ];
+
+  for (const course of coursesData) {
+    await prisma.course.upsert({
+      where: {
+        code: course.code,
+      },
+      update: {
+        name: course.name,
+      },
+      create: {
+        code: course.code,
+        name: course.name,
+      },
+    });
+  }
 
   console.log("Courses seeded.");
+
+  // ELECTIVES MAPPING
+  const electivesData: { basket: $Enums.ElectiveBasket; courseCode: string }[] = [
+    // Elective I
+    { basket: $Enums.ElectiveBasket.ELECTIVE_I, courseCode: "CSE/MCA/T/214A" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_I, courseCode: "CSE/MCA/T/214B" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_I, courseCode: "CSE/MCA/T/214C" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_I, courseCode: "CSE/MCA/T/214D" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_I, courseCode: "CSE/MCA/T/214E" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_I, courseCode: "CSE/MCA/T/214F" },
+
+    // Elective II
+    { basket: $Enums.ElectiveBasket.ELECTIVE_II, courseCode: "CSE/MCA/T/215A" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_II, courseCode: "CSE/MCA/T/215B" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_II, courseCode: "CSE/MCA/T/215C" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_II, courseCode: "CSE/MCA/T/215D" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_II, courseCode: "CSE/MCA/T/215E" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_II, courseCode: "CSE/MCA/T/215F" },
+
+    // Elective III
+    { basket: $Enums.ElectiveBasket.ELECTIVE_III, courseCode: "CSE/MCA/T/216A" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_III, courseCode: "CSE/MCA/T/216B" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_III, courseCode: "CSE/MCA/T/216C" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_III, courseCode: "CSE/MCA/T/216D" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_III, courseCode: "CSE/MCA/T/216E" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_III, courseCode: "CSE/MCA/T/216F" },
+    { basket: $Enums.ElectiveBasket.ELECTIVE_III, courseCode: "CSE/MCA/T/216G" },
+  ];
+
+  for (const elective of electivesData) {
+    await prisma.elective.upsert({
+      where: {
+        courseCode: elective.courseCode,
+      },
+      update: {
+        basket: elective.basket,
+      },
+      create: {
+        basket: elective.basket,
+        courseCode: elective.courseCode,
+        semester: "3",
+      },
+    });
+  }
+
+  console.log("Electives seeded.");
+
+  // SEMESTER & YEAR MAPPING WITH DECOMPOSED METRICS (Periods L/T/P, Marks Exam/Sessional/Total, Credit Points)
+  const semesterMappingData: {
+    courseCode: string;
+    year: number;
+    semester: $Enums.SemesterTerm;
+    semesterNumber: number;
+    type: $Enums.CourseType;
+    periodL: number;
+    periodT: number;
+    periodP: number;
+    examMarks: number;
+    sessionalMarks: number;
+    totalMarks: number;
+    creditPoints: number;
+  }[] = [
+    // Bridge Courses (Year 0, Sem 0)
+    {
+      courseCode: "CSE/MCA/T/B11",
+      year: 0,
+      semester: $Enums.SemesterTerm.BRIDGE,
+      semesterNumber: 0,
+      type: $Enums.CourseType.THEORY,
+      periodL: 4,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 50,
+      sessionalMarks: 0,
+      totalMarks: 50,
+      creditPoints: 0,
+    },
+    {
+      courseCode: "CSE/MCA/T/B12",
+      year: 0,
+      semester: $Enums.SemesterTerm.BRIDGE,
+      semesterNumber: 0,
+      type: $Enums.CourseType.THEORY,
+      periodL: 4,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 50,
+      sessionalMarks: 0,
+      totalMarks: 50,
+      creditPoints: 0,
+    },
+
+    // First Year First Semester (Year 1, Sem 1) - Theory
+    {
+      courseCode: "CSE/MCA/T/111A",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_1,
+      semesterNumber: 1,
+      type: $Enums.CourseType.THEORY,
+      periodL: 4,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 4,
+    },
+    {
+      courseCode: "CSE/MCA/Math/T/112A",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_1,
+      semesterNumber: 1,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/113A",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_1,
+      semesterNumber: 1,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/114A",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_1,
+      semesterNumber: 1,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/115A",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_1,
+      semesterNumber: 1,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+
+    // First Year First Semester - Sessional
+    {
+      courseCode: "CSE/MCA/S/111",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_1,
+      semesterNumber: 1,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 3,
+      examMarks: 0,
+      sessionalMarks: 100,
+      totalMarks: 100,
+      creditPoints: 2,
+    },
+    {
+      courseCode: "CSE/MCA/S/112",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_1,
+      semesterNumber: 1,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 3,
+      examMarks: 0,
+      sessionalMarks: 100,
+      totalMarks: 100,
+      creditPoints: 2,
+    },
+    {
+      courseCode: "CSE/MCA/Hum/S/113",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_1,
+      semesterNumber: 1,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 3,
+      examMarks: 0,
+      sessionalMarks: 100,
+      totalMarks: 100,
+      creditPoints: 2,
+    },
+
+    // First Year Second Semester (Year 1, Sem 2) - Theory
+    {
+      courseCode: "CSE/MCA/T/121A",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_2,
+      semesterNumber: 2,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/122A",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_2,
+      semesterNumber: 2,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/123A",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_2,
+      semesterNumber: 2,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/124A",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_2,
+      semesterNumber: 2,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/125A",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_2,
+      semesterNumber: 2,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+
+    // First Year Second Semester - Sessional
+    {
+      courseCode: "CSE/MCA/S/121",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_2,
+      semesterNumber: 2,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 3,
+      examMarks: 0,
+      sessionalMarks: 100,
+      totalMarks: 100,
+      creditPoints: 2,
+    },
+    {
+      courseCode: "CSE/MCA/S/122",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_2,
+      semesterNumber: 2,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 3,
+      examMarks: 0,
+      sessionalMarks: 100,
+      totalMarks: 100,
+      creditPoints: 2,
+    },
+    {
+      courseCode: "CSE/MCA/S/123",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_2,
+      semesterNumber: 2,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 3,
+      examMarks: 0,
+      sessionalMarks: 100,
+      totalMarks: 100,
+      creditPoints: 2,
+    },
+    {
+      courseCode: "CSE/MCA/S/124",
+      year: 1,
+      semester: $Enums.SemesterTerm.SEM_2,
+      semesterNumber: 2,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 3,
+      examMarks: 0,
+      sessionalMarks: 100,
+      totalMarks: 100,
+      creditPoints: 2,
+    },
+
+    // Second Year First Semester (Year 2, Sem 3) - Theory
+    {
+      courseCode: "CSE/MCA/T/211A",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/212A",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/213A",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+
+    // Second Year First Semester - Sessional
+    {
+      courseCode: "CSE/MCA/S/211",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 3,
+      examMarks: 0,
+      sessionalMarks: 100,
+      totalMarks: 100,
+      creditPoints: 2,
+    },
+    {
+      courseCode: "CSE/MCA/S/212",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 3,
+      examMarks: 0,
+      sessionalMarks: 100,
+      totalMarks: 100,
+      creditPoints: 2,
+    },
+
+    // Elective I (Year 2, Sem 3)
+    {
+      courseCode: "CSE/MCA/T/214A",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/214B",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/214C",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/214D",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/214E",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/214F",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+
+    // Elective II (Year 2, Sem 3)
+    {
+      courseCode: "CSE/MCA/T/215A",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/215B",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/215C",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/215D",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/215E",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/215F",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+
+    // Elective III (Year 2, Sem 3)
+    {
+      courseCode: "CSE/MCA/T/216A",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/216B",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/216C",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/216D",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/216E",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/216F",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+    {
+      courseCode: "CSE/MCA/T/216G",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_3,
+      semesterNumber: 3,
+      type: $Enums.CourseType.THEORY,
+      periodL: 3,
+      periodT: 0,
+      periodP: 0,
+      examMarks: 100,
+      sessionalMarks: 0,
+      totalMarks: 100,
+      creditPoints: 3,
+    },
+
+    // Second Year Second Semester (Year 2, Sem 4) - Sessional
+    {
+      courseCode: "CSE/MCA/S/221",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_4,
+      semesterNumber: 4,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 3,
+      examMarks: 0,
+      sessionalMarks: 100,
+      totalMarks: 100,
+      creditPoints: 2,
+    },
+    {
+      courseCode: "CSE/MCA/S/222",
+      year: 2,
+      semester: $Enums.SemesterTerm.SEM_4,
+      semesterNumber: 4,
+      type: $Enums.CourseType.SESSIONAL,
+      periodL: 0,
+      periodT: 0,
+      periodP: 9,
+      examMarks: 0,
+      sessionalMarks: 300,
+      totalMarks: 300,
+      creditPoints: 6,
+    },
+  ];
+
+  for (const mapping of semesterMappingData) {
+    await prisma.semesterMapping.upsert({
+      where: {
+        courseCode: mapping.courseCode,
+      },
+      update: {
+        year: mapping.year,
+        semester: mapping.semester,
+        semesterNumber: mapping.semesterNumber,
+        type: mapping.type,
+        periodL: mapping.periodL,
+        periodT: mapping.periodT,
+        periodP: mapping.periodP,
+        examMarks: mapping.examMarks,
+        sessionalMarks: mapping.sessionalMarks,
+        totalMarks: mapping.totalMarks,
+        creditPoints: mapping.creditPoints,
+      },
+      create: {
+        courseCode: mapping.courseCode,
+        year: mapping.year,
+        semester: mapping.semester,
+        semesterNumber: mapping.semesterNumber,
+        type: mapping.type,
+        periodL: mapping.periodL,
+        periodT: mapping.periodT,
+        periodP: mapping.periodP,
+        examMarks: mapping.examMarks,
+        sessionalMarks: mapping.sessionalMarks,
+        totalMarks: mapping.totalMarks,
+        creditPoints: mapping.creditPoints,
+      },
+    });
+  }
+
+  console.log("Semester mappings seeded.");
 
   // ACADEMIC RESOURCES
   await prisma.resource.createMany({
@@ -437,7 +1337,7 @@ async function main() {
         fileUrl: "https://example.com/resources/dsa-complete-notes.pdf",
         category: $Enums.ResourceCategory.NOTES,
         approved: true,
-        courseId: dsaCourse.id,
+        courseCode: "CSE/MCA/T/121A",
         uploaderId: adminUser.id,
       },
       {
@@ -446,7 +1346,7 @@ async function main() {
         fileUrl: "https://example.com/resources/dsa-pyq.pdf",
         category: $Enums.ResourceCategory.PREVIOUS_YEAR_QUESTION,
         approved: true,
-        courseId: dsaCourse.id,
+        courseCode: "CSE/MCA/T/121A",
         uploaderId: adminUser.id,
       },
       {
@@ -455,7 +1355,7 @@ async function main() {
         fileUrl: "https://example.com/resources/dbms-notes.pdf",
         category: $Enums.ResourceCategory.NOTES,
         approved: true,
-        courseId: dbmsCourse.id,
+        courseCode: "CSE/MCA/T/125A",
         uploaderId: adminUser.id,
       },
       {
@@ -464,7 +1364,7 @@ async function main() {
         fileUrl: "https://example.com/resources/dbms-pyq.pdf",
         category: $Enums.ResourceCategory.PREVIOUS_YEAR_QUESTION,
         approved: true,
-        courseId: dbmsCourse.id,
+        courseCode: "CSE/MCA/T/125A",
         uploaderId: adminUser.id,
       },
       {
@@ -473,7 +1373,7 @@ async function main() {
         fileUrl: "https://example.com/resources/os-notes.pdf",
         category: $Enums.ResourceCategory.NOTES,
         approved: true,
-        courseId: osCourse.id,
+        courseCode: "CSE/MCA/T/124A",
         uploaderId: adminUser.id,
       },
       {
@@ -482,7 +1382,7 @@ async function main() {
         fileUrl: "https://example.com/resources/os-assignment.pdf",
         category: $Enums.ResourceCategory.ASSIGNMENT,
         approved: true,
-        courseId: osCourse.id,
+        courseCode: "CSE/MCA/T/124A",
         uploaderId: adminUser.id,
       },
       {
@@ -491,7 +1391,7 @@ async function main() {
         fileUrl: "https://example.com/resources/cn-notes.pdf",
         category: $Enums.ResourceCategory.NOTES,
         approved: true,
-        courseId: cnCourse.id,
+        courseCode: "CSE/MCA/T/213A",
         uploaderId: adminUser.id,
       },
       {
@@ -500,7 +1400,7 @@ async function main() {
         fileUrl: "https://example.com/resources/cn-reference.pdf",
         category: $Enums.ResourceCategory.REFERENCE_BOOK,
         approved: true,
-        courseId: cnCourse.id,
+        courseCode: "CSE/MCA/T/213A",
         uploaderId: adminUser.id,
       },
       {
@@ -509,7 +1409,7 @@ async function main() {
         fileUrl: "https://example.com/resources/oop-notes.pdf",
         category: $Enums.ResourceCategory.NOTES,
         approved: true,
-        courseId: oopCourse.id,
+        courseCode: "CSE/MCA/T/111A",
         uploaderId: adminUser.id,
       },
       {
@@ -518,7 +1418,7 @@ async function main() {
         fileUrl: "https://example.com/resources/software-engineering.pdf",
         category: $Enums.ResourceCategory.NOTES,
         approved: true,
-        courseId: seCourse.id,
+        courseCode: "CSE/MCA/T/211A",
         uploaderId: adminUser.id,
       },
     ],

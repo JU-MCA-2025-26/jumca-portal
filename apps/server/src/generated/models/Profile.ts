@@ -26,6 +26,7 @@ export type AggregateProfile = {
 
 export type ProfileMinAggregateOutputType = {
   id: string | null
+  avatarUrl: string | null
   bio: string | null
   github: string | null
   leetcode: string | null
@@ -38,6 +39,7 @@ export type ProfileMinAggregateOutputType = {
 
 export type ProfileMaxAggregateOutputType = {
   id: string | null
+  avatarUrl: string | null
   bio: string | null
   github: string | null
   leetcode: string | null
@@ -50,6 +52,7 @@ export type ProfileMaxAggregateOutputType = {
 
 export type ProfileCountAggregateOutputType = {
   id: number
+  avatarUrl: number
   bio: number
   github: number
   leetcode: number
@@ -64,6 +67,7 @@ export type ProfileCountAggregateOutputType = {
 
 export type ProfileMinAggregateInputType = {
   id?: true
+  avatarUrl?: true
   bio?: true
   github?: true
   leetcode?: true
@@ -76,6 +80,7 @@ export type ProfileMinAggregateInputType = {
 
 export type ProfileMaxAggregateInputType = {
   id?: true
+  avatarUrl?: true
   bio?: true
   github?: true
   leetcode?: true
@@ -88,6 +93,7 @@ export type ProfileMaxAggregateInputType = {
 
 export type ProfileCountAggregateInputType = {
   id?: true
+  avatarUrl?: true
   bio?: true
   github?: true
   leetcode?: true
@@ -173,6 +179,7 @@ export type ProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type ProfileGroupByOutputType = {
   id: string
+  avatarUrl: string | null
   bio: string | null
   github: string | null
   leetcode: string | null
@@ -206,6 +213,7 @@ export type ProfileWhereInput = {
   OR?: Prisma.ProfileWhereInput[]
   NOT?: Prisma.ProfileWhereInput | Prisma.ProfileWhereInput[]
   id?: Prisma.StringFilter<"Profile"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
   bio?: Prisma.StringNullableFilter<"Profile"> | string | null
   github?: Prisma.StringNullableFilter<"Profile"> | string | null
   leetcode?: Prisma.StringNullableFilter<"Profile"> | string | null
@@ -219,6 +227,7 @@ export type ProfileWhereInput = {
 
 export type ProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   github?: Prisma.SortOrderInput | Prisma.SortOrder
   leetcode?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -236,6 +245,7 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ProfileWhereInput | Prisma.ProfileWhereInput[]
   OR?: Prisma.ProfileWhereInput[]
   NOT?: Prisma.ProfileWhereInput | Prisma.ProfileWhereInput[]
+  avatarUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
   bio?: Prisma.StringNullableFilter<"Profile"> | string | null
   github?: Prisma.StringNullableFilter<"Profile"> | string | null
   leetcode?: Prisma.StringNullableFilter<"Profile"> | string | null
@@ -248,6 +258,7 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
 
 export type ProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   github?: Prisma.SortOrderInput | Prisma.SortOrder
   leetcode?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -266,6 +277,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   OR?: Prisma.ProfileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ProfileScalarWhereWithAggregatesInput | Prisma.ProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Profile"> | string
+  avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   github?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   leetcode?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
@@ -278,6 +290,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
 
 export type ProfileCreateInput = {
   id?: string
+  avatarUrl?: string | null
   bio?: string | null
   github?: string | null
   leetcode?: string | null
@@ -290,6 +303,7 @@ export type ProfileCreateInput = {
 
 export type ProfileUncheckedCreateInput = {
   id?: string
+  avatarUrl?: string | null
   bio?: string | null
   github?: string | null
   leetcode?: string | null
@@ -302,6 +316,7 @@ export type ProfileUncheckedCreateInput = {
 
 export type ProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -314,6 +329,7 @@ export type ProfileUpdateInput = {
 
 export type ProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -326,6 +342,7 @@ export type ProfileUncheckedUpdateInput = {
 
 export type ProfileCreateManyInput = {
   id?: string
+  avatarUrl?: string | null
   bio?: string | null
   github?: string | null
   leetcode?: string | null
@@ -338,6 +355,7 @@ export type ProfileCreateManyInput = {
 
 export type ProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -349,6 +367,7 @@ export type ProfileUpdateManyMutationInput = {
 
 export type ProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -366,6 +385,7 @@ export type ProfileNullableScalarRelationFilter = {
 
 export type ProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   github?: Prisma.SortOrder
   leetcode?: Prisma.SortOrder
@@ -378,6 +398,7 @@ export type ProfileCountOrderByAggregateInput = {
 
 export type ProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   github?: Prisma.SortOrder
   leetcode?: Prisma.SortOrder
@@ -390,6 +411,7 @@ export type ProfileMaxOrderByAggregateInput = {
 
 export type ProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   github?: Prisma.SortOrder
   leetcode?: Prisma.SortOrder
@@ -434,6 +456,7 @@ export type ProfileUncheckedUpdateOneWithoutUserNestedInput = {
 
 export type ProfileCreateWithoutUserInput = {
   id?: string
+  avatarUrl?: string | null
   bio?: string | null
   github?: string | null
   leetcode?: string | null
@@ -445,6 +468,7 @@ export type ProfileCreateWithoutUserInput = {
 
 export type ProfileUncheckedCreateWithoutUserInput = {
   id?: string
+  avatarUrl?: string | null
   bio?: string | null
   github?: string | null
   leetcode?: string | null
@@ -472,6 +496,7 @@ export type ProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type ProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -483,6 +508,7 @@ export type ProfileUpdateWithoutUserInput = {
 
 export type ProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -496,6 +522,7 @@ export type ProfileUncheckedUpdateWithoutUserInput = {
 
 export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  avatarUrl?: boolean
   bio?: boolean
   github?: boolean
   leetcode?: boolean
@@ -509,6 +536,7 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 
 export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  avatarUrl?: boolean
   bio?: boolean
   github?: boolean
   leetcode?: boolean
@@ -522,6 +550,7 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 
 export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  avatarUrl?: boolean
   bio?: boolean
   github?: boolean
   leetcode?: boolean
@@ -535,6 +564,7 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 
 export type ProfileSelectScalar = {
   id?: boolean
+  avatarUrl?: boolean
   bio?: boolean
   github?: boolean
   leetcode?: boolean
@@ -545,7 +575,7 @@ export type ProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bio" | "github" | "leetcode" | "gfg" | "codeforces" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "avatarUrl" | "bio" | "github" | "leetcode" | "gfg" | "codeforces" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -563,6 +593,7 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    avatarUrl: string | null
     bio: string | null
     github: string | null
     leetcode: string | null
@@ -996,6 +1027,7 @@ export interface Prisma__ProfileClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface ProfileFieldRefs {
   readonly id: Prisma.FieldRef<"Profile", 'String'>
+  readonly avatarUrl: Prisma.FieldRef<"Profile", 'String'>
   readonly bio: Prisma.FieldRef<"Profile", 'String'>
   readonly github: Prisma.FieldRef<"Profile", 'String'>
   readonly leetcode: Prisma.FieldRef<"Profile", 'String'>

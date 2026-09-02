@@ -33,10 +33,35 @@ export type Profile = Prisma.ProfileModel
  */
 export type Course = Prisma.CourseModel
 /**
+ * Model SemesterMapping
+ * 
+ */
+export type SemesterMapping = Prisma.SemesterMappingModel
+/**
+ * Model Elective
+ * 
+ */
+export type Elective = Prisma.ElectiveModel
+/**
  * Model Resource
  * 
  */
 export type Resource = Prisma.ResourceModel
+/**
+ * Model PlacementDrive
+ * 
+ */
+export type PlacementDrive = Prisma.PlacementDriveModel
+/**
+ * Model PlacementOffer
+ * 
+ */
+export type PlacementOffer = Prisma.PlacementOfferModel
+/**
+ * Model DriveResource
+ * 
+ */
+export type DriveResource = Prisma.DriveResourceModel
 /**
  * Model Company
  * 
