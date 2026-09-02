@@ -29,6 +29,15 @@ export const ResourceCategory = {
 export type ResourceCategory = (typeof ResourceCategory)[keyof typeof ResourceCategory]
 
 
+export const ConnectRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ConnectRequestStatus = (typeof ConnectRequestStatus)[keyof typeof ConnectRequestStatus]
+
+
 export const ElectiveBasket = {
   ELECTIVE_I: 'ELECTIVE_I',
   ELECTIVE_II: 'ELECTIVE_II',

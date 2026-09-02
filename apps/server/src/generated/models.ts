@@ -10,6 +10,7 @@
  */
 export type * from './models/User.js'
 export type * from './models/Profile.js'
+export type * from './models/ConnectRequest.js'
 export type * from './models/Course.js'
 export type * from './models/SemesterMapping.js'
 export type * from './models/Elective.js'

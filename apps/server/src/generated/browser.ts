@@ -28,6 +28,11 @@ export type User = Prisma.UserModel
  */
 export type Profile = Prisma.ProfileModel
 /**
+ * Model ConnectRequest
+ * 
+ */
+export type ConnectRequest = Prisma.ConnectRequestModel
+/**
  * Model Course
  * 
  */

@@ -47,50 +47,103 @@ async function main() {
   const studentPassword = await bcrypt.hash("student123", 12);
   const alumniPassword = await bcrypt.hash("alumni123", 12);
 
-  const student1 = await prisma.user.upsert({
-    where: {
-      email: "student1@jumca.com",
-    },
-    update: {},
-    create: {
-      fullName: "Arjun Sharma",
-      email: "student1@jumca.com",
-      rollNumber: "002510503001",
-      password: studentPassword,
-      role: $Enums.Role.STUDENT,
-      batch: "2025-27",
-    },
-  });
+  const mcaStudentsData = [
+    { rollNumber: "002510503001", fullName: "Soumi Bera" },
+    { rollNumber: "002510503002", fullName: "Ankita Jana" },
+    { rollNumber: "002510503003", fullName: "Khushi Purohit" },
+    { rollNumber: "002510503004", fullName: "Ankan Baidya" },
+    { rollNumber: "002510503005", fullName: "Ratul Chakraborty" },
+    { rollNumber: "002510503006", fullName: "Rahul Thakur" },
+    { rollNumber: "002510503007", fullName: "Aviraj Chhetri" },
+    { rollNumber: "002510503008", fullName: "Arunima Maitra" },
+    { rollNumber: "002510503009", fullName: "SK MD Raihan" },
+    { rollNumber: "002510503010", fullName: "Bappa Das" },
+    { rollNumber: "002510503011", fullName: "Dibyendu Mal" },
+    { rollNumber: "002510503012", fullName: "Bijan Roy" },
+    { rollNumber: "002510503013", fullName: "Ayantika Manna" },
+    { rollNumber: "002510503014", fullName: "Supriya Bandhu Shit" },
+    { rollNumber: "002510503015", fullName: "Rajdeep Paul" },
+    { rollNumber: "002510503016", fullName: "SK Kaif Rahaman" },
+    { rollNumber: "002510503017", fullName: "Subhadip Banerjee" },
+    { rollNumber: "002510503018", fullName: "Pritam Pandit" },
+    { rollNumber: "002510503019", fullName: "Baishakhi Shiuly" },
+    { rollNumber: "002510503020", fullName: "Sayandeep Mukherjee" },
+    { rollNumber: "002510503021", fullName: "Anubhav Chakraborty" },
+    { rollNumber: "002510503022", fullName: "Debangan Ganguly" },
+    { rollNumber: "002510503023", fullName: "Debasmita Chakraborty" },
+    { rollNumber: "002510503024", fullName: "Anirudra Adhikary" },
+    { rollNumber: "002510503025", fullName: "Bhaskar Samanta" },
+    { rollNumber: "002510503026", fullName: "Soutrik Halder" },
+    { rollNumber: "002510503027", fullName: "Subhayu Ganguly" },
+    { rollNumber: "002510503028", fullName: "Soumyadeep Paul" },
+    { rollNumber: "002510503029", fullName: "Samit Kar" },
+    { rollNumber: "002510503030", fullName: "Kinjal Choudhary" },
+    { rollNumber: "002510503031", fullName: "Debol Mondal" },
+    { rollNumber: "002510503032", fullName: "Souvik Naskar" },
+    { rollNumber: "002510503033", fullName: "Snehasish Sarkar" },
+    { rollNumber: "002510503034", fullName: "Debsankar Dhara" },
+    { rollNumber: "002510503035", fullName: "Joydeb Soren" },
+    { rollNumber: "002510503036", fullName: "Rakesh Ghosh" },
+    { rollNumber: "002510503037", fullName: "Supratim Lala" },
+    { rollNumber: "002510503038", fullName: "Rudra Narayan Konar" },
+    { rollNumber: "002510503039", fullName: "MD Rashid Imran" },
+    { rollNumber: "002510503040", fullName: "Mainak Mondal" },
+    { rollNumber: "002510503041", fullName: "Jit Halder" },
+    { rollNumber: "002510503042", fullName: "Rohit Maji" },
+    { rollNumber: "002510503043", fullName: "Tashif Ahmed" },
+    { rollNumber: "002510503044", fullName: "Srimanta Chatterjee" },
+    { rollNumber: "002510503045", fullName: "Sounak Garai" },
+    { rollNumber: "002510503046", fullName: "Ahamod Mondal" },
+    { rollNumber: "002510503047", fullName: "Pritam Das" },
+    { rollNumber: "002510503048", fullName: "Anirban Dutta" },
+    { rollNumber: "002510503049", fullName: "Megha Orano" },
+    { rollNumber: "002510503050", fullName: "Sangita Paul" },
+    { rollNumber: "002510503051", fullName: "Arnab Pratihar" },
+    { rollNumber: "002510503052", fullName: "Prantik Bhattacharya" },
+    { rollNumber: "002510503053", fullName: "Debjit Mahato" },
+    { rollNumber: "002510503054", fullName: "Paromita Dey" },
+    { rollNumber: "002510503055", fullName: "Rupsha Paul" },
+    { rollNumber: "002510503056", fullName: "Avishek Patra" },
+    { rollNumber: "002510503057", fullName: "Sourabh Barman" },
+    { rollNumber: "002510503058", fullName: "Binoy Hembram" },
+    { rollNumber: "102410503002", fullName: "Gourav Karmakar" },
+  ];
 
-  const student2 = await prisma.user.upsert({
-    where: {
-      email: "student2@jumca.com",
-    },
-    update: {},
-    create: {
-      fullName: "Priya Das",
-      email: "student2@jumca.com",
-      rollNumber: "002510503002",
-      password: studentPassword,
-      role: $Enums.Role.STUDENT,
-      batch: "2025-27",
-    },
-  });
+  const createdStudents = [];
+  for (const s of mcaStudentsData) {
+    const email = `${s.rollNumber}@jumca.com`;
+    const user = await prisma.user.upsert({
+      where: { email },
+      update: {
+        fullName: s.fullName,
+        rollNumber: s.rollNumber,
+        batch: "2025-27",
+        role: $Enums.Role.STUDENT,
+      },
+      create: {
+        fullName: s.fullName,
+        email,
+        rollNumber: s.rollNumber,
+        password: studentPassword,
+        role: $Enums.Role.STUDENT,
+        batch: "2025-27",
+      },
+    });
+    createdStudents.push(user);
 
-  const student3 = await prisma.user.upsert({
-    where: {
-      email: "student3@jumca.com",
-    },
-    update: {},
-    create: {
-      fullName: "Rahul Singh",
-      email: "student3@jumca.com",
-      rollNumber: "002510503003",
-      password: studentPassword,
-      role: $Enums.Role.STUDENT,
-      batch: "2025-27",
-    },
-  });
+    await prisma.profile.upsert({
+      where: { userId: user.id },
+      update: {},
+      create: {
+        userId: user.id,
+        bio: `MCA Student at Jadavpur University (Batch 2025-27)`,
+      },
+    });
+  }
+
+  const student1 = createdStudents[0];
+  const student2 = createdStudents[1];
+  const student3 = createdStudents[2];
 
   const alumni1 = await prisma.user.upsert({
     where: {
@@ -119,50 +172,6 @@ async function main() {
       password: alumniPassword,
       role: $Enums.Role.ALUMNI,
       batch: "2024-26",
-    },
-  });
-
-  console.log("Users seeded.");
-
-  // PROFILES
-  await prisma.profile.upsert({
-    where: {
-      userId: student1.id,
-    },
-    update: {},
-    create: {
-      userId: student1.id,
-      bio: "Computer science student interested in backend development and DSA.",
-      github: "https://github.com/arjun-sharma",
-      leetcode: "https://leetcode.com/arjun-sharma",
-      gfg: "https://www.geeksforgeeks.org/user/arjun-sharma",
-    },
-  });
-
-  await prisma.profile.upsert({
-    where: {
-      userId: student2.id,
-    },
-    update: {},
-    create: {
-      userId: student2.id,
-      bio: "Full-stack development enthusiast and competitive programmer.",
-      github: "https://github.com/priya-das",
-      leetcode: "https://leetcode.com/priya-das",
-      codeforces: "https://codeforces.com/profile/priya-das",
-    },
-  });
-
-  await prisma.profile.upsert({
-    where: {
-      userId: student3.id,
-    },
-    update: {},
-    create: {
-      userId: student3.id,
-      bio: "Interested in machine learning, systems and software engineering.",
-      github: "https://github.com/rahul-singh",
-      leetcode: "https://leetcode.com/rahul-singh",
     },
   });
 

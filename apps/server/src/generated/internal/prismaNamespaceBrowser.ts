@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Profile: 'Profile',
+  ConnectRequest: 'ConnectRequest',
   Course: 'Course',
   SemesterMapping: 'SemesterMapping',
   Elective: 'Elective',
@@ -109,12 +110,32 @@ export const ProfileScalarFieldEnum = {
   leetcode: 'leetcode',
   gfg: 'gfg',
   codeforces: 'codeforces',
+  company: 'company',
+  jobRole: 'jobRole',
+  location: 'location',
+  tags: 'tags',
+  graduationYear: 'graduationYear',
+  linkedinUrl: 'linkedinUrl',
+  openToConnect: 'openToConnect',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+
+
+export const ConnectRequestScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  status: 'status',
+  requesterId: 'requesterId',
+  alumniId: 'alumniId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ConnectRequestScalarFieldEnum = (typeof ConnectRequestScalarFieldEnum)[keyof typeof ConnectRequestScalarFieldEnum]
 
 
 export const CourseScalarFieldEnum = {

@@ -399,6 +399,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Profile: 'Profile',
+  ConnectRequest: 'ConnectRequest',
   Course: 'Course',
   SemesterMapping: 'SemesterMapping',
   Elective: 'Elective',
@@ -425,7 +426,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "profile" | "course" | "semesterMapping" | "elective" | "resource" | "placementDrive" | "placementOffer" | "driveResource" | "company" | "interviewExperience" | "interviewRound" | "question"
+    modelProps: "user" | "profile" | "connectRequest" | "course" | "semesterMapping" | "elective" | "resource" | "placementDrive" | "placementOffer" | "driveResource" | "company" | "interviewExperience" | "interviewRound" | "question"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -574,6 +575,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ProfileCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProfileCountAggregateOutputType> | number
+        }
+      }
+    }
+    ConnectRequest: {
+      payload: Prisma.$ConnectRequestPayload<ExtArgs>
+      fields: Prisma.ConnectRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ConnectRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ConnectRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.ConnectRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ConnectRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload>
+        }
+        findMany: {
+          args: Prisma.ConnectRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload>[]
+        }
+        create: {
+          args: Prisma.ConnectRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload>
+        }
+        createMany: {
+          args: Prisma.ConnectRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ConnectRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.ConnectRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload>
+        }
+        update: {
+          args: Prisma.ConnectRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.ConnectRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ConnectRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ConnectRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.ConnectRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConnectRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.ConnectRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateConnectRequest>
+        }
+        groupBy: {
+          args: Prisma.ConnectRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConnectRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ConnectRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConnectRequestCountAggregateOutputType> | number
         }
       }
     }
@@ -1457,12 +1532,32 @@ export const ProfileScalarFieldEnum = {
   leetcode: 'leetcode',
   gfg: 'gfg',
   codeforces: 'codeforces',
+  company: 'company',
+  jobRole: 'jobRole',
+  location: 'location',
+  tags: 'tags',
+  graduationYear: 'graduationYear',
+  linkedinUrl: 'linkedinUrl',
+  openToConnect: 'openToConnect',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+
+
+export const ConnectRequestScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  status: 'status',
+  requesterId: 'requesterId',
+  alumniId: 'alumniId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ConnectRequestScalarFieldEnum = (typeof ConnectRequestScalarFieldEnum)[keyof typeof ConnectRequestScalarFieldEnum]
 
 
 export const CourseScalarFieldEnum = {
@@ -1717,6 +1812,20 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'ConnectRequestStatus'
+ */
+export type EnumConnectRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConnectRequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ConnectRequestStatus[]'
+ */
+export type ListEnumConnectRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConnectRequestStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'SemesterTerm'
  */
 export type EnumSemesterTermFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SemesterTerm'>
@@ -1952,6 +2061,7 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   profile?: Prisma.ProfileOmit
+  connectRequest?: Prisma.ConnectRequestOmit
   course?: Prisma.CourseOmit
   semesterMapping?: Prisma.SemesterMappingOmit
   elective?: Prisma.ElectiveOmit
