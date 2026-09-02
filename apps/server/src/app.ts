@@ -33,7 +33,7 @@ app.use(
 app.set("trust proxy", 1);
 
 //CSRF protection
-export const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
+const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
   getSecret: () => process.env.CSRF_SECRET || "default-csrf-secret",
   getSessionIdentifier: (req) => req.cookies["access_token"] || "anonymous",
   cookieName: "csrf-token",
@@ -50,9 +50,6 @@ export const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
 app.use(express.json());
 app.use(cookieParser(env.COOKIE_SECRET));
 
-// CSRF protection middleware (CodeQL pattern requires direct app.use(doubleCsrfProtection))
-app.use(doubleCsrfProtection);
-
 // Logging middleware
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 
@@ -68,7 +65,10 @@ app.get(`${API_PREFIX}/csrf-token`, (req, res) => {
 // Health route (public)
 app.use(`${API_PREFIX}/health`, healthRoutes);
 
-// Routes (protected by CSRF middleware where applicable)
+// Protect all remaining routes with CSRF protection middleware
+app.use(doubleCsrfProtection);
+
+// Authenticated/State-modifying API Routes
 app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/users`, usersRoutes);
 app.use(`${API_PREFIX}/placements`, placementRoutes);
