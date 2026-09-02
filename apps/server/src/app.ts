@@ -32,6 +32,10 @@ app.use(
 
 app.set("trust proxy", 1);
 
+// Body parsing middleware
+app.use(express.json());
+app.use(cookieParser(env.COOKIE_SECRET));
+
 // CSRF protection
 const { generateCsrfToken, doubleCsrfProtection: csrfProtection } = doubleCsrf({
   getSecret: () => process.env.CSRF_SECRET || "default-csrf-secret",
@@ -46,9 +50,6 @@ const { generateCsrfToken, doubleCsrfProtection: csrfProtection } = doubleCsrf({
   ignoredMethods: ["GET", "HEAD", "OPTIONS"],
 });
 
-// Body parsing middleware
-app.use(express.json());
-app.use(cookieParser(env.COOKIE_SECRET));
 app.use(csrfProtection);
 
 // Logging middleware
