@@ -8,6 +8,15 @@ interface EditProfileModalProps {
   onClose: () => void;
 }
 
+const sanitizeInputUrl = (val: string): string => {
+  if (!val) return "";
+  const sanitized = val.replace(/[<>"'`]/g, "");
+  if (/^\s*javascript:/i.test(sanitized)) {
+    return "";
+  }
+  return sanitized;
+};
+
 export default function EditProfileModal({ user, onClose }: EditProfileModalProps) {
   const [fullName, setFullName] = useState(user.fullName || "");
   const [avatarUrl, setAvatarUrl] = useState(user.profile?.avatarUrl || "");
@@ -129,7 +138,7 @@ export default function EditProfileModal({ user, onClose }: EditProfileModalProp
                 <input
                   type="url"
                   value={avatarUrl}
-                  onChange={(e) => setAvatarUrl(e.target.value)}
+                  onChange={(e) => setAvatarUrl(sanitizeInputUrl(e.target.value))}
                   placeholder="https://example.com/avatar.jpg"
                   className="input-base"
                 />

@@ -195,11 +195,20 @@ const ICON_MAP: Record<string, React.ElementType> = {
 const ICON_OPTIONS = ["Trophy", "Code2", "Star", "Award", "Globe", "Shield"];
 
 // Helpers
+const sanitizeInputUrl = (val: string): string => {
+  if (!val) return "";
+  const sanitized = val.replace(/[<>"'`]/g, "");
+  if (/^\s*javascript:/i.test(sanitized)) {
+    return "";
+  }
+  return sanitized;
+};
+
 const sanitizeImageUrl = (url?: string | null): string => {
   if (!url) return "";
-  const trimmed = url.trim();
-  if (/^(https?:\/\/|\/|data:image\/)/i.test(trimmed)) {
-    return trimmed;
+  const sanitized = sanitizeInputUrl(url).trim();
+  if (/^(https?:\/\/|\/|data:image\/)/i.test(sanitized)) {
+    return sanitized;
   }
   return "";
 };
@@ -903,7 +912,7 @@ export const ProfilePage = () => {
               <input
                 type="url"
                 value={tempImg}
-                onChange={(e) => setTempImg(e.target.value)}
+                onChange={(e) => setTempImg(sanitizeInputUrl(e.target.value))}
                 placeholder="https://example.com/avatar.jpg"
                 className="input-base font-mono text-xs"
               />
