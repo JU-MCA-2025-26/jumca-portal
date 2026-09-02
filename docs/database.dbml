@@ -14,6 +14,25 @@ Enum ResourceCategory {
   OTHER
 }
 
+Enum ElectiveBasket {
+  ELECTIVE_I
+  ELECTIVE_II
+  ELECTIVE_III
+}
+
+Enum CourseType {
+  THEORY
+  SESSIONAL
+}
+
+Enum SemesterTerm {
+  BRIDGE
+  SEM_1
+  SEM_2
+  SEM_3
+  SEM_4
+}
+
 Table User {
   id varchar [pk, note: 'cuid() default']
   rollNumber varchar [unique, not null]
@@ -37,8 +56,35 @@ Table Profile {
 }
 
 Table Course {
-  id varchar [pk, note: 'cuid() default']
+  code varchar [pk]
   name varchar [unique, not null]
+  createdAt timestamp [default: `now()`]
+  updatedAt timestamp
+}
+
+Table SemesterMapping {
+  id varchar [pk, note: 'cuid() default']
+  year integer [not null, note: '0 = Bridge, 1, 2']
+  semester SemesterTerm [not null]
+  semesterNumber integer [not null]
+  type CourseType [default: 'THEORY', not null]
+  periodL integer [default: 0, not null, note: 'Lecture periods/week']
+  periodT integer [default: 0, not null, note: 'Tutorial periods/week']
+  periodP integer [default: 0, not null, note: 'Practical periods/week']
+  examMarks integer [default: 0, not null, note: 'Examination Marks']
+  sessionalMarks integer [default: 0, not null, note: 'Sessional Marks']
+  totalMarks integer [default: 100, not null, note: 'Total Marks']
+  creditPoints integer [default: 3, not null, note: 'Credit Points']
+  courseCode varchar [unique, not null]
+  createdAt timestamp [default: `now()`]
+  updatedAt timestamp
+}
+
+Table Elective {
+  id varchar [pk, note: 'cuid() default']
+  basket ElectiveBasket [not null]
+  semester varchar [default: '3']
+  courseCode varchar [unique, not null]
   createdAt timestamp [default: `now()`]
   updatedAt timestamp
 }
@@ -51,7 +97,7 @@ Table Resource {
   category ResourceCategory [not null]
   approved boolean [default: false]
   downloads integer [default: 0]
-  courseId varchar [not null]
+  courseCode varchar [not null]
   uploaderId varchar [not null]
   createdAt timestamp [default: `now()`]
   updatedAt timestamp
@@ -98,7 +144,13 @@ Table Question {
 Ref: Profile.userId - User.id
 
 // Many-to-One: Resource -> Course
-Ref: Resource.courseId > Course.id
+Ref: Resource.courseCode > Course.code
+
+// One-to-One: Elective -> Course
+Ref: Elective.courseCode - Course.code
+
+// One-to-One: SemesterMapping -> Course
+Ref: SemesterMapping.courseCode - Course.code
 
 // Many-to-One: Resource -> User
 Ref: Resource.uploaderId > User.id

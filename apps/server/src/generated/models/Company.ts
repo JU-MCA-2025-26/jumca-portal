@@ -27,6 +27,9 @@ export type AggregateCompany = {
 export type CompanyMinAggregateOutputType = {
   id: string | null
   name: string | null
+  sector: string | null
+  website: string | null
+  logoUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -34,6 +37,9 @@ export type CompanyMinAggregateOutputType = {
 export type CompanyMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  sector: string | null
+  website: string | null
+  logoUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -41,6 +47,9 @@ export type CompanyMaxAggregateOutputType = {
 export type CompanyCountAggregateOutputType = {
   id: number
   name: number
+  sector: number
+  website: number
+  logoUrl: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -50,6 +59,9 @@ export type CompanyCountAggregateOutputType = {
 export type CompanyMinAggregateInputType = {
   id?: true
   name?: true
+  sector?: true
+  website?: true
+  logoUrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -57,6 +69,9 @@ export type CompanyMinAggregateInputType = {
 export type CompanyMaxAggregateInputType = {
   id?: true
   name?: true
+  sector?: true
+  website?: true
+  logoUrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -64,6 +79,9 @@ export type CompanyMaxAggregateInputType = {
 export type CompanyCountAggregateInputType = {
   id?: true
   name?: true
+  sector?: true
+  website?: true
+  logoUrl?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -144,6 +162,9 @@ export type CompanyGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type CompanyGroupByOutputType = {
   id: string
   name: string
+  sector: string
+  website: string | null
+  logoUrl: string | null
   createdAt: Date
   updatedAt: Date
   _count: CompanyCountAggregateOutputType | null
@@ -172,17 +193,25 @@ export type CompanyWhereInput = {
   NOT?: Prisma.CompanyWhereInput | Prisma.CompanyWhereInput[]
   id?: Prisma.StringFilter<"Company"> | string
   name?: Prisma.StringFilter<"Company"> | string
+  sector?: Prisma.StringFilter<"Company"> | string
+  website?: Prisma.StringNullableFilter<"Company"> | string | null
+  logoUrl?: Prisma.StringNullableFilter<"Company"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Company"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Company"> | Date | string
   interviews?: Prisma.InterviewExperienceListRelationFilter
+  drives?: Prisma.PlacementDriveListRelationFilter
 }
 
 export type CompanyOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  sector?: Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   interviews?: Prisma.InterviewExperienceOrderByRelationAggregateInput
+  drives?: Prisma.PlacementDriveOrderByRelationAggregateInput
 }
 
 export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -191,14 +220,21 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.CompanyWhereInput | Prisma.CompanyWhereInput[]
   OR?: Prisma.CompanyWhereInput[]
   NOT?: Prisma.CompanyWhereInput | Prisma.CompanyWhereInput[]
+  sector?: Prisma.StringFilter<"Company"> | string
+  website?: Prisma.StringNullableFilter<"Company"> | string | null
+  logoUrl?: Prisma.StringNullableFilter<"Company"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Company"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Company"> | Date | string
   interviews?: Prisma.InterviewExperienceListRelationFilter
+  drives?: Prisma.PlacementDriveListRelationFilter
 }, "id" | "name">
 
 export type CompanyOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  sector?: Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CompanyCountOrderByAggregateInput
@@ -212,6 +248,9 @@ export type CompanyScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CompanyScalarWhereWithAggregatesInput | Prisma.CompanyScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Company"> | string
   name?: Prisma.StringWithAggregatesFilter<"Company"> | string
+  sector?: Prisma.StringWithAggregatesFilter<"Company"> | string
+  website?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
+  logoUrl?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Company"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Company"> | Date | string
 }
@@ -219,38 +258,57 @@ export type CompanyScalarWhereWithAggregatesInput = {
 export type CompanyCreateInput = {
   id?: string
   name: string
+  sector: string
+  website?: string | null
+  logoUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   interviews?: Prisma.InterviewExperienceCreateNestedManyWithoutCompanyInput
+  drives?: Prisma.PlacementDriveCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUncheckedCreateInput = {
   id?: string
   name: string
+  sector: string
+  website?: string | null
+  logoUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   interviews?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutCompanyInput
+  drives?: Prisma.PlacementDriveUncheckedCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  sector?: Prisma.StringFieldUpdateOperationsInput | string
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   interviews?: Prisma.InterviewExperienceUpdateManyWithoutCompanyNestedInput
+  drives?: Prisma.PlacementDriveUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  sector?: Prisma.StringFieldUpdateOperationsInput | string
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   interviews?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutCompanyNestedInput
+  drives?: Prisma.PlacementDriveUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyCreateManyInput = {
   id?: string
   name: string
+  sector: string
+  website?: string | null
+  logoUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -258,6 +316,9 @@ export type CompanyCreateManyInput = {
 export type CompanyUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  sector?: Prisma.StringFieldUpdateOperationsInput | string
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -265,13 +326,24 @@ export type CompanyUpdateManyMutationInput = {
 export type CompanyUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  sector?: Prisma.StringFieldUpdateOperationsInput | string
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CompanyScalarRelationFilter = {
+  is?: Prisma.CompanyWhereInput
+  isNot?: Prisma.CompanyWhereInput
 }
 
 export type CompanyCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  sector?: Prisma.SortOrder
+  website?: Prisma.SortOrder
+  logoUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -279,6 +351,9 @@ export type CompanyCountOrderByAggregateInput = {
 export type CompanyMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  sector?: Prisma.SortOrder
+  website?: Prisma.SortOrder
+  logoUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -286,13 +361,25 @@ export type CompanyMaxOrderByAggregateInput = {
 export type CompanyMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  sector?: Prisma.SortOrder
+  website?: Prisma.SortOrder
+  logoUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type CompanyScalarRelationFilter = {
-  is?: Prisma.CompanyWhereInput
-  isNot?: Prisma.CompanyWhereInput
+export type CompanyCreateNestedOneWithoutDrivesInput = {
+  create?: Prisma.XOR<Prisma.CompanyCreateWithoutDrivesInput, Prisma.CompanyUncheckedCreateWithoutDrivesInput>
+  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutDrivesInput
+  connect?: Prisma.CompanyWhereUniqueInput
+}
+
+export type CompanyUpdateOneRequiredWithoutDrivesNestedInput = {
+  create?: Prisma.XOR<Prisma.CompanyCreateWithoutDrivesInput, Prisma.CompanyUncheckedCreateWithoutDrivesInput>
+  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutDrivesInput
+  upsert?: Prisma.CompanyUpsertWithoutDrivesInput
+  connect?: Prisma.CompanyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutDrivesInput, Prisma.CompanyUpdateWithoutDrivesInput>, Prisma.CompanyUncheckedUpdateWithoutDrivesInput>
 }
 
 export type CompanyCreateNestedOneWithoutInterviewsInput = {
@@ -309,18 +396,86 @@ export type CompanyUpdateOneRequiredWithoutInterviewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutInterviewsInput, Prisma.CompanyUpdateWithoutInterviewsInput>, Prisma.CompanyUncheckedUpdateWithoutInterviewsInput>
 }
 
+export type CompanyCreateWithoutDrivesInput = {
+  id?: string
+  name: string
+  sector: string
+  website?: string | null
+  logoUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  interviews?: Prisma.InterviewExperienceCreateNestedManyWithoutCompanyInput
+}
+
+export type CompanyUncheckedCreateWithoutDrivesInput = {
+  id?: string
+  name: string
+  sector: string
+  website?: string | null
+  logoUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  interviews?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutCompanyInput
+}
+
+export type CompanyCreateOrConnectWithoutDrivesInput = {
+  where: Prisma.CompanyWhereUniqueInput
+  create: Prisma.XOR<Prisma.CompanyCreateWithoutDrivesInput, Prisma.CompanyUncheckedCreateWithoutDrivesInput>
+}
+
+export type CompanyUpsertWithoutDrivesInput = {
+  update: Prisma.XOR<Prisma.CompanyUpdateWithoutDrivesInput, Prisma.CompanyUncheckedUpdateWithoutDrivesInput>
+  create: Prisma.XOR<Prisma.CompanyCreateWithoutDrivesInput, Prisma.CompanyUncheckedCreateWithoutDrivesInput>
+  where?: Prisma.CompanyWhereInput
+}
+
+export type CompanyUpdateToOneWithWhereWithoutDrivesInput = {
+  where?: Prisma.CompanyWhereInput
+  data: Prisma.XOR<Prisma.CompanyUpdateWithoutDrivesInput, Prisma.CompanyUncheckedUpdateWithoutDrivesInput>
+}
+
+export type CompanyUpdateWithoutDrivesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sector?: Prisma.StringFieldUpdateOperationsInput | string
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  interviews?: Prisma.InterviewExperienceUpdateManyWithoutCompanyNestedInput
+}
+
+export type CompanyUncheckedUpdateWithoutDrivesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  sector?: Prisma.StringFieldUpdateOperationsInput | string
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  interviews?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutCompanyNestedInput
+}
+
 export type CompanyCreateWithoutInterviewsInput = {
   id?: string
   name: string
+  sector: string
+  website?: string | null
+  logoUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  drives?: Prisma.PlacementDriveCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUncheckedCreateWithoutInterviewsInput = {
   id?: string
   name: string
+  sector: string
+  website?: string | null
+  logoUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  drives?: Prisma.PlacementDriveUncheckedCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyCreateOrConnectWithoutInterviewsInput = {
@@ -342,15 +497,23 @@ export type CompanyUpdateToOneWithWhereWithoutInterviewsInput = {
 export type CompanyUpdateWithoutInterviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  sector?: Prisma.StringFieldUpdateOperationsInput | string
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  drives?: Prisma.PlacementDriveUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyUncheckedUpdateWithoutInterviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  sector?: Prisma.StringFieldUpdateOperationsInput | string
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  drives?: Prisma.PlacementDriveUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
 
@@ -360,10 +523,12 @@ export type CompanyUncheckedUpdateWithoutInterviewsInput = {
 
 export type CompanyCountOutputType = {
   interviews: number
+  drives: number
 }
 
 export type CompanyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   interviews?: boolean | CompanyCountOutputTypeCountInterviewsArgs
+  drives?: boolean | CompanyCountOutputTypeCountDrivesArgs
 }
 
 /**
@@ -383,19 +548,33 @@ export type CompanyCountOutputTypeCountInterviewsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.InterviewExperienceWhereInput
 }
 
+/**
+ * CompanyCountOutputType without action
+ */
+export type CompanyCountOutputTypeCountDrivesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PlacementDriveWhereInput
+}
+
 
 export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  sector?: boolean
+  website?: boolean
+  logoUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   interviews?: boolean | Prisma.Company$interviewsArgs<ExtArgs>
+  drives?: boolean | Prisma.Company$drivesArgs<ExtArgs>
   _count?: boolean | Prisma.CompanyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["company"]>
 
 export type CompanySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  sector?: boolean
+  website?: boolean
+  logoUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["company"]>
@@ -403,6 +582,9 @@ export type CompanySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  sector?: boolean
+  website?: boolean
+  logoUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["company"]>
@@ -410,13 +592,17 @@ export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type CompanySelectScalar = {
   id?: boolean
   name?: boolean
+  sector?: boolean
+  website?: boolean
+  logoUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
+export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "sector" | "website" | "logoUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
 export type CompanyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   interviews?: boolean | Prisma.Company$interviewsArgs<ExtArgs>
+  drives?: boolean | Prisma.Company$drivesArgs<ExtArgs>
   _count?: boolean | Prisma.CompanyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CompanyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -426,10 +612,14 @@ export type $CompanyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Company"
   objects: {
     interviews: Prisma.$InterviewExperiencePayload<ExtArgs>[]
+    drives: Prisma.$PlacementDrivePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    sector: string
+    website: string | null
+    logoUrl: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["company"]>
@@ -827,6 +1017,7 @@ readonly fields: CompanyFieldRefs;
 export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   interviews<T extends Prisma.Company$interviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$interviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewExperiencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  drives<T extends Prisma.Company$drivesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$drivesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlacementDrivePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -858,6 +1049,9 @@ export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends runtime.
 export interface CompanyFieldRefs {
   readonly id: Prisma.FieldRef<"Company", 'String'>
   readonly name: Prisma.FieldRef<"Company", 'String'>
+  readonly sector: Prisma.FieldRef<"Company", 'String'>
+  readonly website: Prisma.FieldRef<"Company", 'String'>
+  readonly logoUrl: Prisma.FieldRef<"Company", 'String'>
   readonly createdAt: Prisma.FieldRef<"Company", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Company", 'DateTime'>
 }
@@ -1274,6 +1468,30 @@ export type Company$interviewsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.InterviewExperienceScalarFieldEnum | Prisma.InterviewExperienceScalarFieldEnum[]
+}
+
+/**
+ * Company.drives
+ */
+export type Company$drivesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PlacementDrive
+   */
+  select?: Prisma.PlacementDriveSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PlacementDrive
+   */
+  omit?: Prisma.PlacementDriveOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlacementDriveInclude<ExtArgs> | null
+  where?: Prisma.PlacementDriveWhereInput
+  orderBy?: Prisma.PlacementDriveOrderByWithRelationInput | Prisma.PlacementDriveOrderByWithRelationInput[]
+  cursor?: Prisma.PlacementDriveWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PlacementDriveScalarFieldEnum | Prisma.PlacementDriveScalarFieldEnum[]
 }
 
 /**

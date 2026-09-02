@@ -105,17 +105,81 @@ model ConnectRequest {
   @@index([status])
 }
 
+enum ElectiveBasket {
+  ELECTIVE_I
+  ELECTIVE_II
+  ELECTIVE_III
+}
+
+enum CourseType {
+  THEORY
+  SESSIONAL
+}
+
+enum SemesterTerm {
+  BRIDGE
+  SEM_1
+  SEM_2
+  SEM_3
+  SEM_4
+}
 
 // Course & Resource Models
 
 model Course {
-  id   String @id @default(cuid())
-  name String @unique
+  code            String           @id
+  name            String           @unique
 
-  resources Resource[]
+  resources       Resource[]
+  elective        Elective?
+  semesterMapping SemesterMapping?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model SemesterMapping {
+  id             String       @id @default(cuid())
+  year           Int          // 0 = Bridge, 1 = 1st Year, 2 = 2nd Year
+  semester       SemesterTerm // BRIDGE, SEM_1, SEM_2, SEM_3, SEM_4
+  semesterNumber Int          // 0 = Bridge, 1, 2, 3, 4
+  type           CourseType   @default(THEORY)
+
+  // Periods / Weeks
+  periodL        Int          @default(0) // Lecture periods/week
+  periodT        Int          @default(0) // Tutorial periods/week
+  periodP        Int          @default(0) // Practical periods/week
+
+  // Marks Distribution
+  examMarks      Int          @default(0) // Examination Marks
+  sessionalMarks Int          @default(0) // Sessional Marks
+  totalMarks     Int          @default(100) // Total Marks
+
+  // Credit Points
+  creditPoints   Int          @default(3) // Credit Points
+
+  courseCode     String       @unique
+  course         Course       @relation(fields: [courseCode], references: [code], onDelete: Cascade)
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([year, semester])
+  @@index([semesterNumber])
+  @@index([type])
+}
+
+model Elective {
+  id         String         @id @default(cuid())
+  basket     ElectiveBasket
+  semester   String         @default("3")
+  courseCode String         @unique
+  course     Course         @relation(fields: [courseCode], references: [code], onDelete: Cascade)
+
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@index([basket])
 }
 
 model Resource {
@@ -127,11 +191,11 @@ model Resource {
   approved    Boolean          @default(false)
   downloads   Int              @default(0)
 
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id])
+  courseCode String
+  course     Course           @relation(fields: [courseCode], references: [code])
 
   uploaderId String
-  uploader   User   @relation(fields: [uploaderId], references: [id])
+  uploader   User             @relation(fields: [uploaderId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -27,3 +27,48 @@ export const ResourceCategory = {
 } as const
 
 export type ResourceCategory = (typeof ResourceCategory)[keyof typeof ResourceCategory]
+
+
+export const ConnectRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ConnectRequestStatus = (typeof ConnectRequestStatus)[keyof typeof ConnectRequestStatus]
+
+
+export const ElectiveBasket = {
+  ELECTIVE_I: 'ELECTIVE_I',
+  ELECTIVE_II: 'ELECTIVE_II',
+  ELECTIVE_III: 'ELECTIVE_III'
+} as const
+
+export type ElectiveBasket = (typeof ElectiveBasket)[keyof typeof ElectiveBasket]
+
+
+export const CourseType = {
+  THEORY: 'THEORY',
+  SESSIONAL: 'SESSIONAL'
+} as const
+
+export type CourseType = (typeof CourseType)[keyof typeof CourseType]
+
+
+export const SemesterTerm = {
+  BRIDGE: 'BRIDGE',
+  SEM_1: 'SEM_1',
+  SEM_2: 'SEM_2',
+  SEM_3: 'SEM_3',
+  SEM_4: 'SEM_4'
+} as const
+
+export type SemesterTerm = (typeof SemesterTerm)[keyof typeof SemesterTerm]
+
+
+export const OfferStatus = {
+  OFFERED: 'OFFERED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type OfferStatus = (typeof OfferStatus)[keyof typeof OfferStatus]

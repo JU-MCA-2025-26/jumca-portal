@@ -42,7 +42,7 @@ export type ResourceMinAggregateOutputType = {
   category: $Enums.ResourceCategory | null
   approved: boolean | null
   downloads: number | null
-  courseId: string | null
+  courseCode: string | null
   uploaderId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -56,7 +56,7 @@ export type ResourceMaxAggregateOutputType = {
   category: $Enums.ResourceCategory | null
   approved: boolean | null
   downloads: number | null
-  courseId: string | null
+  courseCode: string | null
   uploaderId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -70,7 +70,7 @@ export type ResourceCountAggregateOutputType = {
   category: number
   approved: number
   downloads: number
-  courseId: number
+  courseCode: number
   uploaderId: number
   createdAt: number
   updatedAt: number
@@ -94,7 +94,7 @@ export type ResourceMinAggregateInputType = {
   category?: true
   approved?: true
   downloads?: true
-  courseId?: true
+  courseCode?: true
   uploaderId?: true
   createdAt?: true
   updatedAt?: true
@@ -108,7 +108,7 @@ export type ResourceMaxAggregateInputType = {
   category?: true
   approved?: true
   downloads?: true
-  courseId?: true
+  courseCode?: true
   uploaderId?: true
   createdAt?: true
   updatedAt?: true
@@ -122,7 +122,7 @@ export type ResourceCountAggregateInputType = {
   category?: true
   approved?: true
   downloads?: true
-  courseId?: true
+  courseCode?: true
   uploaderId?: true
   createdAt?: true
   updatedAt?: true
@@ -223,7 +223,7 @@ export type ResourceGroupByOutputType = {
   category: $Enums.ResourceCategory
   approved: boolean
   downloads: number
-  courseId: string
+  courseCode: string
   uploaderId: string
   createdAt: Date
   updatedAt: Date
@@ -260,7 +260,7 @@ export type ResourceWhereInput = {
   category?: Prisma.EnumResourceCategoryFilter<"Resource"> | $Enums.ResourceCategory
   approved?: Prisma.BoolFilter<"Resource"> | boolean
   downloads?: Prisma.IntFilter<"Resource"> | number
-  courseId?: Prisma.StringFilter<"Resource"> | string
+  courseCode?: Prisma.StringFilter<"Resource"> | string
   uploaderId?: Prisma.StringFilter<"Resource"> | string
   createdAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
@@ -276,7 +276,7 @@ export type ResourceOrderByWithRelationInput = {
   category?: Prisma.SortOrder
   approved?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
-  courseId?: Prisma.SortOrder
+  courseCode?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -295,7 +295,7 @@ export type ResourceWhereUniqueInput = Prisma.AtLeast<{
   category?: Prisma.EnumResourceCategoryFilter<"Resource"> | $Enums.ResourceCategory
   approved?: Prisma.BoolFilter<"Resource"> | boolean
   downloads?: Prisma.IntFilter<"Resource"> | number
-  courseId?: Prisma.StringFilter<"Resource"> | string
+  courseCode?: Prisma.StringFilter<"Resource"> | string
   uploaderId?: Prisma.StringFilter<"Resource"> | string
   createdAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
@@ -311,7 +311,7 @@ export type ResourceOrderByWithAggregationInput = {
   category?: Prisma.SortOrder
   approved?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
-  courseId?: Prisma.SortOrder
+  courseCode?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -333,7 +333,7 @@ export type ResourceScalarWhereWithAggregatesInput = {
   category?: Prisma.EnumResourceCategoryWithAggregatesFilter<"Resource"> | $Enums.ResourceCategory
   approved?: Prisma.BoolWithAggregatesFilter<"Resource"> | boolean
   downloads?: Prisma.IntWithAggregatesFilter<"Resource"> | number
-  courseId?: Prisma.StringWithAggregatesFilter<"Resource"> | string
+  courseCode?: Prisma.StringWithAggregatesFilter<"Resource"> | string
   uploaderId?: Prisma.StringWithAggregatesFilter<"Resource"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Resource"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Resource"> | Date | string
@@ -361,7 +361,7 @@ export type ResourceUncheckedCreateInput = {
   category: $Enums.ResourceCategory
   approved?: boolean
   downloads?: number
-  courseId: string
+  courseCode: string
   uploaderId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -389,7 +389,7 @@ export type ResourceUncheckedUpdateInput = {
   category?: Prisma.EnumResourceCategoryFieldUpdateOperationsInput | $Enums.ResourceCategory
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  courseId?: Prisma.StringFieldUpdateOperationsInput | string
+  courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -403,7 +403,7 @@ export type ResourceCreateManyInput = {
   category: $Enums.ResourceCategory
   approved?: boolean
   downloads?: number
-  courseId: string
+  courseCode: string
   uploaderId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -429,7 +429,7 @@ export type ResourceUncheckedUpdateManyInput = {
   category?: Prisma.EnumResourceCategoryFieldUpdateOperationsInput | $Enums.ResourceCategory
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  courseId?: Prisma.StringFieldUpdateOperationsInput | string
+  courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -453,7 +453,7 @@ export type ResourceCountOrderByAggregateInput = {
   category?: Prisma.SortOrder
   approved?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
-  courseId?: Prisma.SortOrder
+  courseCode?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -471,7 +471,7 @@ export type ResourceMaxOrderByAggregateInput = {
   category?: Prisma.SortOrder
   approved?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
-  courseId?: Prisma.SortOrder
+  courseCode?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -485,7 +485,7 @@ export type ResourceMinOrderByAggregateInput = {
   category?: Prisma.SortOrder
   approved?: Prisma.SortOrder
   downloads?: Prisma.SortOrder
-  courseId?: Prisma.SortOrder
+  courseCode?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -583,14 +583,6 @@ export type EnumResourceCategoryFieldUpdateOperationsInput = {
   set?: $Enums.ResourceCategory
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type ResourceCreateWithoutUploaderInput = {
   id?: string
   title: string
@@ -612,7 +604,7 @@ export type ResourceUncheckedCreateWithoutUploaderInput = {
   category: $Enums.ResourceCategory
   approved?: boolean
   downloads?: number
-  courseId: string
+  courseCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -654,7 +646,7 @@ export type ResourceScalarWhereInput = {
   category?: Prisma.EnumResourceCategoryFilter<"Resource"> | $Enums.ResourceCategory
   approved?: Prisma.BoolFilter<"Resource"> | boolean
   downloads?: Prisma.IntFilter<"Resource"> | number
-  courseId?: Prisma.StringFilter<"Resource"> | string
+  courseCode?: Prisma.StringFilter<"Resource"> | string
   uploaderId?: Prisma.StringFilter<"Resource"> | string
   createdAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resource"> | Date | string
@@ -720,7 +712,7 @@ export type ResourceCreateManyUploaderInput = {
   category: $Enums.ResourceCategory
   approved?: boolean
   downloads?: number
-  courseId: string
+  courseCode: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -746,7 +738,7 @@ export type ResourceUncheckedUpdateWithoutUploaderInput = {
   category?: Prisma.EnumResourceCategoryFieldUpdateOperationsInput | $Enums.ResourceCategory
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  courseId?: Prisma.StringFieldUpdateOperationsInput | string
+  courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -759,7 +751,7 @@ export type ResourceUncheckedUpdateManyWithoutUploaderInput = {
   category?: Prisma.EnumResourceCategoryFieldUpdateOperationsInput | $Enums.ResourceCategory
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   downloads?: Prisma.IntFieldUpdateOperationsInput | number
-  courseId?: Prisma.StringFieldUpdateOperationsInput | string
+  courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -826,7 +818,7 @@ export type ResourceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   category?: boolean
   approved?: boolean
   downloads?: boolean
-  courseId?: boolean
+  courseCode?: boolean
   uploaderId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -842,7 +834,7 @@ export type ResourceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   category?: boolean
   approved?: boolean
   downloads?: boolean
-  courseId?: boolean
+  courseCode?: boolean
   uploaderId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -858,7 +850,7 @@ export type ResourceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   category?: boolean
   approved?: boolean
   downloads?: boolean
-  courseId?: boolean
+  courseCode?: boolean
   uploaderId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -874,13 +866,13 @@ export type ResourceSelectScalar = {
   category?: boolean
   approved?: boolean
   downloads?: boolean
-  courseId?: boolean
+  courseCode?: boolean
   uploaderId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ResourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "fileUrl" | "category" | "approved" | "downloads" | "courseId" | "uploaderId" | "createdAt" | "updatedAt", ExtArgs["result"]["resource"]>
+export type ResourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "fileUrl" | "category" | "approved" | "downloads" | "courseCode" | "uploaderId" | "createdAt" | "updatedAt", ExtArgs["result"]["resource"]>
 export type ResourceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -908,7 +900,7 @@ export type $ResourcePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     category: $Enums.ResourceCategory
     approved: boolean
     downloads: number
-    courseId: string
+    courseCode: string
     uploaderId: string
     createdAt: Date
     updatedAt: Date
@@ -1344,7 +1336,7 @@ export interface ResourceFieldRefs {
   readonly category: Prisma.FieldRef<"Resource", 'ResourceCategory'>
   readonly approved: Prisma.FieldRef<"Resource", 'Boolean'>
   readonly downloads: Prisma.FieldRef<"Resource", 'Int'>
-  readonly courseId: Prisma.FieldRef<"Resource", 'String'>
+  readonly courseCode: Prisma.FieldRef<"Resource", 'String'>
   readonly uploaderId: Prisma.FieldRef<"Resource", 'String'>
   readonly createdAt: Prisma.FieldRef<"Resource", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Resource", 'DateTime'>

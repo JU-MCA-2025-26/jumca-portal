@@ -53,8 +53,14 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Profile: 'Profile',
+  ConnectRequest: 'ConnectRequest',
   Course: 'Course',
+  SemesterMapping: 'SemesterMapping',
+  Elective: 'Elective',
   Resource: 'Resource',
+  PlacementDrive: 'PlacementDrive',
+  PlacementOffer: 'PlacementOffer',
+  DriveResource: 'DriveResource',
   Company: 'Company',
   InterviewExperience: 'InterviewExperience',
   InterviewRound: 'InterviewRound',
@@ -98,11 +104,19 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const ProfileScalarFieldEnum = {
   id: 'id',
+  avatarUrl: 'avatarUrl',
   bio: 'bio',
   github: 'github',
   leetcode: 'leetcode',
   gfg: 'gfg',
   codeforces: 'codeforces',
+  company: 'company',
+  jobRole: 'jobRole',
+  location: 'location',
+  tags: 'tags',
+  graduationYear: 'graduationYear',
+  linkedinUrl: 'linkedinUrl',
+  openToConnect: 'openToConnect',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -111,14 +125,60 @@ export const ProfileScalarFieldEnum = {
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
 
 
-export const CourseScalarFieldEnum = {
+export const ConnectRequestScalarFieldEnum = {
   id: 'id',
+  message: 'message',
+  status: 'status',
+  requesterId: 'requesterId',
+  alumniId: 'alumniId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ConnectRequestScalarFieldEnum = (typeof ConnectRequestScalarFieldEnum)[keyof typeof ConnectRequestScalarFieldEnum]
+
+
+export const CourseScalarFieldEnum = {
+  code: 'code',
   name: 'name',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+
+
+export const SemesterMappingScalarFieldEnum = {
+  id: 'id',
+  year: 'year',
+  semester: 'semester',
+  semesterNumber: 'semesterNumber',
+  type: 'type',
+  periodL: 'periodL',
+  periodT: 'periodT',
+  periodP: 'periodP',
+  examMarks: 'examMarks',
+  sessionalMarks: 'sessionalMarks',
+  totalMarks: 'totalMarks',
+  creditPoints: 'creditPoints',
+  courseCode: 'courseCode',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SemesterMappingScalarFieldEnum = (typeof SemesterMappingScalarFieldEnum)[keyof typeof SemesterMappingScalarFieldEnum]
+
+
+export const ElectiveScalarFieldEnum = {
+  id: 'id',
+  basket: 'basket',
+  semester: 'semester',
+  courseCode: 'courseCode',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ElectiveScalarFieldEnum = (typeof ElectiveScalarFieldEnum)[keyof typeof ElectiveScalarFieldEnum]
 
 
 export const ResourceScalarFieldEnum = {
@@ -129,7 +189,7 @@ export const ResourceScalarFieldEnum = {
   category: 'category',
   approved: 'approved',
   downloads: 'downloads',
-  courseId: 'courseId',
+  courseCode: 'courseCode',
   uploaderId: 'uploaderId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -138,9 +198,56 @@ export const ResourceScalarFieldEnum = {
 export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
 
 
+export const PlacementDriveScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  role: 'role',
+  driveDate: 'driveDate',
+  minCTC: 'minCTC',
+  maxCTC: 'maxCTC',
+  minCGPA: 'minCGPA',
+  description: 'description',
+  status: 'status',
+  sector: 'sector',
+  jd: 'jd',
+  applyLink: 'applyLink',
+  createdAt: 'createdAt'
+} as const
+
+export type PlacementDriveScalarFieldEnum = (typeof PlacementDriveScalarFieldEnum)[keyof typeof PlacementDriveScalarFieldEnum]
+
+
+export const PlacementOfferScalarFieldEnum = {
+  id: 'id',
+  driveId: 'driveId',
+  userId: 'userId',
+  status: 'status',
+  ctc: 'ctc',
+  role: 'role'
+} as const
+
+export type PlacementOfferScalarFieldEnum = (typeof PlacementOfferScalarFieldEnum)[keyof typeof PlacementOfferScalarFieldEnum]
+
+
+export const DriveResourceScalarFieldEnum = {
+  id: 'id',
+  driveId: 'driveId',
+  uploadedBy: 'uploadedBy',
+  title: 'title',
+  fileUrl: 'fileUrl',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type DriveResourceScalarFieldEnum = (typeof DriveResourceScalarFieldEnum)[keyof typeof DriveResourceScalarFieldEnum]
+
+
 export const CompanyScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  sector: 'sector',
+  website: 'website',
+  logoUrl: 'logoUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

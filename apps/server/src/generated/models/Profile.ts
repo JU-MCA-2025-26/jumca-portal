@@ -20,17 +20,34 @@ export type ProfileModel = runtime.Types.Result.DefaultSelection<Prisma.$Profile
 
 export type AggregateProfile = {
   _count: ProfileCountAggregateOutputType | null
+  _avg: ProfileAvgAggregateOutputType | null
+  _sum: ProfileSumAggregateOutputType | null
   _min: ProfileMinAggregateOutputType | null
   _max: ProfileMaxAggregateOutputType | null
 }
 
+export type ProfileAvgAggregateOutputType = {
+  graduationYear: number | null
+}
+
+export type ProfileSumAggregateOutputType = {
+  graduationYear: number | null
+}
+
 export type ProfileMinAggregateOutputType = {
   id: string | null
+  avatarUrl: string | null
   bio: string | null
   github: string | null
   leetcode: string | null
   gfg: string | null
   codeforces: string | null
+  company: string | null
+  jobRole: string | null
+  location: string | null
+  graduationYear: number | null
+  linkedinUrl: string | null
+  openToConnect: boolean | null
   userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -38,11 +55,18 @@ export type ProfileMinAggregateOutputType = {
 
 export type ProfileMaxAggregateOutputType = {
   id: string | null
+  avatarUrl: string | null
   bio: string | null
   github: string | null
   leetcode: string | null
   gfg: string | null
   codeforces: string | null
+  company: string | null
+  jobRole: string | null
+  location: string | null
+  graduationYear: number | null
+  linkedinUrl: string | null
+  openToConnect: boolean | null
   userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -50,11 +74,19 @@ export type ProfileMaxAggregateOutputType = {
 
 export type ProfileCountAggregateOutputType = {
   id: number
+  avatarUrl: number
   bio: number
   github: number
   leetcode: number
   gfg: number
   codeforces: number
+  company: number
+  jobRole: number
+  location: number
+  tags: number
+  graduationYear: number
+  linkedinUrl: number
+  openToConnect: number
   userId: number
   createdAt: number
   updatedAt: number
@@ -62,13 +94,28 @@ export type ProfileCountAggregateOutputType = {
 }
 
 
+export type ProfileAvgAggregateInputType = {
+  graduationYear?: true
+}
+
+export type ProfileSumAggregateInputType = {
+  graduationYear?: true
+}
+
 export type ProfileMinAggregateInputType = {
   id?: true
+  avatarUrl?: true
   bio?: true
   github?: true
   leetcode?: true
   gfg?: true
   codeforces?: true
+  company?: true
+  jobRole?: true
+  location?: true
+  graduationYear?: true
+  linkedinUrl?: true
+  openToConnect?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -76,11 +123,18 @@ export type ProfileMinAggregateInputType = {
 
 export type ProfileMaxAggregateInputType = {
   id?: true
+  avatarUrl?: true
   bio?: true
   github?: true
   leetcode?: true
   gfg?: true
   codeforces?: true
+  company?: true
+  jobRole?: true
+  location?: true
+  graduationYear?: true
+  linkedinUrl?: true
+  openToConnect?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -88,11 +142,19 @@ export type ProfileMaxAggregateInputType = {
 
 export type ProfileCountAggregateInputType = {
   id?: true
+  avatarUrl?: true
   bio?: true
   github?: true
   leetcode?: true
   gfg?: true
   codeforces?: true
+  company?: true
+  jobRole?: true
+  location?: true
+  tags?: true
+  graduationYear?: true
+  linkedinUrl?: true
+  openToConnect?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -137,6 +199,18 @@ export type ProfileAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ProfileAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ProfileSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ProfileMinAggregateInputType
@@ -167,21 +241,33 @@ export type ProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: ProfileCountAggregateInputType | true
+  _avg?: ProfileAvgAggregateInputType
+  _sum?: ProfileSumAggregateInputType
   _min?: ProfileMinAggregateInputType
   _max?: ProfileMaxAggregateInputType
 }
 
 export type ProfileGroupByOutputType = {
   id: string
+  avatarUrl: string | null
   bio: string | null
   github: string | null
   leetcode: string | null
   gfg: string | null
   codeforces: string | null
+  company: string | null
+  jobRole: string | null
+  location: string | null
+  tags: string[]
+  graduationYear: number | null
+  linkedinUrl: string | null
+  openToConnect: boolean
   userId: string
   createdAt: Date
   updatedAt: Date
   _count: ProfileCountAggregateOutputType | null
+  _avg: ProfileAvgAggregateOutputType | null
+  _sum: ProfileSumAggregateOutputType | null
   _min: ProfileMinAggregateOutputType | null
   _max: ProfileMaxAggregateOutputType | null
 }
@@ -206,11 +292,19 @@ export type ProfileWhereInput = {
   OR?: Prisma.ProfileWhereInput[]
   NOT?: Prisma.ProfileWhereInput | Prisma.ProfileWhereInput[]
   id?: Prisma.StringFilter<"Profile"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
   bio?: Prisma.StringNullableFilter<"Profile"> | string | null
   github?: Prisma.StringNullableFilter<"Profile"> | string | null
   leetcode?: Prisma.StringNullableFilter<"Profile"> | string | null
   gfg?: Prisma.StringNullableFilter<"Profile"> | string | null
   codeforces?: Prisma.StringNullableFilter<"Profile"> | string | null
+  company?: Prisma.StringNullableFilter<"Profile"> | string | null
+  jobRole?: Prisma.StringNullableFilter<"Profile"> | string | null
+  location?: Prisma.StringNullableFilter<"Profile"> | string | null
+  tags?: Prisma.StringNullableListFilter<"Profile">
+  graduationYear?: Prisma.IntNullableFilter<"Profile"> | number | null
+  linkedinUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
+  openToConnect?: Prisma.BoolFilter<"Profile"> | boolean
   userId?: Prisma.StringFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
@@ -219,11 +313,19 @@ export type ProfileWhereInput = {
 
 export type ProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   github?: Prisma.SortOrderInput | Prisma.SortOrder
   leetcode?: Prisma.SortOrderInput | Prisma.SortOrder
   gfg?: Prisma.SortOrderInput | Prisma.SortOrder
   codeforces?: Prisma.SortOrderInput | Prisma.SortOrder
+  company?: Prisma.SortOrderInput | Prisma.SortOrder
+  jobRole?: Prisma.SortOrderInput | Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  graduationYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  linkedinUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  openToConnect?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -236,11 +338,19 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ProfileWhereInput | Prisma.ProfileWhereInput[]
   OR?: Prisma.ProfileWhereInput[]
   NOT?: Prisma.ProfileWhereInput | Prisma.ProfileWhereInput[]
+  avatarUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
   bio?: Prisma.StringNullableFilter<"Profile"> | string | null
   github?: Prisma.StringNullableFilter<"Profile"> | string | null
   leetcode?: Prisma.StringNullableFilter<"Profile"> | string | null
   gfg?: Prisma.StringNullableFilter<"Profile"> | string | null
   codeforces?: Prisma.StringNullableFilter<"Profile"> | string | null
+  company?: Prisma.StringNullableFilter<"Profile"> | string | null
+  jobRole?: Prisma.StringNullableFilter<"Profile"> | string | null
+  location?: Prisma.StringNullableFilter<"Profile"> | string | null
+  tags?: Prisma.StringNullableListFilter<"Profile">
+  graduationYear?: Prisma.IntNullableFilter<"Profile"> | number | null
+  linkedinUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
+  openToConnect?: Prisma.BoolFilter<"Profile"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Profile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -248,17 +358,27 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
 
 export type ProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   github?: Prisma.SortOrderInput | Prisma.SortOrder
   leetcode?: Prisma.SortOrderInput | Prisma.SortOrder
   gfg?: Prisma.SortOrderInput | Prisma.SortOrder
   codeforces?: Prisma.SortOrderInput | Prisma.SortOrder
+  company?: Prisma.SortOrderInput | Prisma.SortOrder
+  jobRole?: Prisma.SortOrderInput | Prisma.SortOrder
+  location?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  graduationYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  linkedinUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  openToConnect?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ProfileCountOrderByAggregateInput
+  _avg?: Prisma.ProfileAvgOrderByAggregateInput
   _max?: Prisma.ProfileMaxOrderByAggregateInput
   _min?: Prisma.ProfileMinOrderByAggregateInput
+  _sum?: Prisma.ProfileSumOrderByAggregateInput
 }
 
 export type ProfileScalarWhereWithAggregatesInput = {
@@ -266,11 +386,19 @@ export type ProfileScalarWhereWithAggregatesInput = {
   OR?: Prisma.ProfileScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ProfileScalarWhereWithAggregatesInput | Prisma.ProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Profile"> | string
+  avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   github?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   leetcode?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   gfg?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   codeforces?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  company?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  jobRole?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  location?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  tags?: Prisma.StringNullableListFilter<"Profile">
+  graduationYear?: Prisma.IntNullableWithAggregatesFilter<"Profile"> | number | null
+  linkedinUrl?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  openToConnect?: Prisma.BoolWithAggregatesFilter<"Profile"> | boolean
   userId?: Prisma.StringWithAggregatesFilter<"Profile"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Profile"> | Date | string
@@ -278,11 +406,19 @@ export type ProfileScalarWhereWithAggregatesInput = {
 
 export type ProfileCreateInput = {
   id?: string
+  avatarUrl?: string | null
   bio?: string | null
   github?: string | null
   leetcode?: string | null
   gfg?: string | null
   codeforces?: string | null
+  company?: string | null
+  jobRole?: string | null
+  location?: string | null
+  tags?: Prisma.ProfileCreatetagsInput | string[]
+  graduationYear?: number | null
+  linkedinUrl?: string | null
+  openToConnect?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutProfileInput
@@ -290,11 +426,19 @@ export type ProfileCreateInput = {
 
 export type ProfileUncheckedCreateInput = {
   id?: string
+  avatarUrl?: string | null
   bio?: string | null
   github?: string | null
   leetcode?: string | null
   gfg?: string | null
   codeforces?: string | null
+  company?: string | null
+  jobRole?: string | null
+  location?: string | null
+  tags?: Prisma.ProfileCreatetagsInput | string[]
+  graduationYear?: number | null
+  linkedinUrl?: string | null
+  openToConnect?: boolean
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -302,11 +446,19 @@ export type ProfileUncheckedCreateInput = {
 
 export type ProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.ProfileUpdatetagsInput | string[]
+  graduationYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  openToConnect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutProfileNestedInput
@@ -314,11 +466,19 @@ export type ProfileUpdateInput = {
 
 export type ProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.ProfileUpdatetagsInput | string[]
+  graduationYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  openToConnect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -326,11 +486,19 @@ export type ProfileUncheckedUpdateInput = {
 
 export type ProfileCreateManyInput = {
   id?: string
+  avatarUrl?: string | null
   bio?: string | null
   github?: string | null
   leetcode?: string | null
   gfg?: string | null
   codeforces?: string | null
+  company?: string | null
+  jobRole?: string | null
+  location?: string | null
+  tags?: Prisma.ProfileCreatetagsInput | string[]
+  graduationYear?: number | null
+  linkedinUrl?: string | null
+  openToConnect?: boolean
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -338,22 +506,38 @@ export type ProfileCreateManyInput = {
 
 export type ProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.ProfileUpdatetagsInput | string[]
+  graduationYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  openToConnect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.ProfileUpdatetagsInput | string[]
+  graduationYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  openToConnect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -364,25 +548,52 @@ export type ProfileNullableScalarRelationFilter = {
   isNot?: Prisma.ProfileWhereInput | null
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type ProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   github?: Prisma.SortOrder
   leetcode?: Prisma.SortOrder
   gfg?: Prisma.SortOrder
   codeforces?: Prisma.SortOrder
+  company?: Prisma.SortOrder
+  jobRole?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  graduationYear?: Prisma.SortOrder
+  linkedinUrl?: Prisma.SortOrder
+  openToConnect?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
+export type ProfileAvgOrderByAggregateInput = {
+  graduationYear?: Prisma.SortOrder
+}
+
 export type ProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   github?: Prisma.SortOrder
   leetcode?: Prisma.SortOrder
   gfg?: Prisma.SortOrder
   codeforces?: Prisma.SortOrder
+  company?: Prisma.SortOrder
+  jobRole?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  graduationYear?: Prisma.SortOrder
+  linkedinUrl?: Prisma.SortOrder
+  openToConnect?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -390,14 +601,25 @@ export type ProfileMaxOrderByAggregateInput = {
 
 export type ProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   github?: Prisma.SortOrder
   leetcode?: Prisma.SortOrder
   gfg?: Prisma.SortOrder
   codeforces?: Prisma.SortOrder
+  company?: Prisma.SortOrder
+  jobRole?: Prisma.SortOrder
+  location?: Prisma.SortOrder
+  graduationYear?: Prisma.SortOrder
+  linkedinUrl?: Prisma.SortOrder
+  openToConnect?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ProfileSumOrderByAggregateInput = {
+  graduationYear?: Prisma.SortOrder
 }
 
 export type ProfileCreateNestedOneWithoutUserInput = {
@@ -432,24 +654,57 @@ export type ProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProfileUpdateToOneWithWhereWithoutUserInput, Prisma.ProfileUpdateWithoutUserInput>, Prisma.ProfileUncheckedUpdateWithoutUserInput>
 }
 
+export type ProfileCreatetagsInput = {
+  set: string[]
+}
+
+export type ProfileUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type ProfileCreateWithoutUserInput = {
   id?: string
+  avatarUrl?: string | null
   bio?: string | null
   github?: string | null
   leetcode?: string | null
   gfg?: string | null
   codeforces?: string | null
+  company?: string | null
+  jobRole?: string | null
+  location?: string | null
+  tags?: Prisma.ProfileCreatetagsInput | string[]
+  graduationYear?: number | null
+  linkedinUrl?: string | null
+  openToConnect?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ProfileUncheckedCreateWithoutUserInput = {
   id?: string
+  avatarUrl?: string | null
   bio?: string | null
   github?: string | null
   leetcode?: string | null
   gfg?: string | null
   codeforces?: string | null
+  company?: string | null
+  jobRole?: string | null
+  location?: string | null
+  tags?: Prisma.ProfileCreatetagsInput | string[]
+  graduationYear?: number | null
+  linkedinUrl?: string | null
+  openToConnect?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -472,22 +727,38 @@ export type ProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type ProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.ProfileUpdatetagsInput | string[]
+  graduationYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  openToConnect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leetcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gfg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codeforces?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobRole?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.ProfileUpdatetagsInput | string[]
+  graduationYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  openToConnect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -496,11 +767,19 @@ export type ProfileUncheckedUpdateWithoutUserInput = {
 
 export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  avatarUrl?: boolean
   bio?: boolean
   github?: boolean
   leetcode?: boolean
   gfg?: boolean
   codeforces?: boolean
+  company?: boolean
+  jobRole?: boolean
+  location?: boolean
+  tags?: boolean
+  graduationYear?: boolean
+  linkedinUrl?: boolean
+  openToConnect?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -509,11 +788,19 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 
 export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  avatarUrl?: boolean
   bio?: boolean
   github?: boolean
   leetcode?: boolean
   gfg?: boolean
   codeforces?: boolean
+  company?: boolean
+  jobRole?: boolean
+  location?: boolean
+  tags?: boolean
+  graduationYear?: boolean
+  linkedinUrl?: boolean
+  openToConnect?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -522,11 +809,19 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 
 export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  avatarUrl?: boolean
   bio?: boolean
   github?: boolean
   leetcode?: boolean
   gfg?: boolean
   codeforces?: boolean
+  company?: boolean
+  jobRole?: boolean
+  location?: boolean
+  tags?: boolean
+  graduationYear?: boolean
+  linkedinUrl?: boolean
+  openToConnect?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -535,17 +830,25 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 
 export type ProfileSelectScalar = {
   id?: boolean
+  avatarUrl?: boolean
   bio?: boolean
   github?: boolean
   leetcode?: boolean
   gfg?: boolean
   codeforces?: boolean
+  company?: boolean
+  jobRole?: boolean
+  location?: boolean
+  tags?: boolean
+  graduationYear?: boolean
+  linkedinUrl?: boolean
+  openToConnect?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "bio" | "github" | "leetcode" | "gfg" | "codeforces" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "avatarUrl" | "bio" | "github" | "leetcode" | "gfg" | "codeforces" | "company" | "jobRole" | "location" | "tags" | "graduationYear" | "linkedinUrl" | "openToConnect" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -563,11 +866,19 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    avatarUrl: string | null
     bio: string | null
     github: string | null
     leetcode: string | null
     gfg: string | null
     codeforces: string | null
+    company: string | null
+    jobRole: string | null
+    location: string | null
+    tags: string[]
+    graduationYear: number | null
+    linkedinUrl: string | null
+    openToConnect: boolean
     userId: string
     createdAt: Date
     updatedAt: Date
@@ -996,11 +1307,19 @@ export interface Prisma__ProfileClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface ProfileFieldRefs {
   readonly id: Prisma.FieldRef<"Profile", 'String'>
+  readonly avatarUrl: Prisma.FieldRef<"Profile", 'String'>
   readonly bio: Prisma.FieldRef<"Profile", 'String'>
   readonly github: Prisma.FieldRef<"Profile", 'String'>
   readonly leetcode: Prisma.FieldRef<"Profile", 'String'>
   readonly gfg: Prisma.FieldRef<"Profile", 'String'>
   readonly codeforces: Prisma.FieldRef<"Profile", 'String'>
+  readonly company: Prisma.FieldRef<"Profile", 'String'>
+  readonly jobRole: Prisma.FieldRef<"Profile", 'String'>
+  readonly location: Prisma.FieldRef<"Profile", 'String'>
+  readonly tags: Prisma.FieldRef<"Profile", 'String[]'>
+  readonly graduationYear: Prisma.FieldRef<"Profile", 'Int'>
+  readonly linkedinUrl: Prisma.FieldRef<"Profile", 'String'>
+  readonly openToConnect: Prisma.FieldRef<"Profile", 'Boolean'>
   readonly userId: Prisma.FieldRef<"Profile", 'String'>
   readonly createdAt: Prisma.FieldRef<"Profile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Profile", 'DateTime'>
