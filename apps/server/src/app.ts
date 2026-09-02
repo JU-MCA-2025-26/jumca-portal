@@ -1,10 +1,7 @@
 import express from "express";
-// @ts-expect-error The cors package does not include TypeScript declarations.
 import cors from "cors";
 import helmet from "helmet";
-// @ts-expect-error The cookie-parser package does not include TypeScript declarations.
 import cookieParser from "cookie-parser";
-// @ts-expect-error The morgan package does not include TypeScript declarations.
 import morgan from "morgan";
 import { doubleCsrf } from "csrf-csrf";
 
