@@ -32,8 +32,8 @@ app.use(
 
 app.set("trust proxy", 1);
 
-//CSRF protection
-const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
+// CSRF protection
+const { generateCsrfToken, doubleCsrfProtection: csrfProtection } = doubleCsrf({
   getSecret: () => process.env.CSRF_SECRET || "default-csrf-secret",
   getSessionIdentifier: (req) => req.cookies["access_token"] || "anonymous",
   cookieName: "csrf-token",
@@ -49,7 +49,7 @@ const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
 // Body parsing middleware
 app.use(express.json());
 app.use(cookieParser(env.COOKIE_SECRET));
-app.use(doubleCsrfProtection);
+app.use(csrfProtection);
 
 // Logging middleware
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
