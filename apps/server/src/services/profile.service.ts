@@ -102,7 +102,8 @@ class ProfileService {
     const sanitizedLocation = sanitizeString(data.location, 128);
     const sanitizedTags = sanitizeTags(data.tags);
     const sanitizedGradYear = sanitizeYear(data.graduationYear);
-    const sanitizedOpenToConnect = typeof data.openToConnect === "boolean" ? data.openToConnect : undefined;
+    const sanitizedOpenToConnect =
+      typeof data.openToConnect === "boolean" ? data.openToConnect : undefined;
 
     await prisma.profile.upsert({
       where: { userId },

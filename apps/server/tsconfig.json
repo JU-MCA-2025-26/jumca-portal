@@ -5,7 +5,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "lib": ["esnext"],
-    "types": ["node"],
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
 
     "outDir": "./dist",
     "rootDir": "./src",

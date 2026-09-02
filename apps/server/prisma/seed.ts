@@ -1,3 +1,5 @@
+// bcrypt does not ship TypeScript declarations in this project.
+// @ts-expect-error The package is used through its runtime API.
 import bcrypt from "bcrypt";
 import prisma from "../src/config/prisma.js";
 import { $Enums } from "../src/generated/client.js";

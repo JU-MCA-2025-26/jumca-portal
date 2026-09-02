@@ -6,12 +6,12 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "lint": "oxlint",
-    "lint:fix": "oxlint --fix",
-    "format": "prettier . --write",
-    "format:check": "prettier . --check",
+    "dev": "npx turbo dev",
+    "build": "npx turbo build",
+    "lint": "npx oxlint",
+    "lint:fix": "npx oxlint --fix",
+    "format": "npx prettier . --write",
+    "format:check": "npx prettier . --check",
     "client:dev": "npm --workspace @jumca/client run dev",
     "server:dev": "npm --workspace @jumca/server run dev",
     "client:build": "npm --workspace @jumca/client run build",
@@ -28,6 +28,10 @@
     "esbuild": true
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/ms": "^2.1.0",
+    "oxlint": "^0.15.11",
     "prettier": "^3.9.6",
     "turbo": "^2.10.8"
   },
