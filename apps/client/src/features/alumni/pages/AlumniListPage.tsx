@@ -5,6 +5,7 @@ import AlumniCard from "../components/AlumniCard.tsx";
 import YearFilterTabs from "../components/YearFilterTabs.tsx";
 import AlumniSearchBar from "../components/AlumniSearchBar.tsx";
 import type { AlumniListItem } from "@jumca/shared";
+import PageHeader from "@/components/layout/PageHeader.tsx";
 
 const PAGE_SIZE = 12;
 
@@ -34,11 +35,11 @@ export function AlumniListPage() {
 
   return (
     <div>
-      <p className="section-label mb-1">Alumni Network</p>
-      <h1 className="text-xl sm:text-2xl font-bold text-text tracking-tight">Our Seniors</h1>
-      <p className="mt-1 text-xs sm:text-sm text-text-secondary">
-        Connect with alumni for mentorship, referrals, and career guidance
-      </p>
+      <PageHeader
+        heading="alumni network"
+        title="our seniors"
+        subheading="Connect with alumni for mentorship, referrals, and career guidance"
+      />
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <YearFilterTabs

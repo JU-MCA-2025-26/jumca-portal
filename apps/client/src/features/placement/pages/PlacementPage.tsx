@@ -6,6 +6,7 @@ import { DriveCard } from "../components/DriveCard.tsx";
 import { DriveDetailModal } from "../components/DriveDetailModal.tsx";
 import { usePlacementStats, usePlacementDrives } from "../api/placements.ts";
 import type { DriveSector } from "../types/index.ts";
+import PageHeader from "@/components/layout/PageHeader.tsx";
 
 // Filter config
 const FILTERS: { label: string; value: DriveSector }[] = [
@@ -28,19 +29,12 @@ export function PlacementPage() {
     : "Current Season";
 
   return (
-    <div className="flex flex-col gap-6 p-6">
-      <div>
-        <p className="section-label mb-1">Career &amp; Placements</p>
-        <h1 className="text-xl sm:text-2xl font-bold text-text tracking-tight">Placement Portal</h1>
-        <p className="mt-1 text-xs sm:text-sm text-text-secondary">
-          {season}
-          {stats && (
-            <span className="hidden sm:inline">
-              {` — ${stats.eligibleCount} eligible students across batch`}
-            </span>
-          )}
-        </p>
-      </div>
+    <div className="flex flex-col gap-6">
+      <PageHeader
+        heading="career & placements"
+        title="placement portal"
+        subheading={`${season} ${stats && `— ${stats.eligibleCount} eligible students across batch`}`}
+      />
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard
