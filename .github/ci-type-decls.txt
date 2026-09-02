@@ -1,0 +1,1 @@
+CI: add missing type declarations for third-party modules
