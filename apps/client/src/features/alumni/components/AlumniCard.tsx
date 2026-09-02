@@ -23,9 +23,9 @@ export default function AlumniCard({ alumni }: AlumniCardProps) {
     >
       {/* Photo */}
       <div className="relative h-40 w-full overflow-hidden bg-surface2">
-        {alumni.avatarUrl ? (
+        {alumni.avatarUrl && /^https?:\/\//i.test(alumni.avatarUrl.trim()) ? (
           <img
-            src={alumni.avatarUrl}
+            src={alumni.avatarUrl.trim()}
             alt={alumni.fullName}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />

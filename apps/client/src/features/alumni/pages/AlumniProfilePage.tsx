@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAlumniProfile } from "../api/alumni.ts";
 import ConnectRequestModal from "../components/ConnectRequestModal.tsx";
 import { ArrowLeftIcon, ExternalLinkIcon, MapPinIcon } from "@/components/ui/Icons.tsx";
+import { buildExternalProfileUrl } from "@/features/profile/pages/0_profile_helpers.tsx";
 
 const EXTERNAL_LINKS: Array<{
   key: "github" | "leetcode" | "gfg" | "codeforces" | "linkedinUrl";
@@ -60,9 +61,9 @@ export function AlumniProfilePage() {
 
       <div className="card mt-4 overflow-hidden">
         <div className="relative h-48 w-full bg-surface2">
-          {profile.data.avatarUrl ? (
+          {profile.data.avatarUrl && /^https?:\/\//i.test(profile.data.avatarUrl.trim()) ? (
             <img
-              src={profile.data.avatarUrl}
+              src={profile.data.avatarUrl.trim()}
               alt={profile.data.fullName}
               className="h-full w-full object-cover"
             />
@@ -134,18 +135,23 @@ export function AlumniProfilePage() {
             <div className="mt-6">
               <p className="section-label mb-2">Links</p>
               <div className="flex flex-wrap gap-2">
-                {links.map((l) => (
-                  <a
-                    key={l.key}
-                    href={profile.data[l.key] as string}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="tag-base tag-primary flex items-center gap-1"
-                  >
-                    {l.label}
-                    <ExternalLinkIcon className="h-2.5 w-2.5" />
-                  </a>
-                ))}
+                {links.map((l) => {
+                  const rawVal = profile.data[l.key] as string;
+                  const safeHref = buildExternalProfileUrl(l.key, rawVal);
+                  if (!safeHref) return null;
+                  return (
+                    <a
+                      key={l.key}
+                      href={safeHref}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="tag-base tag-primary flex items-center gap-1"
+                    >
+                      {l.label}
+                      <ExternalLinkIcon className="h-2.5 w-2.5" />
+                    </a>
+                  );
+                })}
               </div>
             </div>
           )}
