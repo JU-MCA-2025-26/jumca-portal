@@ -50,22 +50,22 @@ const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
 app.use(express.json());
 app.use(cookieParser(env.COOKIE_SECRET));
 
+// Apply CSRF protection middleware immediately after cookieParser
+app.use(doubleCsrfProtection);
+
 // Logging middleware
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 
 // Rate limiting
 app.use(`${API_PREFIX}`, apiLimiter);
 
-// CSRF token generation route (must be available before CSRF enforcement)
+// CSRF token generation route
 app.get(`${API_PREFIX}/csrf-token`, (req, res) => {
   const token = generateCsrfToken(req, res);
   res.json({ csrfToken: token });
 });
 
 app.use(`${API_PREFIX}/health`, healthRoutes);
-
-// Apply CSRF protection to all routes under the API prefix
-app.use(doubleCsrfProtection);
 
 // Routes
 app.use(`${API_PREFIX}/auth`, authRoutes);

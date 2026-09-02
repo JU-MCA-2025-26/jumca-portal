@@ -195,6 +195,15 @@ const ICON_MAP: Record<string, React.ElementType> = {
 const ICON_OPTIONS = ["Trophy", "Code2", "Star", "Award", "Globe", "Shield"];
 
 // Helpers
+const sanitizeImageUrl = (url?: string | null): string => {
+  if (!url) return "";
+  const trimmed = url.trim();
+  if (/^(https?:\/\/|\/|data:image\/)/i.test(trimmed)) {
+    return trimmed;
+  }
+  return "";
+};
+
 const gradeColor = (grade: string): string => {
   if (["O", "A+", "A"].includes(grade)) return "text-success";
   if (grade === "A-") return "text-[#2dd4bf]";
@@ -607,8 +616,12 @@ const ProfileCard = ({
       {/* Avatar with hover overlay trigger */}
       <div className="flex justify-center -mt-10 mb-3">
         <div className="relative group h-20 w-20 rounded-xs border-2 border-border2 bg-surface2 flex items-center justify-center overflow-hidden">
-          {avatarUrl ? (
-            <img src={avatarUrl} alt={fullName} className="h-full w-full object-cover" />
+          {sanitizeImageUrl(avatarUrl) ? (
+            <img
+              src={sanitizeImageUrl(avatarUrl)}
+              alt={fullName}
+              className="h-full w-full object-cover"
+            />
           ) : (
             <User size={32} className="text-text-muted" />
           )}
@@ -872,14 +885,11 @@ export const ProfilePage = () => {
           <div className="space-y-4">
             <div className="flex justify-center">
               <div className="h-24 w-24 rounded-xs border-2 border-border2 bg-surface2 overflow-hidden flex items-center justify-center">
-                {tempImg ? (
+                {sanitizeImageUrl(tempImg) ? (
                   <img
-                    src={tempImg}
+                    src={sanitizeImageUrl(tempImg)}
                     alt="Preview"
                     className="h-full w-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = "";
-                    }}
                   />
                 ) : (
                   <User size={40} className="text-text-muted" />
