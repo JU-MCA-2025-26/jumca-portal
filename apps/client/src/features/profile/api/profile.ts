@@ -5,14 +5,18 @@ import type { AuthUser } from "@/features/auth/types/index.ts";
 
 // Update profile payload
 export interface UpdateProfilePayload {
+  fullName?: string;
+  avatarUrl?: string;
   bio?: string;
-  phone?: string;
   github?: string;
-  linkedin?: string;
+  linkedinUrl?: string;
   leetcode?: string;
   gfg?: string;
   codeforces?: string;
-  portfolio?: string;
+  tags?: string[];
+  company?: string;
+  jobRole?: string;
+  location?: string;
 }
 
 interface UpdateProfileResponse {
