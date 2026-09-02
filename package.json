@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/ms": "^2.1.0",
     "oxlint": "^0.15.11",
