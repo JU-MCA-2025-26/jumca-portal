@@ -663,14 +663,6 @@ export type ProfileUpdatetagsInput = {
   push?: string | string[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type ProfileCreateWithoutUserInput = {
   id?: string
   avatarUrl?: string | null

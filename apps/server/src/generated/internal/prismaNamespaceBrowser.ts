@@ -91,6 +91,8 @@ export const UserScalarFieldEnum = {
   fullName: 'fullName',
   role: 'role',
   batch: 'batch',
+  currentYear: 'currentYear',
+  currentSemester: 'currentSemester',
   isActive: 'isActive',
   refreshToken: 'refreshToken',
   resetPasswordToken: 'resetPasswordToken',
