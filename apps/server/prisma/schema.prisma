@@ -42,6 +42,8 @@ model User {
   fullName   String
   role       Role
   batch      String
+  currentYear     Int?
+  currentSemester SemesterTerm?
 
   isActive Boolean @default(true)
 

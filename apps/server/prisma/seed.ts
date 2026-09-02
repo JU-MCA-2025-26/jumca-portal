@@ -119,6 +119,8 @@ async function main() {
         rollNumber: s.rollNumber,
         batch: "2025-27",
         role: $Enums.Role.STUDENT,
+        currentYear: 2,
+        currentSemester: $Enums.SemesterTerm.SEM_3,
       },
       create: {
         fullName: s.fullName,
@@ -127,6 +129,8 @@ async function main() {
         password: studentPassword,
         role: $Enums.Role.STUDENT,
         batch: "2025-27",
+        currentYear: 2,
+        currentSemester: $Enums.SemesterTerm.SEM_3,
       },
     });
     createdStudents.push(user);

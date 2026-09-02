@@ -1513,6 +1513,8 @@ export const UserScalarFieldEnum = {
   fullName: 'fullName',
   role: 'role',
   batch: 'batch',
+  currentYear: 'currentYear',
+  currentSemester: 'currentSemester',
   isActive: 'isActive',
   refreshToken: 'refreshToken',
   resetPasswordToken: 'resetPasswordToken',
@@ -1777,6 +1779,34 @@ export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SemesterTerm'
+ */
+export type EnumSemesterTermFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SemesterTerm'>
+    
+
+
+/**
+ * Reference to a field of type 'SemesterTerm[]'
+ */
+export type ListEnumSemesterTermFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SemesterTerm[]'>
+    
+
+
+/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -1798,20 +1828,6 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
  * Reference to a field of type 'ConnectRequestStatus'
  */
 export type EnumConnectRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConnectRequestStatus'>
@@ -1822,20 +1838,6 @@ export type EnumConnectRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputT
  * Reference to a field of type 'ConnectRequestStatus[]'
  */
 export type ListEnumConnectRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConnectRequestStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'SemesterTerm'
- */
-export type EnumSemesterTermFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SemesterTerm'>
-    
-
-
-/**
- * Reference to a field of type 'SemesterTerm[]'
- */
-export type ListEnumSemesterTermFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SemesterTerm[]'>
     
 
 
