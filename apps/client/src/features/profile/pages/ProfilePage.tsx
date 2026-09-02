@@ -705,18 +705,27 @@ export const ProfilePage = () => {
           <div className="space-y-4">
             <div className="flex justify-center">
               <div className="h-24 w-24 rounded-xs border-2 border-border2 bg-surface2 overflow-hidden flex items-center justify-center">
-                {tempImg && /^https?:\/\//i.test(tempImg.trim()) ? (
-                  <img
-                    src={tempImg.trim()}
-                    alt="Preview"
-                    className="h-full w-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = "";
-                    }}
-                  />
-                ) : (
-                  <User size={40} className="text-text-muted" />
-                )}
+                {(() => {
+                  if (!tempImg) return <User size={40} className="text-text-muted" />;
+                  try {
+                    const parsed = new URL(tempImg.trim());
+                    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+                      return (
+                        <img
+                          src={parsed.href}
+                          alt="Preview"
+                          className="h-full w-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = "";
+                          }}
+                        />
+                      );
+                    }
+                  } catch {
+                    // Invalid URL
+                  }
+                  return <User size={40} className="text-text-muted" />;
+                })()}
               </div>
             </div>
             <div>
