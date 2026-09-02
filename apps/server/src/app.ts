@@ -49,6 +49,7 @@ const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
 // Body parsing middleware
 app.use(express.json());
 app.use(cookieParser(env.COOKIE_SECRET));
+app.use(doubleCsrfProtection);
 
 // Logging middleware
 app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
@@ -64,9 +65,6 @@ app.get(`${API_PREFIX}/csrf-token`, (req, res) => {
 
 // Health route (public)
 app.use(`${API_PREFIX}/health`, healthRoutes);
-
-// Protect all remaining routes with CSRF protection middleware
-app.use(doubleCsrfProtection);
 
 // Authenticated/State-modifying API Routes
 app.use(`${API_PREFIX}/auth`, authRoutes);
