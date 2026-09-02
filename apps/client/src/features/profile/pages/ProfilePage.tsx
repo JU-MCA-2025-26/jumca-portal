@@ -14,50 +14,119 @@ import {
   Plus,
   Trash2,
   Loader2,
+  BookOpen,
 } from "lucide-react";
 import { useAuth } from "@/features/auth/hooks/useAuth.ts";
 import EditProfileModal from "../components/EditProfileModal.tsx";
 import { useUpdateProfile } from "../api/profile.ts";
 import type { SemesterCourse, SemesterSGPA, Achievement } from "../types/index.ts";
 
+export interface ElectiveCourse {
+  code: string;
+  name: string;
+  credits: number;
+  category: "Core Elective" | "Open Elective";
+  desc: string;
+}
+
+const ELECTIVE_CATALOG: ElectiveCourse[] = [
+  {
+    code: "CS651",
+    name: "Artificial Intelligence",
+    credits: 3,
+    category: "Core Elective",
+    desc: "Search, planning, inference, neural networks.",
+  },
+  {
+    code: "CS652",
+    name: "Computer Vision",
+    credits: 3,
+    category: "Core Elective",
+    desc: "Image processing, object detection, CNNs.",
+  },
+  {
+    code: "CS653",
+    name: "Blockchain Technology",
+    credits: 3,
+    category: "Core Elective",
+    desc: "Distributed ledgers, consensus, smart contracts.",
+  },
+  {
+    code: "CS654",
+    name: "Cloud Computing",
+    credits: 3,
+    category: "Core Elective",
+    desc: "AWS/GCP fundamentals, microservices, serverless.",
+  },
+  {
+    code: "CS655",
+    name: "Natural Language Processing",
+    credits: 3,
+    category: "Core Elective",
+    desc: "Transformers, tokenization, LLM fine-tuning.",
+  },
+  {
+    code: "CS656",
+    name: "Embedded Systems",
+    credits: 3,
+    category: "Core Elective",
+    desc: "RTOS, microcontrollers, low-level programming.",
+  },
+  {
+    code: "CS657",
+    name: "Quantum Computing",
+    credits: 3,
+    category: "Core Elective",
+    desc: "Qubits, gates, Grover & Shor algorithms.",
+  },
+  {
+    code: "CS658",
+    name: "Cybersecurity & Cryptography",
+    credits: 3,
+    category: "Core Elective",
+    desc: "PKI, TLS, pen testing, secure software design.",
+  },
+  {
+    code: "HM601",
+    name: "Engineering Economics",
+    credits: 2,
+    category: "Open Elective",
+    desc: "Cost analysis, project evaluation, NPV/IRR.",
+  },
+  {
+    code: "HM602",
+    name: "Technical Communication",
+    credits: 2,
+    category: "Open Elective",
+    desc: "Writing reports, presentations, documentation.",
+  },
+  {
+    code: "HM603",
+    name: "Business Management",
+    credits: 2,
+    category: "Open Elective",
+    desc: "Strategy, operations, startup fundamentals.",
+  },
+  {
+    code: "HM604",
+    name: "Psychology of Design",
+    credits: 2,
+    category: "Open Elective",
+    desc: "Cognitive science applied to UI/UX design.",
+  },
+];
+
+const DEFAULT_ELECTIVES: ElectiveCourse[] = [
+  ELECTIVE_CATALOG[0], // CS651 Artificial Intelligence (Elective I)
+  ELECTIVE_CATALOG[3], // CS654 Cloud Computing (Elective II)
+  ELECTIVE_CATALOG[8], // HM601 Engineering Economics (Elective III)
+];
+
 // Placeholder courses matching design
 const PLACEHOLDER_COURSES: SemesterCourse[] = [
   { code: "CSE/MCA/T/211A", name: "Software Engineering", credits: 4, grade: "A", attendance: 89 },
-  {
-    code: "CSE/MCA/T/212A",
-    name: "Automata and Language Processors",
-    credits: 3,
-    grade: "A-",
-    attendance: 82,
-  },
-  {
-    code: "CSE/MCA/T/213A",
-    name: "Data Communication & Networks",
-    credits: 3,
-    grade: "A+",
-    attendance: 95,
-  },
-  {
-    code: "CSE/MCA/T/214B",
-    name: "Machine Learning (Elective I)",
-    credits: 3,
-    grade: "B+",
-    attendance: 78,
-  },
-  {
-    code: "CSE/MCA/T/215D",
-    name: "Web Technologies (Elective II)",
-    credits: 4,
-    grade: "A",
-    attendance: 91,
-  },
-  {
-    code: "CSE/MCA/T/216E",
-    name: "Natural Language Processing (Elective III)",
-    credits: 3,
-    grade: "A-",
-    attendance: 85,
-  },
+  { code: "CSE/MCA/T/212A", name: "Automata and Language Processors", credits: 3, grade: "A-", attendance: 82 },
+  { code: "CSE/MCA/T/213A", name: "Data Communication & Networks", credits: 3, grade: "A+", attendance: 95 },
 ];
 
 const DEFAULT_TECHNICAL_SKILLS = [
@@ -153,11 +222,11 @@ const buildYear = (batch: string | undefined): string => {
 
 const InfoRow = ({ label, value }: { label: string; value: string }) => {
   return (
-    <div className="flex items-center justify-between border-b border-border py-3 last:border-0">
-      <span className="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+    <div className="flex items-center justify-between border-b border-border py-3 last:border-0 gap-2">
+      <span className="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-text-muted shrink-0">
         {label}
       </span>
-      <span className="text-[0.8rem] font-medium text-text tabular font-mono">{value}</span>
+      <span className="text-[0.8rem] font-medium text-text tabular font-mono text-right">{value}</span>
     </div>
   );
 };
@@ -179,8 +248,8 @@ function EditModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative card border border-border w-full max-w-md max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-slide-up">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border shrink-0">
+      <div className="relative card border border-border w-full max-w-lg max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-slide-up">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-1 h-4 bg-primary rounded-full" />
             <span className="text-[0.75rem] uppercase tracking-widest font-bold text-text font-mono">
@@ -195,7 +264,7 @@ function EditModal({
           </button>
         </div>
         <div className="overflow-y-auto flex-1 p-5 space-y-4">{children}</div>
-        <div className="flex gap-2 px-5 py-4 border-t border-border shrink-0">
+        <div className="flex gap-2 px-5 py-4 border-t border-border flex-shrink-0">
           <button
             onClick={onSave}
             disabled={isPending}
@@ -216,14 +285,25 @@ function EditModal({
   );
 }
 
-const CoursesTable = ({ courses }: { courses: SemesterCourse[] }) => {
+const CoursesTable = ({
+  courses,
+  selectedElectives,
+  onChangeElectiveSlot,
+}: {
+  courses: SemesterCourse[];
+  selectedElectives: ElectiveCourse[];
+  onChangeElectiveSlot: (slotIndex: number) => void;
+}) => {
   return (
     <div className="card overflow-hidden">
-      {/* Header */}
-      <div className="px-5 py-4 border-b border-border">
+      {/* Header with Course Counts */}
+      <div className="px-5 py-4 border-b border-border flex items-center justify-between">
         <p className="text-[0.6875rem] font-bold tracking-[0.18em] uppercase text-text">
           CURRENT SEMESTER COURSES
         </p>
+        <span className="text-[0.7rem] text-text-muted font-mono">
+          {courses.length} core + {selectedElectives.length} electives
+        </span>
       </div>
 
       {/* Table */}
@@ -284,11 +364,74 @@ const CoursesTable = ({ courses }: { courses: SemesterCourse[] }) => {
           </tbody>
         </table>
       </div>
+
+      {/* ── 3 ELECTIVES SUB-SECTION ── */}
+      <div className="border-t border-border">
+        <div className="px-5 py-3 flex items-center justify-between bg-primary/5">
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-3.5 bg-primary rounded-full" />
+            <span className="text-[0.625rem] uppercase tracking-widest font-bold text-primary font-mono">
+              Electives (3 Selected)
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => onChangeElectiveSlot(0)}
+            className="flex items-center gap-1.5 text-[0.7rem] font-semibold text-text-muted hover:text-primary transition-colors border border-border2 hover:border-primary/40 px-2.5 py-1 rounded shadow-xs"
+          >
+            <Pencil size={11} />
+            <span>Manage Electives</span>
+          </button>
+        </div>
+
+        <div className="divide-y divide-border/60">
+          {selectedElectives.map((elective, idx) => (
+            <div
+              key={idx}
+              className="px-5 py-3.5 flex items-center justify-between gap-4 flex-wrap hover:bg-surface1/50 transition-colors"
+            >
+              <div className="flex items-center gap-3 flex-wrap flex-1 min-w-0">
+                <span className="text-[0.65rem] font-bold uppercase tracking-wider bg-surface2 border border-border2 px-2 py-0.5 font-mono text-text-secondary rounded-xs">
+                  Elective {idx + 1}
+                </span>
+                <span className="text-[0.6rem] uppercase tracking-widest text-text-muted border border-border2 px-1.5 py-0.5 font-mono rounded-xs">
+                  {elective.category}
+                </span>
+                <span className="text-[0.8rem] font-bold text-primary font-mono whitespace-nowrap">
+                  {elective.code}
+                </span>
+                <span className="text-xs text-text font-medium min-w-[140px]">
+                  {elective.name}
+                </span>
+                <span className="text-[0.75rem] text-text-secondary font-mono whitespace-nowrap">
+                  {elective.credits} cr
+                </span>
+                <span className="text-[0.7rem] text-text-muted hidden md:block leading-relaxed max-w-[240px] font-mono truncate">
+                  {elective.desc}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => onChangeElectiveSlot(idx)}
+                className="text-[0.7rem] font-mono text-text-muted hover:text-primary transition-colors underline"
+              >
+                Change
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
 
-const SemesterSgpaCard = ({ semData, onEdit }: { semData: SemesterSGPA[]; onEdit: () => void }) => {
+const SemesterSgpaCard = ({
+  semData,
+  onEdit,
+}: {
+  semData: SemesterSGPA[];
+  onEdit: () => void;
+}) => {
   return (
     <div className="card p-5">
       <div className="flex items-center justify-between mb-5">
@@ -371,7 +514,13 @@ const AchievementsCard = ({
   );
 };
 
-const TechnicalSkillsCard = ({ skills, onEdit }: { skills: string[]; onEdit: () => void }) => {
+const TechnicalSkillsCard = ({
+  skills,
+  onEdit,
+}: {
+  skills: string[];
+  onEdit: () => void;
+}) => {
   return (
     <div className="card p-5">
       <div className="flex items-center justify-between mb-4">
@@ -483,7 +632,9 @@ const ProfileCard = ({
         </p>
 
         {bio && (
-          <p className="mt-2 text-xs text-text-secondary italic line-clamp-2 px-2">"{bio}"</p>
+          <p className="mt-2 text-xs text-text-secondary italic line-clamp-2 px-2">
+            "{bio}"
+          </p>
         )}
 
         {/* Status badges */}
@@ -533,11 +684,7 @@ const ProfileCard = ({
           )}
           {codeforces && (
             <a
-              href={
-                codeforces.startsWith("http")
-                  ? codeforces
-                  : `https://codeforces.com/profile/${codeforces}`
-              }
+              href={codeforces.startsWith("http") ? codeforces : `https://codeforces.com/profile/${codeforces}`}
               target="_blank"
               rel="noreferrer"
               className="text-text-muted hover:text-primary transition-colors text-xs font-bold font-mono px-1.5 py-0.5 rounded border border-border2"
@@ -566,7 +713,7 @@ const ProfileCard = ({
         <InfoRow label="CGPA" value={`${cgpa} / 10.0`} />
         <InfoRow label="EMAIL" value={email} />
         <InfoRow label="BATCH" value={batch} />
-        <InfoRow label="PROGRAM" value={`Master of Computer Applications`} />
+        <InfoRow label="PROGRAM" value="Master of Computer Applications" />
       </div>
     </div>
   );
@@ -578,7 +725,7 @@ export const ProfilePage = () => {
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  type ModalType = "image" | "skills" | "sgpa" | "achievements" | null;
+  type ModalType = "image" | "skills" | "sgpa" | "achievements" | "elective" | null;
   const [activeSubModal, setActiveSubModal] = useState<ModalType>(null);
 
   // Profile data
@@ -600,9 +747,10 @@ export const ProfilePage = () => {
       ? user.profile.tags
       : DEFAULT_TECHNICAL_SKILLS;
 
-  // Local state for interactive cards (SGPA & Achievements)
+  // Local state for interactive cards
   const [semData, setSemData] = useState<SemesterSGPA[]>(DEFAULT_SEMESTER_SGPA);
   const [achievements, setAchievements] = useState<Achievement[]>(DEFAULT_ACHIEVEMENTS);
+  const [selectedElectives, setSelectedElectives] = useState<ElectiveCourse[]>(DEFAULT_ELECTIVES);
 
   // Temporary state for sub-modals
   const [tempImg, setTempImg] = useState("");
@@ -611,7 +759,12 @@ export const ProfilePage = () => {
   const [tempSem, setTempSem] = useState<SemesterSGPA[]>([]);
   const [tempAch, setTempAch] = useState<Achievement[]>([]);
 
-  const openSubModal = (type: NonNullable<ModalType>) => {
+  // Elective picker state (3 slots)
+  const [activeSlot, setActiveSlot] = useState<number>(0);
+  const [electiveTab, setElectiveTab] = useState<"Core Elective" | "Open Elective">("Core Elective");
+  const [tempElectives, setTempElectives] = useState<ElectiveCourse[]>(DEFAULT_ELECTIVES);
+
+  const openSubModal = (type: NonNullable<ModalType>, slotIndex = 0) => {
     if (type === "image") setTempImg(avatarUrl || "");
     if (type === "skills") {
       setTempSkills([...skills]);
@@ -619,6 +772,11 @@ export const ProfilePage = () => {
     }
     if (type === "sgpa") setTempSem(semData.map((s) => ({ ...s })));
     if (type === "achievements") setTempAch(achievements.map((a) => ({ ...a })));
+    if (type === "elective") {
+      setActiveSlot(slotIndex);
+      setTempElectives([...selectedElectives]);
+      setElectiveTab(selectedElectives[slotIndex]?.category || "Core Elective");
+    }
     setActiveSubModal(type);
   };
 
@@ -631,6 +789,8 @@ export const ProfilePage = () => {
       setSemData([...tempSem]);
     } else if (activeSubModal === "achievements") {
       setAchievements([...tempAch]);
+    } else if (activeSubModal === "elective") {
+      setSelectedElectives([...tempElectives]);
     }
     setActiveSubModal(null);
   };
@@ -683,7 +843,11 @@ export const ProfilePage = () => {
 
         {/* Right Column */}
         <div className="flex flex-col gap-6">
-          <CoursesTable courses={PLACEHOLDER_COURSES} />
+          <CoursesTable
+            courses={PLACEHOLDER_COURSES}
+            selectedElectives={selectedElectives}
+            onChangeElectiveSlot={(slotIdx) => openSubModal("elective", slotIdx)}
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <SemesterSgpaCard semData={semData} onEdit={() => openSubModal("sgpa")} />
             <AchievementsCard
@@ -751,7 +915,7 @@ export const ProfilePage = () => {
               <label className="block text-xs font-medium text-text-secondary mb-2">
                 Current Skills
               </label>
-              <div className="flex flex-wrap gap-2 min-h-10 p-2 rounded border border-border2 bg-surface1">
+              <div className="flex flex-wrap gap-2 min-h-[40px] p-2 rounded border border-border2 bg-surface1">
                 {tempSkills.map((s, i) => (
                   <span
                     key={i}
@@ -813,6 +977,147 @@ export const ProfilePage = () => {
         </EditModal>
       )}
 
+      {/* ── 3-ELECTIVE PICKER MODAL ── */}
+      {activeSubModal === "elective" && (
+        <EditModal
+          title="Manage Elective Courses (Choose 3)"
+          onClose={() => setActiveSubModal(null)}
+          onSave={handleSaveSubModal}
+        >
+          <div>
+            {/* Slot Tabs */}
+            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border2">
+              {[0, 1, 2].map((idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    setActiveSlot(idx);
+                    setElectiveTab(tempElectives[idx]?.category || "Core Elective");
+                  }}
+                  className={`flex-1 py-1.5 text-xs font-bold font-mono rounded border transition-colors ${
+                    activeSlot === idx
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border2 bg-surface1 text-text-muted hover:text-text"
+                  }`}
+                >
+                  Elective {idx + 1}
+                </button>
+              ))}
+            </div>
+
+            {/* Category Sub-Tabs */}
+            <div className="flex gap-0 border-b border-border2 mb-4 -mx-5 px-5">
+              {(["Core Elective", "Open Elective"] as const).map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setElectiveTab(tab)}
+                  className={`px-4 py-2 text-[0.75rem] font-bold uppercase tracking-wider border-b-2 -mb-px transition-colors font-mono ${
+                    electiveTab === tab
+                      ? "border-primary text-primary"
+                      : "border-transparent text-text-muted hover:text-text"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            {/* Course Catalog List */}
+            <div className="space-y-2.5 max-h-[45vh] overflow-y-auto pr-1">
+              {ELECTIVE_CATALOG.filter((e) => e.category === electiveTab).map((e) => {
+                const isSelectedInActiveSlot = tempElectives[activeSlot]?.code === e.code;
+                const isSelectedInOtherSlot = tempElectives.some(
+                  (item, i) => i !== activeSlot && item.code === e.code
+                );
+
+                return (
+                  <button
+                    key={e.code}
+                    type="button"
+                    disabled={isSelectedInOtherSlot}
+                    onClick={() => {
+                      setTempElectives((prev) => {
+                        const updated = [...prev];
+                        updated[activeSlot] = e;
+                        return updated;
+                      });
+                    }}
+                    className={`w-full text-left p-3.5 border rounded transition-all ${
+                      isSelectedInActiveSlot
+                        ? "border-primary bg-primary/10"
+                        : isSelectedInOtherSlot
+                        ? "border-border2 bg-surface1/40 opacity-50 cursor-not-allowed"
+                        : "border-border2 bg-surface1 hover:border-border hover:bg-surface2"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span
+                            className={`text-xs font-bold font-mono ${
+                              isSelectedInActiveSlot ? "text-primary" : "text-text-secondary"
+                            }`}
+                          >
+                            {e.code}
+                          </span>
+                          <span className="text-[0.65rem] font-mono uppercase tracking-widest text-text-muted border border-border2 px-1.5 py-0.5 rounded-xs">
+                            {e.credits} cr
+                          </span>
+                          {isSelectedInOtherSlot && (
+                            <span className="text-[0.65rem] font-mono text-warning">
+                              (Selected in another slot)
+                            </span>
+                          )}
+                        </div>
+                        <p
+                          className={`text-xs font-medium ${
+                            isSelectedInActiveSlot ? "text-text" : "text-text-secondary"
+                          }`}
+                        >
+                          {e.name}
+                        </p>
+                        <p className="text-[0.7rem] text-text-muted mt-1 leading-relaxed font-mono">
+                          {e.desc}
+                        </p>
+                      </div>
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${
+                          isSelectedInActiveSlot ? "border-primary bg-primary" : "border-border2"
+                        }`}
+                      >
+                        {isSelectedInActiveSlot && (
+                          <div className="w-1.5 h-1.5 rounded-full bg-black" />
+                        )}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Selected 3 Electives Summary Banner */}
+            <div className="mt-4 p-3 bg-surface1 border border-border2 rounded space-y-1">
+              <p className="text-xs font-bold text-text mb-1 font-mono uppercase tracking-wider">
+                Selected Electives Summary:
+              </p>
+              {tempElectives.map((el, i) => (
+                <p key={i} className="text-[0.75rem] text-text-secondary font-mono flex justify-between">
+                  <span>
+                    Elective {i + 1}: <strong className="text-text">{el.code}</strong> — {el.name}
+                  </span>
+                  <span className="text-text-muted">{el.credits} cr</span>
+                </p>
+              ))}
+              <p className="text-[0.75rem] font-bold text-primary font-mono pt-1 border-t border-border2/60 text-right">
+                Total Credits: {tempElectives.reduce((acc, el) => acc + el.credits, 0)} cr
+              </p>
+            </div>
+          </div>
+        </EditModal>
+      )}
+
       {/* ── SGPA EDIT MODAL ── */}
       {activeSubModal === "sgpa" && (
         <EditModal
@@ -823,7 +1128,9 @@ export const ProfilePage = () => {
           <div className="space-y-3">
             {tempSem.map((s, i) => (
               <div key={s.sem} className="flex items-center gap-3">
-                <span className="text-xs font-mono text-text-secondary w-16 shrink-0">{s.sem}</span>
+                <span className="text-xs font-mono text-text-secondary w-16 shrink-0">
+                  {s.sem}
+                </span>
                 <input
                   type="range"
                   min="0"
@@ -833,8 +1140,8 @@ export const ProfilePage = () => {
                   onChange={(e) =>
                     setTempSem((prev) =>
                       prev.map((item, idx) =>
-                        idx === i ? { ...item, sgpa: parseFloat(e.target.value) } : item,
-                      ),
+                        idx === i ? { ...item, sgpa: parseFloat(e.target.value) } : item
+                      )
                     )
                   }
                   className="flex-1 accent-primary cursor-pointer"
@@ -848,7 +1155,7 @@ export const ProfilePage = () => {
                   onChange={(e) => {
                     const v = Math.min(10, Math.max(0, parseFloat(e.target.value) || 0));
                     setTempSem((prev) =>
-                      prev.map((item, idx) => (idx === i ? { ...item, sgpa: v } : item)),
+                      prev.map((item, idx) => (idx === i ? { ...item, sgpa: v } : item))
                     );
                   }}
                   className="w-16 input-base text-center text-xs font-mono py-1 px-1"
@@ -868,10 +1175,7 @@ export const ProfilePage = () => {
         >
           <div className="space-y-4">
             {tempAch.map((a, i) => (
-              <div
-                key={i}
-                className="border border-border2 rounded p-3 space-y-2.5 relative bg-surface1"
-              >
+              <div key={i} className="border border-border2 rounded p-3 space-y-2.5 relative bg-surface1">
                 <button
                   type="button"
                   onClick={() => setTempAch((prev) => prev.filter((_, idx) => idx !== i))}
@@ -892,7 +1196,7 @@ export const ProfilePage = () => {
                         type="button"
                         onClick={() =>
                           setTempAch((prev) =>
-                            prev.map((item, idx) => (idx === i ? { ...item, icon: opt } : item)),
+                            prev.map((item, idx) => (idx === i ? { ...item, icon: opt } : item))
                           )
                         }
                         className={`p-1.5 rounded border transition-colors ${
@@ -913,9 +1217,7 @@ export const ProfilePage = () => {
                   value={a.title}
                   onChange={(e) =>
                     setTempAch((prev) =>
-                      prev.map((item, idx) =>
-                        idx === i ? { ...item, title: e.target.value } : item,
-                      ),
+                      prev.map((item, idx) => (idx === i ? { ...item, title: e.target.value } : item))
                     )
                   }
                   placeholder="Achievement title or description"
@@ -927,9 +1229,7 @@ export const ProfilePage = () => {
                   value={a.date}
                   onChange={(e) =>
                     setTempAch((prev) =>
-                      prev.map((item, idx) =>
-                        idx === i ? { ...item, date: e.target.value } : item,
-                      ),
+                      prev.map((item, idx) => (idx === i ? { ...item, date: e.target.value } : item))
                     )
                   }
                   placeholder="Date / Year (e.g. Nov 2025)"
@@ -941,7 +1241,10 @@ export const ProfilePage = () => {
             <button
               type="button"
               onClick={() =>
-                setTempAch((prev) => [...prev, { icon: "Award", title: "", date: "" }])
+                setTempAch((prev) => [
+                  ...prev,
+                  { icon: "Award", title: "", date: "" },
+                ])
               }
               className="w-full py-2.5 border border-dashed border-border2 text-xs font-bold uppercase tracking-wider text-text-muted hover:text-primary hover:border-primary/50 transition-colors flex items-center justify-center gap-2 rounded"
             >
