@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+
+  pull_request:
+    branches:
+      - develop
+      - master
+
+  schedule:
+    - cron: "0 3 * * 0"
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  build-and-analyze:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        language:
+          - javascript
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Upgrade npm to match devEngines
+        run: sudo npm install -g npm@11.16.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run format check
+        run: npm run format:check
+
+      - name: Copy server env example to .env
+        run: cp apps/server/.env.example apps/server/.env
+
+      - name: Generate Prisma Client
+        run: npm run server:prisma:generate
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
