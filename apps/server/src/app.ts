@@ -28,7 +28,8 @@ app.use(helmet());
 // Cors configuration
 app.use(
   cors({
-    origin: env.NODE_ENV === "production" && env.CLIENT_URL ? env.CLIENT_URL : "http://localhost:5173",
+    origin:
+      env.NODE_ENV === "production" && env.CLIENT_URL ? env.CLIENT_URL : "http://localhost:5173",
     credentials: true,
   }),
 );
