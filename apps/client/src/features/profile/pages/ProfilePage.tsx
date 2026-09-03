@@ -153,11 +153,13 @@ const buildYear = (batch: string | undefined): string => {
 
 const InfoRow = ({ label, value }: { label: string; value: string }) => {
   return (
-    <div className="flex items-center justify-between border-b border-border py-3 last:border-0">
-      <span className="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+    <div className="flex items-center justify-between border-b border-border py-3 last:border-0 gap-3">
+      <span className="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-text-muted shrink-0">
         {label}
       </span>
-      <span className="text-[0.8rem] font-medium text-text tabular font-mono">{value}</span>
+      <span className="text-[0.8rem] font-medium text-text tabular font-mono text-right">
+        {value}
+      </span>
     </div>
   );
 };
@@ -216,14 +218,121 @@ function EditModal({
   );
 }
 
-const CoursesTable = ({ courses }: { courses: SemesterCourse[] }) => {
+// Elective catalog interface and data matching Figma design
+export interface ElectiveItem {
+  code: string;
+  name: string;
+  credits: number;
+  category: "Core Elective" | "Open Elective";
+  desc: string;
+}
+
+const ELECTIVE_CATALOG: ElectiveItem[] = [
+  {
+    code: "CS651",
+    name: "Artificial Intelligence",
+    credits: 3,
+    category: "Core Elective",
+    desc: "Search, planning, inference, neural networks.",
+  },
+  {
+    code: "CS652",
+    name: "Computer Vision",
+    credits: 3,
+    category: "Core Elective",
+    desc: "Image processing, object detection, CNNs.",
+  },
+  {
+    code: "CS653",
+    name: "Blockchain Technology",
+    credits: 3,
+    category: "Core Elective",
+    desc: "Distributed ledgers, consensus, smart contracts.",
+  },
+  {
+    code: "CS654",
+    name: "Cloud Computing",
+    credits: 3,
+    category: "Core Elective",
+    desc: "AWS/GCP fundamentals, microservices, serverless.",
+  },
+  {
+    code: "CS655",
+    name: "Natural Language Processing",
+    credits: 3,
+    category: "Core Elective",
+    desc: "Transformers, tokenization, LLM fine-tuning.",
+  },
+  {
+    code: "CS656",
+    name: "Embedded Systems",
+    credits: 3,
+    category: "Core Elective",
+    desc: "RTOS, microcontrollers, low-level programming.",
+  },
+  {
+    code: "CS657",
+    name: "Quantum Computing",
+    credits: 3,
+    category: "Core Elective",
+    desc: "Qubits, gates, Grover & Shor algorithms.",
+  },
+  {
+    code: "CS658",
+    name: "Cybersecurity & Cryptography",
+    credits: 3,
+    category: "Core Elective",
+    desc: "PKI, TLS, pen testing, secure software design.",
+  },
+  {
+    code: "HM601",
+    name: "Engineering Economics",
+    credits: 2,
+    category: "Open Elective",
+    desc: "Cost analysis, project evaluation, NPV/IRR.",
+  },
+  {
+    code: "HM602",
+    name: "Technical Communication",
+    credits: 2,
+    category: "Open Elective",
+    desc: "Writing reports, presentations, documentation.",
+  },
+  {
+    code: "HM603",
+    name: "Business Management",
+    credits: 2,
+    category: "Open Elective",
+    desc: "Strategy, operations, startup fundamentals.",
+  },
+  {
+    code: "HM604",
+    name: "Psychology of Design",
+    credits: 2,
+    category: "Open Elective",
+    desc: "Cognitive science applied to UI/UX design.",
+  },
+];
+
+const CoursesTable = ({
+  courses,
+  selectedElectives,
+  onEditElective,
+}: {
+  courses: SemesterCourse[];
+  selectedElectives: ElectiveItem[];
+  onEditElective: (slotIdx: number) => void;
+}) => {
   return (
     <div className="card overflow-hidden">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-border">
+      <div className="px-5 py-4 border-b border-border flex items-center justify-between">
         <p className="text-[0.6875rem] font-bold tracking-[0.18em] uppercase text-text">
           CURRENT SEMESTER COURSES
         </p>
+        <span className="text-[0.65rem] font-mono text-text-muted">
+          {courses.length} core + {selectedElectives.length} elective
+        </span>
       </div>
 
       {/* Table */}
@@ -283,6 +392,53 @@ const CoursesTable = ({ courses }: { courses: SemesterCourse[] }) => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* ── ELECTIVE SUB-SECTION ── */}
+      <div className="border-t border-border">
+        <div className="px-5 py-3 flex items-center justify-between bg-primary/5">
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-3.5 bg-primary rounded-full" />
+            <span className="text-[0.6875rem] uppercase tracking-widest font-bold text-primary font-mono">
+              Electives
+            </span>
+            <span className="text-[0.65rem] uppercase tracking-widest text-text-muted border border-border px-1.5 py-0.5 rounded font-mono ml-1">
+              3 slots
+            </span>
+          </div>
+        </div>
+        <div className="divide-y divide-border">
+          {selectedElectives.map((elective, idx) => (
+            <div
+              key={idx}
+              className="px-5 py-3.5 flex items-center gap-3 sm:gap-4 hover:bg-surface2/50 transition-colors group"
+            >
+              <span className="text-[0.75rem] text-text-muted w-4 flex-shrink-0 text-center font-mono">
+                {idx + 1}
+              </span>
+              <span className="text-[0.75rem] text-primary w-14 flex-shrink-0 font-mono font-bold">
+                {elective.code}
+              </span>
+              <span className="text-[0.8rem] text-text flex-1 min-w-0 truncate font-medium">
+                {elective.name}
+              </span>
+              <span className="text-[0.65rem] uppercase tracking-widest text-text-muted border border-border px-1.5 py-0.5 hidden sm:inline-block flex-shrink-0 font-mono rounded">
+                {elective.category.split(" ")[0]}
+              </span>
+              <span className="text-[0.75rem] text-text-muted flex-shrink-0 font-mono">
+                {elective.credits} cr
+              </span>
+              <button
+                type="button"
+                onClick={() => onEditElective(idx)}
+                className="flex items-center gap-1 text-[0.7rem] font-bold text-text-muted hover:text-primary transition-colors opacity-0 group-hover:opacity-100 border border-transparent hover:border-primary/40 px-2 py-1 flex-shrink-0 font-mono rounded"
+              >
+                <Pencil size={11} />
+                <span className="hidden sm:inline">Change</span>
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -578,7 +734,7 @@ export const ProfilePage = () => {
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  type ModalType = "image" | "skills" | "sgpa" | "achievements" | null;
+  type ModalType = "image" | "skills" | "sgpa" | "achievements" | "elective" | null;
   const [activeSubModal, setActiveSubModal] = useState<ModalType>(null);
 
   // Profile data
@@ -600,9 +756,21 @@ export const ProfilePage = () => {
       ? user.profile.tags
       : DEFAULT_TECHNICAL_SKILLS;
 
-  // Local state for interactive cards (SGPA & Achievements)
+  // Local state for interactive cards (SGPA, Achievements, and Electives)
   const [semData, setSemData] = useState<SemesterSGPA[]>(DEFAULT_SEMESTER_SGPA);
   const [achievements, setAchievements] = useState<Achievement[]>(DEFAULT_ACHIEVEMENTS);
+  const [selectedElectives, setSelectedElectives] = useState<ElectiveItem[]>([
+    ELECTIVE_CATALOG[0],
+    ELECTIVE_CATALOG[3],
+    ELECTIVE_CATALOG[8],
+  ]);
+
+  // Elective picker modal state
+  const [editingSlotIdx, setEditingSlotIdx] = useState<number>(0);
+  const [tempElective, setTempElective] = useState<ElectiveItem>(ELECTIVE_CATALOG[0]);
+  const [electiveTab, setElectiveTab] = useState<"Core Elective" | "Open Elective">(
+    "Core Elective",
+  );
 
   // Temporary state for sub-modals
   const [tempImg, setTempImg] = useState("");
@@ -622,6 +790,14 @@ export const ProfilePage = () => {
     setActiveSubModal(type);
   };
 
+  const openElectiveModal = (slotIdx: number) => {
+    setEditingSlotIdx(slotIdx);
+    const cur = selectedElectives[slotIdx] || ELECTIVE_CATALOG[0];
+    setTempElective(cur);
+    setElectiveTab(cur.category);
+    setActiveSubModal("elective");
+  };
+
   const handleSaveSubModal = async () => {
     if (activeSubModal === "image") {
       await updateProfile({ avatarUrl: tempImg.trim() || undefined });
@@ -631,6 +807,8 @@ export const ProfilePage = () => {
       setSemData([...tempSem]);
     } else if (activeSubModal === "achievements") {
       setAchievements([...tempAch]);
+    } else if (activeSubModal === "elective") {
+      setSelectedElectives((prev) => prev.map((e, i) => (i === editingSlotIdx ? tempElective : e)));
     }
     setActiveSubModal(null);
   };
@@ -683,7 +861,11 @@ export const ProfilePage = () => {
 
         {/* Right Column */}
         <div className="flex flex-col gap-6">
-          <CoursesTable courses={PLACEHOLDER_COURSES} />
+          <CoursesTable
+            courses={PLACEHOLDER_COURSES}
+            selectedElectives={selectedElectives}
+            onEditElective={openElectiveModal}
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <SemesterSgpaCard semData={semData} onEdit={() => openSubModal("sgpa")} />
             <AchievementsCard
@@ -959,6 +1141,108 @@ export const ProfilePage = () => {
           </div>
         </EditModal>
       )}
+
+      {/* ── ELECTIVE PICKER MODAL ── */}
+      {activeSubModal === "elective" &&
+        (() => {
+          const takenCodes = selectedElectives
+            .filter((_, i) => i !== editingSlotIdx)
+            .map((e) => e.code);
+          const slotLabel = ["1st", "2nd", "3rd"][editingSlotIdx];
+          return (
+            <EditModal
+              title={`Elective ${editingSlotIdx + 1} of 3 — ${slotLabel} Slot`}
+              onClose={() => setActiveSubModal(null)}
+              onSave={handleSaveSubModal}
+            >
+              <div>
+                <div className="flex gap-0 border-b border-border mb-4 -mx-5 px-5">
+                  {(["Core Elective", "Open Elective"] as const).map((tab) => (
+                    <button
+                      key={tab}
+                      type="button"
+                      onClick={() => setElectiveTab(tab)}
+                      className={`px-4 py-2.5 text-[0.65rem] uppercase tracking-widest border-b-2 -mb-px transition-colors whitespace-nowrap font-mono ${
+                        electiveTab === tab
+                          ? "border-primary text-primary font-bold"
+                          : "border-transparent text-text-muted hover:text-text"
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+                <div className="space-y-2">
+                  {ELECTIVE_CATALOG.filter((e) => e.category === electiveTab).map((e) => {
+                    const isSelected = tempElective.code === e.code;
+                    const isTaken = takenCodes.includes(e.code);
+                    return (
+                      <button
+                        key={e.code}
+                        type="button"
+                        onClick={() => !isTaken && setTempElective(e)}
+                        disabled={isTaken}
+                        className={`w-full text-left p-3.5 border transition-all rounded ${
+                          isTaken
+                            ? "border-border opacity-40 cursor-not-allowed"
+                            : isSelected
+                              ? "border-primary bg-primary/10"
+                              : "border-border hover:border-primary/40 bg-transparent hover:bg-surface2/50"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span
+                                className={`text-[0.6875rem] font-bold font-mono ${
+                                  isSelected ? "text-primary" : "text-text-muted"
+                                }`}
+                              >
+                                {e.code}
+                              </span>
+                              <span className="text-[0.625rem] uppercase tracking-widest text-text-muted border border-border px-1.5 py-0.5 rounded font-mono">
+                                {e.credits} cr
+                              </span>
+                              {isTaken && (
+                                <span className="text-[0.625rem] uppercase tracking-widest text-amber-500/80 border border-amber-800/40 px-1.5 py-0.5 rounded font-mono">
+                                  taken
+                                </span>
+                              )}
+                            </div>
+                            <p
+                              className={`text-xs font-medium ${
+                                isSelected ? "text-text" : "text-text-secondary"
+                              }`}
+                            >
+                              {e.name}
+                            </p>
+                            <p className="text-[0.6875rem] text-text-muted mt-0.5 leading-relaxed font-mono">
+                              {e.desc}
+                            </p>
+                          </div>
+                          <div
+                            className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${
+                              isSelected ? "border-primary bg-primary" : "border-border"
+                            }`}
+                          >
+                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="mt-4 px-3 py-2.5 bg-surface2/50 border border-border rounded">
+                  <p className="text-[0.6875rem] text-text-muted font-mono">
+                    Slot {editingSlotIdx + 1}:{" "}
+                    <span className="text-text font-medium">{tempElective.name}</span> —{" "}
+                    {tempElective.credits} cr
+                  </p>
+                </div>
+              </div>
+            </EditModal>
+          );
+        })()}
 
       {/* Main Edit Profile Modal */}
       {isEditModalOpen && user && (
