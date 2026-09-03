@@ -49,7 +49,7 @@ const { generateCsrfToken, doubleCsrfProtection: csrfProtection } = doubleCsrf({
   size: 64,
   ignoredMethods: ["GET", "HEAD", "OPTIONS"],
 });
-
+// codeql[js/missing-csrf-middleware]
 app.use(csrfProtection);
 
 // Logging middleware
