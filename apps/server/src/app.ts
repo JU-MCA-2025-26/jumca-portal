@@ -34,6 +34,7 @@ app.set("trust proxy", 1);
 
 // Body parsing middleware
 app.use(express.json());
+// codeql[js/missing-csrf-middleware]
 app.use(cookieParser(env.COOKIE_SECRET));
 
 // CSRF protection
@@ -49,7 +50,7 @@ const { generateCsrfToken, doubleCsrfProtection: csrfProtection } = doubleCsrf({
   size: 64,
   ignoredMethods: ["GET", "HEAD", "OPTIONS"],
 });
-// codeql[js/missing-csrf-middleware]
+
 app.use(csrfProtection);
 
 // Logging middleware
