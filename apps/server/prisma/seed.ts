@@ -1,3 +1,4 @@
+// bcrypt does not ship TypeScript declarations in this project.
 import bcrypt from "bcrypt";
 import prisma from "../src/config/prisma.js";
 import { $Enums } from "../src/generated/client.js";

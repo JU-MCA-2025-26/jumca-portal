@@ -15,6 +15,7 @@ export interface SemesterSGPA {
 
 // Achievement record
 export interface Achievement {
+  icon?: string;
   title: string;
   date: string;
 }

@@ -94,9 +94,9 @@ function Sidebar({ onClose }: SidebarProps) {
       {user && (
         <div className="border-t border-border px-5 py-3.5 flex items-center gap-3 bg-surface">
           <div className="h-9 w-9 rounded bg-surface2 border border-border2 flex items-center justify-center overflow-hidden shrink-0">
-            {user.profile?.avatarUrl ? (
+            {user.profile?.avatarUrl && /^https?:\/\//i.test(user.profile.avatarUrl.trim()) ? (
               <img
-                src={user.profile.avatarUrl}
+                src={user.profile.avatarUrl.trim()}
                 alt={user.fullName}
                 className="h-full w-full object-cover"
               />

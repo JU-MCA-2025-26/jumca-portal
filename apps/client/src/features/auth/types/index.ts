@@ -7,15 +7,20 @@ export interface UserProfile {
   id: string;
   bio: string | null;
   avatarUrl: string | null;
-  phone: string | null;
+  phone?: string | null;
   github: string | null;
-  linkedin: string | null;
+  linkedin?: string | null;
+  linkedinUrl?: string | null;
   leetcode: string | null;
   gfg: string | null;
   codeforces: string | null;
-  portfolio: string | null;
-  currentCompany: string | null;
-  designation: string | null;
+  portfolio?: string | null;
+  company?: string | null;
+  jobRole?: string | null;
+  location?: string | null;
+  tags?: string[];
+  graduationYear?: number | null;
+  openToConnect?: boolean;
 }
 
 export interface AuthUser {

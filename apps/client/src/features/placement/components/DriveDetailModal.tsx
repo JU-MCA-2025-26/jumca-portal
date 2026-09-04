@@ -86,9 +86,9 @@ function AlumniCircle({
                    border-2 border-border2 group-hover:border-primary
                    transition-all duration-150 bg-surface2"
       >
-        {alumni.profile?.avatarUrl ? (
+        {alumni.profile?.avatarUrl && /^https?:\/\//i.test(alumni.profile.avatarUrl.trim()) ? (
           <img
-            src={alumni.profile.avatarUrl}
+            src={alumni.profile.avatarUrl.trim()}
             alt={alumni.fullName}
             className="h-full w-full object-cover"
           />
@@ -124,9 +124,11 @@ function AlumniCircle({
 function ResourceRow({ res }: { res: DriveResource }) {
   const Icon = resourceIcon[res.type] ?? FileText;
   const label = resourceLabel[res.type] ?? "Resource";
+  const safeHref =
+    res.fileUrl && /^https?:\/\//i.test(res.fileUrl.trim()) ? res.fileUrl.trim() : undefined;
   return (
     <a
-      href={res.fileUrl}
+      href={safeHref}
       target="_blank"
       rel="noopener noreferrer"
       className="flex items-center gap-3 rounded border border-border px-3 py-2.5
