@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   User,
   Trophy,
@@ -18,47 +18,15 @@ import {
 import { useAuth } from "@/features/auth/hooks/useAuth.ts";
 import EditProfileModal from "../components/EditProfileModal.tsx";
 import { useUpdateProfile } from "../api/profile.ts";
-import type { SemesterCourse, SemesterSGPA, Achievement } from "../types/index.ts";
+import { useCourses, useElectives, useSaveElective } from "@/features/courses/api/courses.ts";
+import type { SemesterSGPA, Achievement } from "../types/index.ts";
+import type { CourseDto, ElectiveGroupDto } from "@jumca/shared";
 
-// Placeholder courses matching design
-const PLACEHOLDER_COURSES: SemesterCourse[] = [
-  { code: "CSE/MCA/T/211A", name: "Software Engineering", credits: 4, grade: "A", attendance: 89 },
-  {
-    code: "CSE/MCA/T/212A",
-    name: "Automata and Language Processors",
-    credits: 3,
-    grade: "A-",
-    attendance: 82,
-  },
-  {
-    code: "CSE/MCA/T/213A",
-    name: "Data Communication & Networks",
-    credits: 3,
-    grade: "A+",
-    attendance: 95,
-  },
-  {
-    code: "CSE/MCA/T/214B",
-    name: "Machine Learning (Elective I)",
-    credits: 3,
-    grade: "B+",
-    attendance: 78,
-  },
-  {
-    code: "CSE/MCA/T/215D",
-    name: "Web Technologies (Elective II)",
-    credits: 4,
-    grade: "A",
-    attendance: 91,
-  },
-  {
-    code: "CSE/MCA/T/216E",
-    name: "Natural Language Processing (Elective III)",
-    credits: 3,
-    grade: "A-",
-    attendance: 85,
-  },
-];
+const BASKET_LABELS: Record<string, string> = {
+  ELECTIVE_I: "Elective I",
+  ELECTIVE_II: "Elective II",
+  ELECTIVE_III: "Elective III",
+};
 
 const DEFAULT_TECHNICAL_SKILLS = [
   "C++",
@@ -115,16 +83,12 @@ const ICON_MAP: Record<string, React.ElementType> = {
 const ICON_OPTIONS = ["Trophy", "Code2", "Star", "Award", "Globe", "Shield"];
 
 // Helpers
-const gradeColor = (grade: string): string => {
-  if (["O", "A+", "A"].includes(grade)) return "text-success";
-  if (grade === "A-") return "text-[#2dd4bf]";
-  if (["B+", "B"].includes(grade)) return "text-warning";
-  return "text-primary";
-};
-
-const attendanceFill = (pct: number): string => {
-  if (pct >= 85) return "bg-[#10b981]";
-  return "bg-warning";
+const SEMESTER_LABELS: Record<string, string> = {
+  BRIDGE: "Bridge",
+  SEM_1: "Sem I",
+  SEM_2: "Sem II",
+  SEM_3: "Sem III",
+  SEM_4: "Sem IV",
 };
 
 const buildYear = (batch: string | undefined): string => {
@@ -218,231 +182,240 @@ function EditModal({
   );
 }
 
-// Elective catalog interface and data matching Figma design
-export interface ElectiveItem {
-  code: string;
-  name: string;
-  credits: number;
-  category: "Core Elective" | "Open Elective";
-  desc: string;
-}
-
-const ELECTIVE_CATALOG: ElectiveItem[] = [
-  {
-    code: "CS651",
-    name: "Artificial Intelligence",
-    credits: 3,
-    category: "Core Elective",
-    desc: "Search, planning, inference, neural networks.",
-  },
-  {
-    code: "CS652",
-    name: "Computer Vision",
-    credits: 3,
-    category: "Core Elective",
-    desc: "Image processing, object detection, CNNs.",
-  },
-  {
-    code: "CS653",
-    name: "Blockchain Technology",
-    credits: 3,
-    category: "Core Elective",
-    desc: "Distributed ledgers, consensus, smart contracts.",
-  },
-  {
-    code: "CS654",
-    name: "Cloud Computing",
-    credits: 3,
-    category: "Core Elective",
-    desc: "AWS/GCP fundamentals, microservices, serverless.",
-  },
-  {
-    code: "CS655",
-    name: "Natural Language Processing",
-    credits: 3,
-    category: "Core Elective",
-    desc: "Transformers, tokenization, LLM fine-tuning.",
-  },
-  {
-    code: "CS656",
-    name: "Embedded Systems",
-    credits: 3,
-    category: "Core Elective",
-    desc: "RTOS, microcontrollers, low-level programming.",
-  },
-  {
-    code: "CS657",
-    name: "Quantum Computing",
-    credits: 3,
-    category: "Core Elective",
-    desc: "Qubits, gates, Grover & Shor algorithms.",
-  },
-  {
-    code: "CS658",
-    name: "Cybersecurity & Cryptography",
-    credits: 3,
-    category: "Core Elective",
-    desc: "PKI, TLS, pen testing, secure software design.",
-  },
-  {
-    code: "HM601",
-    name: "Engineering Economics",
-    credits: 2,
-    category: "Open Elective",
-    desc: "Cost analysis, project evaluation, NPV/IRR.",
-  },
-  {
-    code: "HM602",
-    name: "Technical Communication",
-    credits: 2,
-    category: "Open Elective",
-    desc: "Writing reports, presentations, documentation.",
-  },
-  {
-    code: "HM603",
-    name: "Business Management",
-    credits: 2,
-    category: "Open Elective",
-    desc: "Strategy, operations, startup fundamentals.",
-  },
-  {
-    code: "HM604",
-    name: "Psychology of Design",
-    credits: 2,
-    category: "Open Elective",
-    desc: "Cognitive science applied to UI/UX design.",
-  },
-];
-
 const CoursesTable = ({
-  courses,
+  coreCourses,
+  sessionalCourses,
+  electiveGroups,
   selectedElectives,
   onEditElective,
+  isLoading,
+  isError,
+  errorDetail,
+  onRetry,
+  semesterLabel,
 }: {
-  courses: SemesterCourse[];
-  selectedElectives: ElectiveItem[];
+  coreCourses: CourseDto[];
+  sessionalCourses: CourseDto[];
+  electiveGroups: ElectiveGroupDto[];
+  selectedElectives: (CourseDto | undefined)[];
   onEditElective: (slotIdx: number) => void;
+  isLoading: boolean;
+  isError: boolean;
+  errorDetail: string | null;
+  onRetry: () => void;
+  semesterLabel: string;
 }) => {
   return (
     <div className="card overflow-hidden">
       {/* Header */}
       <div className="px-5 py-4 border-b border-border flex items-center justify-between">
         <p className="text-[0.6875rem] font-bold tracking-[0.18em] uppercase text-text">
-          CURRENT SEMESTER COURSES
+          CURRENT SEMESTER COURSES — {semesterLabel}
         </p>
         <span className="text-[0.65rem] font-mono text-text-muted">
-          {courses.length} core + {selectedElectives.length} elective
+          {coreCourses.length} theory + {sessionalCourses.length} sessional + {selectedElectives.length} elective
         </span>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="portal-table">
-          <thead>
-            <tr>
-              <th className="w-28 pl-5">Code</th>
-              <th>Course</th>
-              <th className="w-16 text-center">Cr.</th>
-              <th className="w-20 text-center">Grade</th>
-              <th className="w-48 text-right pr-5">Attendance</th>
-            </tr>
-          </thead>
-          <tbody>
-            {courses.map((c) => (
-              <tr key={c.code}>
-                {/* Code */}
-                <td className="pl-5">
-                  <span className="font-mono text-primary text-[0.8rem] font-medium">{c.code}</span>
-                </td>
+      {isLoading && (
+        <div className="px-5 py-8 text-center">
+          <p className="text-xs text-text-muted font-mono">Loading courses from database…</p>
+        </div>
+      )}
 
-                {/* Course name */}
-                <td>
-                  <span className="text-text font-normal text-[0.8rem]">{c.name}</span>
-                </td>
+      {isError && !isLoading && (
+        <div className="px-5 py-8 text-center space-y-3">
+          <p className="text-xs text-danger font-medium">
+            Failed to load courses from the database. Please try again.
+          </p>
+          {errorDetail && (
+            <p className="text-[0.6875rem] text-text-muted font-mono break-words">{errorDetail}</p>
+          )}
+          <button
+            type="button"
+            onClick={onRetry}
+            className="px-4 py-2 text-xs font-bold bg-primary text-text-inverse rounded hover:bg-primary-hover transition-colors"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
-                {/* Credits */}
-                <td className="text-center">
-                  <span className="text-text-secondary text-[0.8rem] font-mono tabular">
-                    {c.credits}
-                  </span>
-                </td>
-
-                {/* Grade */}
-                <td className="text-center">
-                  <span className={`text-[0.8rem] font-bold ${gradeColor(c.grade)}`}>
-                    {c.grade}
-                  </span>
-                </td>
-
-                {/* Attendance bar + percentage */}
-                <td className="pr-5">
-                  <div className="flex items-center gap-3 justify-end">
-                    <div className="h-1 w-28 bg-surface3 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-300 ${attendanceFill(c.attendance)}`}
-                        style={{ width: `${c.attendance}%` }}
-                      />
-                    </div>
-                    <span className="text-[0.75rem] font-medium tabular w-8 text-right text-text-secondary font-mono">
-                      {c.attendance}%
-                    </span>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* ── ELECTIVE SUB-SECTION ── */}
-      <div className="border-t border-border">
-        <div className="px-5 py-3 flex items-center justify-between bg-primary/5">
-          <div className="flex items-center gap-2">
-            <div className="w-1 h-3.5 bg-primary rounded-full" />
-            <span className="text-[0.6875rem] uppercase tracking-widest font-bold text-primary font-mono">
-              Electives
-            </span>
-            <span className="text-[0.65rem] uppercase tracking-widest text-text-muted border border-border px-1.5 py-0.5 rounded font-mono ml-1">
-              3 slots
-            </span>
+      {!isLoading && !isError && (
+        <>
+          {/* ── CORE THEORY COURSES ── */}
+          <div className="overflow-x-auto">
+            <table className="portal-table">
+              <thead>
+                <tr>
+                  <th className="w-28 pl-5">Code</th>
+                  <th>Core Theory Course</th>
+                  <th className="w-16 text-center">Cr.</th>
+                  <th className="w-24 text-center">L-T-P</th>
+                </tr>
+              </thead>
+              <tbody>
+                {coreCourses.map((c) => (
+                  <tr key={c.code}>
+                    <td className="pl-5">
+                      <span className="font-mono text-primary text-[0.8rem] font-medium">
+                        {c.code}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="text-text font-normal text-[0.8rem]">{c.name}</span>
+                    </td>
+                    <td className="text-center">
+                      <span className="text-text-secondary text-[0.8rem] font-mono tabular">
+                        {c.semesterMapping?.creditPoints ?? "—"}
+                      </span>
+                    </td>
+                    <td className="text-center">
+                      <span className="text-text-secondary text-[0.8rem] font-mono tabular">
+                        {c.semesterMapping
+                          ? `${c.semesterMapping.periodL}-${c.semesterMapping.periodT}-${c.semesterMapping.periodP}`
+                          : "—"}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {coreCourses.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="px-5 py-6 text-center">
+                      <span className="text-xs text-text-muted italic">
+                        No core theory courses found for this semester.
+                      </span>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
-        </div>
-        <div className="divide-y divide-border">
-          {selectedElectives.map((elective, idx) => (
-            <div
-              key={idx}
-              className="px-5 py-3.5 flex items-center gap-3 sm:gap-4 hover:bg-surface2/50 transition-colors group"
-            >
-              <span className="text-[0.75rem] text-text-muted w-4 flex-shrink-0 text-center font-mono">
-                {idx + 1}
-              </span>
-              <span className="text-[0.75rem] text-primary w-14 flex-shrink-0 font-mono font-bold">
-                {elective.code}
-              </span>
-              <span className="text-[0.8rem] text-text flex-1 min-w-0 truncate font-medium">
-                {elective.name}
-              </span>
-              <span className="text-[0.65rem] uppercase tracking-widest text-text-muted border border-border px-1.5 py-0.5 hidden sm:inline-block flex-shrink-0 font-mono rounded">
-                {elective.category.split(" ")[0]}
-              </span>
-              <span className="text-[0.75rem] text-text-muted flex-shrink-0 font-mono">
-                {elective.credits} cr
-              </span>
-              <button
-                type="button"
-                onClick={() => onEditElective(idx)}
-                className="flex items-center gap-1 text-[0.7rem] font-bold text-text-muted hover:text-primary transition-colors opacity-0 group-hover:opacity-100 border border-transparent hover:border-primary/40 px-2 py-1 flex-shrink-0 font-mono rounded"
-              >
-                <Pencil size={11} />
-                <span className="hidden sm:inline">Change</span>
-              </button>
+
+          {/* ── SESSIONAL & PRACTICAL LABS ── */}
+          <div className="border-t border-border">
+            <div className="px-5 py-3 flex items-center justify-between bg-success/5">
+              <div className="flex items-center gap-2">
+                <div className="w-1 h-3.5 bg-success rounded-full" />
+                <span className="text-[0.6875rem] uppercase tracking-widest font-bold text-success font-mono">
+                  Sessional & Practical Labs
+                </span>
+                <span className="text-[0.65rem] uppercase tracking-widest text-text-muted border border-border px-1.5 py-0.5 rounded font-mono ml-1">
+                  {sessionalCourses.length} labs
+                </span>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
+            <div className="overflow-x-auto">
+              <table className="portal-table">
+                <thead>
+                  <tr>
+                    <th className="w-28 pl-5">Code</th>
+                    <th>Lab / Sessional Name</th>
+                    <th className="w-16 text-center">Cr.</th>
+                    <th className="w-24 text-center">L-T-P</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sessionalCourses.map((c) => (
+                    <tr key={c.code}>
+                      <td className="pl-5">
+                        <span className="font-mono text-success text-[0.8rem] font-medium">
+                          {c.code}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="text-text font-normal text-[0.8rem]">{c.name}</span>
+                      </td>
+                      <td className="text-center">
+                        <span className="text-text-secondary text-[0.8rem] font-mono tabular">
+                          {c.semesterMapping?.creditPoints ?? "—"}
+                        </span>
+                      </td>
+                      <td className="text-center">
+                        <span className="text-text-secondary text-[0.8rem] font-mono tabular">
+                          {c.semesterMapping
+                            ? `${c.semesterMapping.periodL}-${c.semesterMapping.periodT}-${c.semesterMapping.periodP}`
+                            : "—"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                  {sessionalCourses.length === 0 && (
+                    <tr>
+                      <td colSpan={4} className="px-5 py-4 text-center">
+                        <span className="text-xs text-text-muted italic">
+                          No sessional lab courses found for this semester.
+                        </span>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* ── ELECTIVE SUB-SECTION ── */}
+          <div className="border-t border-border">
+            <div className="px-5 py-3 flex items-center justify-between bg-primary/5">
+              <div className="flex items-center gap-2">
+                <div className="w-1 h-3.5 bg-primary rounded-full" />
+                <span className="text-[0.6875rem] uppercase tracking-widest font-bold text-primary font-mono">
+                  Electives
+                </span>
+                <span className="text-[0.65rem] uppercase tracking-widest text-text-muted border border-border px-1.5 py-0.5 rounded font-mono ml-1">
+                  {electiveGroups.length} slots
+                </span>
+              </div>
+            </div>
+            <div className="divide-y divide-border">
+              {electiveGroups.map((group, idx) => {
+                const selected = selectedElectives[idx];
+                return (
+                  <div
+                    key={group.basket}
+                    className="px-5 py-3.5 flex items-center gap-3 sm:gap-4 hover:bg-surface2/50 transition-colors group"
+                  >
+                    <span className="text-[0.75rem] text-text-muted w-4 flex-shrink-0 text-center font-mono">
+                      {idx + 1}
+                    </span>
+                    <span className="text-[0.75rem] text-primary flex-shrink-0 font-mono font-bold">
+                      {selected?.code ?? "—"}
+                    </span>
+                    <span className="text-[0.8rem] text-text flex-1 min-w-0 truncate font-medium">
+                      {selected?.name ?? "No course selected"}
+                    </span>
+                    <span className="text-[0.65rem] uppercase tracking-widest text-text-muted border border-border px-1.5 py-0.5 hidden sm:inline-block flex-shrink-0 font-mono rounded">
+                      {BASKET_LABELS[group.basket] ?? group.basket}
+                    </span>
+                    <span className="text-[0.75rem] text-text-muted flex-shrink-0 font-mono">
+                      {selected?.semesterMapping?.creditPoints ?? "—"} cr
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => onEditElective(idx)}
+                      className="flex items-center gap-1 text-[0.7rem] font-bold text-text-muted hover:text-primary transition-colors opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus:opacity-100 max-sm:opacity-100 border border-transparent hover:border-primary/40 px-2 py-1 flex-shrink-0 font-mono rounded"
+                    >
+                      <Pencil size={11} />
+                      <span className="hidden sm:inline">Change</span>
+                    </button>
+                  </div>
+                );
+              })}
+              {electiveGroups.length === 0 && (
+                <div className="px-5 py-6 text-center">
+                  <p className="text-xs text-text-muted italic">
+                    No elective slots found for this semester.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
+
 
 const SemesterSgpaCard = ({ semData, onEdit }: { semData: SemesterSGPA[]; onEdit: () => void }) => {
   return (
@@ -756,21 +729,70 @@ export const ProfilePage = () => {
       ? user.profile.tags
       : DEFAULT_TECHNICAL_SKILLS;
 
+  // Current semester comes from the DB (User.currentSemester); fall back to SEM_3.
+  const semester = user?.currentSemester ?? "SEM_3";
+  const semesterLabel = SEMESTER_LABELS[semester] ?? semester;
+
+  // Live courses + electives from the database for the student's semester.
+  // Three main (core theory) courses + three elective baskets for SEM_3.
+  const coursesQuery = useCourses({ semester, isElective: "false" });
+  const electivesQuery = useElectives({ semester });
+
+  const coreCourses = useMemo(
+    () =>
+      (coursesQuery.data?.data ?? []).filter(
+        (c) => c.semesterMapping?.type === "THEORY" && !c.elective,
+      ),
+    [coursesQuery.data],
+  );
+  const sessionalCourses = useMemo(
+    () =>
+      (coursesQuery.data?.data ?? []).filter(
+        (c) => c.semesterMapping?.type === "SESSIONAL",
+      ),
+    [coursesQuery.data],
+  );
+  const electiveGroups = useMemo(
+    () => electivesQuery.data?.data ?? [],
+    [electivesQuery.data],
+  );
+  const coursesLoading = coursesQuery.isLoading || electivesQuery.isLoading;
+  const coursesError = coursesQuery.isError || electivesQuery.isError;
+  const coursesErrorDetail =
+    (coursesQuery.error instanceof Error && coursesQuery.error.message) ||
+    (electivesQuery.error instanceof Error && electivesQuery.error.message) ||
+    null;
+  const retryCourses = () => {
+    coursesQuery.refetch();
+    electivesQuery.refetch();
+  };
+
   // Local state for interactive cards (SGPA, Achievements, and Electives)
   const [semData, setSemData] = useState<SemesterSGPA[]>(DEFAULT_SEMESTER_SGPA);
   const [achievements, setAchievements] = useState<Achievement[]>(DEFAULT_ACHIEVEMENTS);
-  const [selectedElectives, setSelectedElectives] = useState<ElectiveItem[]>([
-    ELECTIVE_CATALOG[0],
-    ELECTIVE_CATALOG[3],
-    ELECTIVE_CATALOG[8],
-  ]);
+
+  const saveElectiveMutation = useSaveElective();
+
+  // One chosen course per elective basket (slot), defaulting to user selection or first DB option.
+  const [selectedElectives, setSelectedElectives] = useState<(CourseDto | undefined)[]>([]);
+
+  useEffect(() => {
+    const userSelections = electivesQuery.data?.userSelections;
+    if (!electiveGroups.length) return;
+
+    setSelectedElectives(
+      electiveGroups.map((group) => {
+        const dbSelection = userSelections?.[group.basket];
+        if (dbSelection) return dbSelection;
+        return group.courses[0];
+      }),
+    );
+  }, [electiveGroups, electivesQuery.data?.userSelections]);
 
   // Elective picker modal state
   const [editingSlotIdx, setEditingSlotIdx] = useState<number>(0);
-  const [tempElective, setTempElective] = useState<ElectiveItem>(ELECTIVE_CATALOG[0]);
-  const [electiveTab, setElectiveTab] = useState<"Core Elective" | "Open Elective">(
-    "Core Elective",
-  );
+  const [tempElective, setTempElective] = useState<CourseDto | null>(null);
+  const [electiveSaveError, setElectiveSaveError] = useState<string | null>(null);
 
   // Temporary state for sub-modals
   const [tempImg, setTempImg] = useState("");
@@ -792,9 +814,10 @@ export const ProfilePage = () => {
 
   const openElectiveModal = (slotIdx: number) => {
     setEditingSlotIdx(slotIdx);
-    const cur = selectedElectives[slotIdx] || ELECTIVE_CATALOG[0];
-    setTempElective(cur);
-    setElectiveTab(cur.category);
+    const group = electiveGroups[slotIdx];
+    const cur = selectedElectives[slotIdx] ?? group?.courses[0] ?? null;
+    setTempElective(cur ?? null);
+    setElectiveSaveError(null);
     setActiveSubModal("elective");
   };
 
@@ -807,8 +830,25 @@ export const ProfilePage = () => {
       setSemData([...tempSem]);
     } else if (activeSubModal === "achievements") {
       setAchievements([...tempAch]);
-    } else if (activeSubModal === "elective") {
-      setSelectedElectives((prev) => prev.map((e, i) => (i === editingSlotIdx ? tempElective : e)));
+    } else if (activeSubModal === "elective" && tempElective) {
+      const chosen = tempElective;
+      const group = electiveGroups[editingSlotIdx];
+      if (group) {
+        try {
+          setElectiveSaveError(null);
+          await saveElectiveMutation.mutateAsync({
+            courseCode: chosen.code,
+            basket: group.basket,
+            semester,
+          });
+        } catch (err) {
+          setElectiveSaveError(
+            err instanceof Error ? err.message : "Failed to save elective. Please try again.",
+          );
+          return;
+        }
+      }
+      setSelectedElectives((prev) => prev.map((e, i) => (i === editingSlotIdx ? chosen : e)));
     }
     setActiveSubModal(null);
   };
@@ -862,9 +902,16 @@ export const ProfilePage = () => {
         {/* Right Column */}
         <div className="flex flex-col gap-6">
           <CoursesTable
-            courses={PLACEHOLDER_COURSES}
+            coreCourses={coreCourses}
+            sessionalCourses={sessionalCourses}
+            electiveGroups={electiveGroups}
             selectedElectives={selectedElectives}
             onEditElective={openElectiveModal}
+            isLoading={coursesLoading}
+            isError={coursesError}
+            errorDetail={coursesErrorDetail}
+            onRetry={retryCourses}
+            semesterLabel={semesterLabel}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <SemesterSgpaCard semData={semData} onEdit={() => openSubModal("sgpa")} />
@@ -1145,36 +1192,26 @@ export const ProfilePage = () => {
       {/* ── ELECTIVE PICKER MODAL ── */}
       {activeSubModal === "elective" &&
         (() => {
+          const group = electiveGroups[editingSlotIdx];
+          const options = group?.courses ?? [];
+          const basketName =
+            (group && (BASKET_LABELS[group.basket] ?? group.basket)) || "Elective";
           const takenCodes = selectedElectives
             .filter((_, i) => i !== editingSlotIdx)
-            .map((e) => e.code);
-          const slotLabel = ["1st", "2nd", "3rd"][editingSlotIdx];
+            .map((e) => e?.code)
+            .filter((code): code is string => Boolean(code));
+          const slotLabel = ["1st", "2nd", "3rd"][editingSlotIdx] ?? `${editingSlotIdx + 1}th`;
           return (
             <EditModal
-              title={`Elective ${editingSlotIdx + 1} of 3 — ${slotLabel} Slot`}
+              title={`${basketName} — ${slotLabel} Slot`}
               onClose={() => setActiveSubModal(null)}
               onSave={handleSaveSubModal}
+              isPending={saveElectiveMutation.isPending}
             >
               <div>
-                <div className="flex gap-0 border-b border-border mb-4 -mx-5 px-5">
-                  {(["Core Elective", "Open Elective"] as const).map((tab) => (
-                    <button
-                      key={tab}
-                      type="button"
-                      onClick={() => setElectiveTab(tab)}
-                      className={`px-4 py-2.5 text-[0.65rem] uppercase tracking-widest border-b-2 -mb-px transition-colors whitespace-nowrap font-mono ${
-                        electiveTab === tab
-                          ? "border-primary text-primary font-bold"
-                          : "border-transparent text-text-muted hover:text-text"
-                      }`}
-                    >
-                      {tab}
-                    </button>
-                  ))}
-                </div>
                 <div className="space-y-2">
-                  {ELECTIVE_CATALOG.filter((e) => e.category === electiveTab).map((e) => {
-                    const isSelected = tempElective.code === e.code;
+                  {options.map((e) => {
+                    const isSelected = tempElective?.code === e.code;
                     const isTaken = takenCodes.includes(e.code);
                     return (
                       <button
@@ -1201,7 +1238,7 @@ export const ProfilePage = () => {
                                 {e.code}
                               </span>
                               <span className="text-[0.625rem] uppercase tracking-widest text-text-muted border border-border px-1.5 py-0.5 rounded font-mono">
-                                {e.credits} cr
+                                {e.semesterMapping?.creditPoints ?? "—"} cr
                               </span>
                               {isTaken && (
                                 <span className="text-[0.625rem] uppercase tracking-widest text-amber-500/80 border border-amber-800/40 px-1.5 py-0.5 rounded font-mono">
@@ -1216,9 +1253,13 @@ export const ProfilePage = () => {
                             >
                               {e.name}
                             </p>
-                            <p className="text-[0.6875rem] text-text-muted mt-0.5 leading-relaxed font-mono">
-                              {e.desc}
-                            </p>
+                            {e.semesterMapping && (
+                              <p className="text-[0.6875rem] text-text-muted mt-0.5 leading-relaxed font-mono">
+                                L-T-P{" "}
+                                {e.semesterMapping.periodL}-{e.semesterMapping.periodT}-
+                                {e.semesterMapping.periodP}
+                              </p>
+                            )}
                           </div>
                           <div
                             className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${
@@ -1231,14 +1272,26 @@ export const ProfilePage = () => {
                       </button>
                     );
                   })}
+                  {options.length === 0 && (
+                    <p className="text-xs text-text-muted italic text-center py-4">
+                      No courses available in this basket.
+                    </p>
+                  )}
                 </div>
-                <div className="mt-4 px-3 py-2.5 bg-surface2/50 border border-border rounded">
-                  <p className="text-[0.6875rem] text-text-muted font-mono">
-                    Slot {editingSlotIdx + 1}:{" "}
-                    <span className="text-text font-medium">{tempElective.name}</span> —{" "}
-                    {tempElective.credits} cr
-                  </p>
-                </div>
+                {electiveSaveError && (
+                  <div className="mt-4 px-3 py-2.5 bg-danger/10 border border-danger/40 rounded">
+                    <p className="text-[0.6875rem] text-danger font-medium">{electiveSaveError}</p>
+                  </div>
+                )}
+                {tempElective && (
+                  <div className="mt-4 px-3 py-2.5 bg-surface2/50 border border-border rounded">
+                    <p className="text-[0.6875rem] text-text-muted font-mono">
+                      Slot {editingSlotIdx + 1}:{" "}
+                      <span className="text-text font-medium">{tempElective.name}</span> —{" "}
+                      {tempElective.semesterMapping?.creditPoints ?? "—"} cr
+                    </p>
+                  </div>
+                )}
               </div>
             </EditModal>
           );

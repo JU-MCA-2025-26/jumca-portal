@@ -1,5 +1,6 @@
 import type { Role } from "./Role.js";
 import type { ApiResponse } from "./ApiResponse.js";
+import type { SemesterTermType } from "./Course.js";
 
 export interface PublicUser {
   id: string;
@@ -8,6 +9,8 @@ export interface PublicUser {
   fullName: string;
   role: Role;
   batch: string;
+  currentYear: number | null;
+  currentSemester: SemesterTermType | null;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;

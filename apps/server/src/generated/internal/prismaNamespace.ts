@@ -403,6 +403,7 @@ export const ModelName = {
   Course: 'Course',
   SemesterMapping: 'SemesterMapping',
   Elective: 'Elective',
+  UserElective: 'UserElective',
   Resource: 'Resource',
   PlacementDrive: 'PlacementDrive',
   PlacementOffer: 'PlacementOffer',
@@ -426,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "profile" | "connectRequest" | "course" | "semesterMapping" | "elective" | "resource" | "placementDrive" | "placementOffer" | "driveResource" | "company" | "interviewExperience" | "interviewRound" | "question"
+    modelProps: "user" | "profile" | "connectRequest" | "course" | "semesterMapping" | "elective" | "userElective" | "resource" | "placementDrive" | "placementOffer" | "driveResource" | "company" | "interviewExperience" | "interviewRound" | "question"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -871,6 +872,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ElectiveCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ElectiveCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserElective: {
+      payload: Prisma.$UserElectivePayload<ExtArgs>
+      fields: Prisma.UserElectiveFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserElectiveFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserElectiveFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload>
+        }
+        findFirst: {
+          args: Prisma.UserElectiveFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserElectiveFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload>
+        }
+        findMany: {
+          args: Prisma.UserElectiveFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload>[]
+        }
+        create: {
+          args: Prisma.UserElectiveCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload>
+        }
+        createMany: {
+          args: Prisma.UserElectiveCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserElectiveCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload>[]
+        }
+        delete: {
+          args: Prisma.UserElectiveDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload>
+        }
+        update: {
+          args: Prisma.UserElectiveUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload>
+        }
+        deleteMany: {
+          args: Prisma.UserElectiveDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserElectiveUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserElectiveUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload>[]
+        }
+        upsert: {
+          args: Prisma.UserElectiveUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserElectivePayload>
+        }
+        aggregate: {
+          args: Prisma.UserElectiveAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserElective>
+        }
+        groupBy: {
+          args: Prisma.UserElectiveGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserElectiveGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserElectiveCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserElectiveCountAggregateOutputType> | number
         }
       }
     }
@@ -1605,6 +1680,19 @@ export const ElectiveScalarFieldEnum = {
 export type ElectiveScalarFieldEnum = (typeof ElectiveScalarFieldEnum)[keyof typeof ElectiveScalarFieldEnum]
 
 
+export const UserElectiveScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  courseCode: 'courseCode',
+  basket: 'basket',
+  semester: 'semester',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserElectiveScalarFieldEnum = (typeof UserElectiveScalarFieldEnum)[keyof typeof UserElectiveScalarFieldEnum]
+
+
 export const ResourceScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -2067,6 +2155,7 @@ export type GlobalOmitConfig = {
   course?: Prisma.CourseOmit
   semesterMapping?: Prisma.SemesterMappingOmit
   elective?: Prisma.ElectiveOmit
+  userElective?: Prisma.UserElectiveOmit
   resource?: Prisma.ResourceOmit
   placementDrive?: Prisma.PlacementDriveOmit
   placementOffer?: Prisma.PlacementOfferOmit

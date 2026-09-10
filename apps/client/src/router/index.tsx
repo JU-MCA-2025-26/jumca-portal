@@ -7,6 +7,7 @@ import {
   ProfilePage,
   AlumniListPage,
   AlumniProfilePage,
+  CoursesPage,
 } from "@/pages/index.ts";
 import { ProtectedRoute } from "../features/auth/components/ProtectedRoute.tsx";
 import ComingSoon from "@/components/ui/ComingSoon.tsx";
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "classes",
-            element: <ComingSoon label="Classes" />,
+            element: <CoursesPage />,
           },
           {
             path: "placements",
