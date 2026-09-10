@@ -51,9 +51,12 @@ export class CourseService {
   private mapElectiveBasket(basket?: string): ElectiveBasket | undefined {
     if (!basket) return undefined;
     const cleaned = basket.trim().toUpperCase();
-    if (cleaned === "ELECTIVE_I" || cleaned === "I" || cleaned === "1") return ElectiveBasket.ELECTIVE_I;
-    if (cleaned === "ELECTIVE_II" || cleaned === "II" || cleaned === "2") return ElectiveBasket.ELECTIVE_II;
-    if (cleaned === "ELECTIVE_III" || cleaned === "III" || cleaned === "3") return ElectiveBasket.ELECTIVE_III;
+    if (cleaned === "ELECTIVE_I" || cleaned === "I" || cleaned === "1")
+      return ElectiveBasket.ELECTIVE_I;
+    if (cleaned === "ELECTIVE_II" || cleaned === "II" || cleaned === "2")
+      return ElectiveBasket.ELECTIVE_II;
+    if (cleaned === "ELECTIVE_III" || cleaned === "III" || cleaned === "3")
+      return ElectiveBasket.ELECTIVE_III;
     return undefined;
   }
 
@@ -85,15 +88,17 @@ export class CourseService {
         semesterMapping: true,
         elective: true,
       },
-      orderBy: [
-        { code: "asc" },
-      ],
+      orderBy: [{ code: "asc" }],
     });
 
     return courses.map(this.toCourseDto);
   }
 
-  async getElectives({ semester, basket, userId }: GetElectivesOptions & { userId?: string }): Promise<{
+  async getElectives({
+    semester,
+    basket,
+    userId,
+  }: GetElectivesOptions & { userId?: string }): Promise<{
     data: ElectiveGroupDto[];
     userSelections?: Record<string, CourseDto>;
   }> {
@@ -127,10 +132,7 @@ export class CourseService {
           },
         },
       },
-      orderBy: [
-        { basket: "asc" },
-        { courseCode: "asc" },
-      ],
+      orderBy: [{ basket: "asc" }, { courseCode: "asc" }],
     });
 
     // Group by basket

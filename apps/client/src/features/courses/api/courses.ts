@@ -38,7 +38,7 @@ export const useCourses = (params: GetCoursesQueryParams = {}) =>
           semester: params.semester,
           type: params.type,
           isElective: params.isElective,
-        })}`
+        })}`,
       ),
     staleTime: 5 * 60 * 1000,
   });
@@ -54,7 +54,7 @@ export const useElectives = (params: GetElectivesQueryParams = {}) =>
         `/api/courses/electives${buildQuery({
           semester: params.semester,
           basket: params.basket,
-        })}`
+        })}`,
       ),
     staleTime: 5 * 60 * 1000,
   });

@@ -1,5 +1,10 @@
 import type { Request, Response } from "express";
-import type { AuthRequest, GetCoursesResponse, GetElectivesResponse, SaveElectiveResponse } from "@jumca/shared";
+import type {
+  AuthRequest,
+  GetCoursesResponse,
+  GetElectivesResponse,
+  SaveElectiveResponse,
+} from "@jumca/shared";
 import { asyncHandler } from "@/utils/asyncHandler.js";
 import courseService from "@/services/course.service.js";
 
@@ -18,40 +23,49 @@ export const getCourses = asyncHandler(async (req: Request, res: Response<GetCou
   });
 });
 
-export const getElectives = asyncHandler(async (req: AuthRequest, res: Response<GetElectivesResponse>) => {
-  const { semester, basket } = req.query as {
-    semester?: string;
-    basket?: string;
-  };
+export const getElectives = asyncHandler(
+  async (req: AuthRequest, res: Response<GetElectivesResponse>) => {
+    const { semester, basket } = req.query as {
+      semester?: string;
+      basket?: string;
+    };
 
-  const userId = req.user?.userId;
-  const result = await courseService.getElectives({ semester, basket, userId });
+    const userId = req.user?.userId;
+    const result = await courseService.getElectives({ semester, basket, userId });
 
-  res.json({
-    success: true,
-    data: result.data,
-    userSelections: result.userSelections,
-  });
-});
-
-export const saveElective = asyncHandler(async (req: AuthRequest, res: Response<SaveElectiveResponse>) => {
-  const { courseCode, basket, semester } = req.body;
-  const userId = req.user?.userId;
-
-  if (!userId) {
-    res.status(401).json({
-      success: false,
-      message: "User not authenticated",
-      data: null as any,
+    res.json({
+      success: true,
+      data: result.data,
+      userSelections: result.userSelections,
     });
-    return;
-  }
+  },
+);
 
-  const userElective = await courseService.saveUserElective({ userId, courseCode, basket, semester });
+export const saveElective = asyncHandler(
+  async (req: AuthRequest, res: Response<SaveElectiveResponse>) => {
+    const { courseCode, basket, semester } = req.body;
+    const userId = req.user?.userId;
 
-  res.status(201).json({
-    success: true,
-    message: "Elective preference saved successfully",
-    data: userElective,
-  });
-});
+    if (!userId) {
+      res.status(401).json({
+        success: false,
+        message: "User not authenticated",
+        data: null as any,
+      });
+      return;
+    }
+
+    const userElective = await courseService.saveUserElective({
+      userId,
+      courseCode,
+      basket,
+      semester,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Elective preference saved successfully",
+      data: userElective,
+    });
+  },
+);

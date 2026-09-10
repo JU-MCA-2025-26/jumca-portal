@@ -47,7 +47,10 @@ export default function CourseCard({ course }: CourseCardProps) {
           {/* Periods & Credits */}
           <div className="flex items-center justify-between">
             <span className="font-mono text-[0.7rem]">
-              L-T-P: <strong className="text-text">{mapping.periodL}-{mapping.periodT}-{mapping.periodP}</strong>
+              L-T-P:{" "}
+              <strong className="text-text">
+                {mapping.periodL}-{mapping.periodT}-{mapping.periodP}
+              </strong>
             </span>
             <span className="font-semibold text-text-secondary">
               Credits: <span className="text-primary font-bold">{mapping.creditPoints}</span>
@@ -56,9 +59,15 @@ export default function CourseCard({ course }: CourseCardProps) {
 
           {/* Marks breakdown */}
           <div className="flex items-center justify-between text-[0.7rem] bg-bg/50 px-2.5 py-1.5 rounded border border-border/40">
-            <span>Exam: <strong className="text-text">{mapping.examMarks}</strong></span>
-            <span>Sessional: <strong className="text-text">{mapping.sessionalMarks}</strong></span>
-            <span>Total: <strong className="text-text-secondary font-bold">{mapping.totalMarks}</strong></span>
+            <span>
+              Exam: <strong className="text-text">{mapping.examMarks}</strong>
+            </span>
+            <span>
+              Sessional: <strong className="text-text">{mapping.sessionalMarks}</strong>
+            </span>
+            <span>
+              Total: <strong className="text-text-secondary font-bold">{mapping.totalMarks}</strong>
+            </span>
           </div>
         </div>
       )}

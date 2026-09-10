@@ -38,10 +38,10 @@ export default function CoursesPage() {
 
   // Group regular non-elective courses into Theory and Sessional
   const coreTheoryCourses = courses.filter(
-    (c) => c.semesterMapping?.type === "THEORY" && !c.elective
+    (c) => c.semesterMapping?.type === "THEORY" && !c.elective,
   );
   const sessionalCourses = courses.filter(
-    (c) => c.semesterMapping?.type === "SESSIONAL" && !c.elective
+    (c) => c.semesterMapping?.type === "SESSIONAL" && !c.elective,
   );
 
   const currentTab = SEMESTER_TABS.find((t) => t.id === activeSemester);
@@ -79,7 +79,9 @@ export default function CoursesPage() {
       <div className="flex flex-wrap items-center justify-between gap-4 bg-surface p-4 rounded-lg border border-border">
         <div className="flex items-center gap-2">
           <Filter size={16} className="text-primary" />
-          <span className="text-xs font-semibold uppercase tracking-wider text-text-muted">Filter:</span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-text-muted">
+            Filter:
+          </span>
           <div className="flex flex-wrap gap-1.5 ml-2">
             {[
               { id: "ALL", label: "Full Curriculum" },
@@ -119,7 +121,10 @@ export default function CoursesPage() {
       {isLoading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-48 rounded-xl bg-surface2/60 animate-pulse border border-border" />
+            <div
+              key={i}
+              className="h-48 rounded-xl bg-surface2/60 animate-pulse border border-border"
+            />
           ))}
         </div>
       )}

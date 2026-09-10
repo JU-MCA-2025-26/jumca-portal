@@ -16,7 +16,7 @@ const BASKET_DISPLAY_NAMES: Record<string, string> = {
 export default function ElectiveSlotCard({ group, selectedCourseFromDb }: ElectiveSlotCardProps) {
   // Default to user selection from database or first course in the basket
   const [selectedCourseCode, setSelectedCourseCode] = useState<string>(
-    selectedCourseFromDb?.code ?? group.courses[0]?.code ?? ""
+    selectedCourseFromDb?.code ?? group.courses[0]?.code ?? "",
   );
 
   useEffect(() => {
@@ -31,8 +31,7 @@ export default function ElectiveSlotCard({ group, selectedCourseFromDb }: Electi
     group.courses.find((c) => c.code === selectedCourseCode) || group.courses[0];
   const mapping = selectedCourse?.semesterMapping;
 
-  const basketTitle =
-    BASKET_DISPLAY_NAMES[group.basket] || group.basket.replace("_", " ");
+  const basketTitle = BASKET_DISPLAY_NAMES[group.basket] || group.basket.replace("_", " ");
 
   const handleSelectChange = (newCourseCode: string) => {
     setSelectedCourseCode(newCourseCode);
@@ -113,8 +112,7 @@ export default function ElectiveSlotCard({ group, selectedCourseFromDb }: Electi
               Sessional: <strong className="text-text">{mapping.sessionalMarks}</strong>
             </span>
             <span>
-              Total:{" "}
-              <strong className="text-text-secondary font-bold">{mapping.totalMarks}</strong>
+              Total: <strong className="text-text-secondary font-bold">{mapping.totalMarks}</strong>
             </span>
           </div>
         </div>

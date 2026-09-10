@@ -213,7 +213,8 @@ const CoursesTable = ({
           CURRENT SEMESTER COURSES — {semesterLabel}
         </p>
         <span className="text-[0.65rem] font-mono text-text-muted">
-          {coreCourses.length} theory + {sessionalCourses.length} sessional + {selectedElectives.length} elective
+          {coreCourses.length} theory + {sessionalCourses.length} sessional +{" "}
+          {selectedElectives.length} elective
         </span>
       </div>
 
@@ -415,7 +416,6 @@ const CoursesTable = ({
     </div>
   );
 };
-
 
 const SemesterSgpaCard = ({ semData, onEdit }: { semData: SemesterSGPA[]; onEdit: () => void }) => {
   return (
@@ -746,16 +746,10 @@ export const ProfilePage = () => {
     [coursesQuery.data],
   );
   const sessionalCourses = useMemo(
-    () =>
-      (coursesQuery.data?.data ?? []).filter(
-        (c) => c.semesterMapping?.type === "SESSIONAL",
-      ),
+    () => (coursesQuery.data?.data ?? []).filter((c) => c.semesterMapping?.type === "SESSIONAL"),
     [coursesQuery.data],
   );
-  const electiveGroups = useMemo(
-    () => electivesQuery.data?.data ?? [],
-    [electivesQuery.data],
-  );
+  const electiveGroups = useMemo(() => electivesQuery.data?.data ?? [], [electivesQuery.data]);
   const coursesLoading = coursesQuery.isLoading || electivesQuery.isLoading;
   const coursesError = coursesQuery.isError || electivesQuery.isError;
   const coursesErrorDetail =
@@ -1194,8 +1188,7 @@ export const ProfilePage = () => {
         (() => {
           const group = electiveGroups[editingSlotIdx];
           const options = group?.courses ?? [];
-          const basketName =
-            (group && (BASKET_LABELS[group.basket] ?? group.basket)) || "Elective";
+          const basketName = (group && (BASKET_LABELS[group.basket] ?? group.basket)) || "Elective";
           const takenCodes = selectedElectives
             .filter((_, i) => i !== editingSlotIdx)
             .map((e) => e?.code)
@@ -1255,8 +1248,7 @@ export const ProfilePage = () => {
                             </p>
                             {e.semesterMapping && (
                               <p className="text-[0.6875rem] text-text-muted mt-0.5 leading-relaxed font-mono">
-                                L-T-P{" "}
-                                {e.semesterMapping.periodL}-{e.semesterMapping.periodT}-
+                                L-T-P {e.semesterMapping.periodL}-{e.semesterMapping.periodT}-
                                 {e.semesterMapping.periodP}
                               </p>
                             )}
