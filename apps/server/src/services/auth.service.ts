@@ -51,6 +51,10 @@ export class AuthService {
       },
     });
 
+    const profile = await prisma.profile.findUnique({
+      where: { userId: user.id },
+    });
+
     const safeUser = {
       id: user.id,
       rollNumber: user.rollNumber,
@@ -58,7 +62,10 @@ export class AuthService {
       fullName: user.fullName,
       role: user.role,
       batch: user.batch,
+      currentYear: user.currentYear,
+      currentSemester: user.currentSemester,
       isActive: user.isActive,
+      profile,
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
     };
@@ -156,16 +163,8 @@ export class AuthService {
       where: {
         id: userId,
       },
-      select: {
-        id: true,
-        rollNumber: true,
-        email: true,
-        fullName: true,
-        role: true,
-        batch: true,
-        isActive: true,
-        createdAt: true,
-        updatedAt: true,
+      include: {
+        profile: true,
       },
     });
 
@@ -174,7 +173,16 @@ export class AuthService {
     }
 
     return {
-      ...user,
+      id: user.id,
+      rollNumber: user.rollNumber,
+      email: user.email,
+      fullName: user.fullName,
+      role: user.role,
+      batch: user.batch,
+      currentYear: user.currentYear,
+      currentSemester: user.currentSemester,
+      isActive: user.isActive,
+      profile: user.profile,
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
     };
@@ -226,6 +234,10 @@ export class AuthService {
       },
     });
 
+    const profile = await prisma.profile.findUnique({
+      where: { userId: user.id },
+    });
+
     const safeUser = {
       id: user.id,
       rollNumber: user.rollNumber,
@@ -233,7 +245,10 @@ export class AuthService {
       fullName: user.fullName,
       role: user.role,
       batch: user.batch,
+      currentYear: user.currentYear,
+      currentSemester: user.currentSemester,
       isActive: user.isActive,
+      profile,
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
     };

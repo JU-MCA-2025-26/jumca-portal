@@ -303,6 +303,7 @@ export type UserWhereInput = {
   interviews?: Prisma.InterviewExperienceListRelationFilter
   connectRequestsSent?: Prisma.ConnectRequestListRelationFilter
   connectRequestsReceived?: Prisma.ConnectRequestListRelationFilter
+  userElectives?: Prisma.UserElectiveListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -328,6 +329,7 @@ export type UserOrderByWithRelationInput = {
   interviews?: Prisma.InterviewExperienceOrderByRelationAggregateInput
   connectRequestsSent?: Prisma.ConnectRequestOrderByRelationAggregateInput
   connectRequestsReceived?: Prisma.ConnectRequestOrderByRelationAggregateInput
+  userElectives?: Prisma.UserElectiveOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -356,6 +358,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   interviews?: Prisma.InterviewExperienceListRelationFilter
   connectRequestsSent?: Prisma.ConnectRequestListRelationFilter
   connectRequestsReceived?: Prisma.ConnectRequestListRelationFilter
+  userElectives?: Prisma.UserElectiveListRelationFilter
 }, "id" | "rollNumber" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -425,6 +428,7 @@ export type UserCreateInput = {
   interviews?: Prisma.InterviewExperienceCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -450,6 +454,7 @@ export type UserUncheckedCreateInput = {
   interviews?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -475,6 +480,7 @@ export type UserUpdateInput = {
   interviews?: Prisma.InterviewExperienceUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -500,6 +506,7 @@ export type UserUncheckedUpdateInput = {
   interviews?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -701,6 +708,20 @@ export type UserUpdateOneRequiredWithoutConnectRequestsReceivedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConnectRequestsReceivedInput, Prisma.UserUpdateWithoutConnectRequestsReceivedInput>, Prisma.UserUncheckedUpdateWithoutConnectRequestsReceivedInput>
 }
 
+export type UserCreateNestedOneWithoutUserElectivesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserElectivesInput, Prisma.UserUncheckedCreateWithoutUserElectivesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserElectivesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUserElectivesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserElectivesInput, Prisma.UserUncheckedCreateWithoutUserElectivesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserElectivesInput
+  upsert?: Prisma.UserUpsertWithoutUserElectivesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserElectivesInput, Prisma.UserUpdateWithoutUserElectivesInput>, Prisma.UserUncheckedUpdateWithoutUserElectivesInput>
+}
+
 export type UserCreateNestedOneWithoutResourcesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutResourcesInput, Prisma.UserUncheckedCreateWithoutResourcesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutResourcesInput
@@ -779,6 +800,7 @@ export type UserCreateWithoutProfileInput = {
   interviews?: Prisma.InterviewExperienceCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfileInput = {
@@ -803,6 +825,7 @@ export type UserUncheckedCreateWithoutProfileInput = {
   interviews?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfileInput = {
@@ -843,6 +866,7 @@ export type UserUpdateWithoutProfileInput = {
   interviews?: Prisma.InterviewExperienceUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfileInput = {
@@ -867,6 +891,7 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   interviews?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutConnectRequestsSentInput = {
@@ -891,6 +916,7 @@ export type UserCreateWithoutConnectRequestsSentInput = {
   placementOffers?: Prisma.PlacementOfferCreateNestedManyWithoutUserInput
   interviews?: Prisma.InterviewExperienceCreateNestedManyWithoutAuthorInput
   connectRequestsReceived?: Prisma.ConnectRequestCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutConnectRequestsSentInput = {
@@ -915,6 +941,7 @@ export type UserUncheckedCreateWithoutConnectRequestsSentInput = {
   placementOffers?: Prisma.PlacementOfferUncheckedCreateNestedManyWithoutUserInput
   interviews?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutAuthorInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConnectRequestsSentInput = {
@@ -944,6 +971,7 @@ export type UserCreateWithoutConnectRequestsReceivedInput = {
   placementOffers?: Prisma.PlacementOfferCreateNestedManyWithoutUserInput
   interviews?: Prisma.InterviewExperienceCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestCreateNestedManyWithoutRequesterInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutConnectRequestsReceivedInput = {
@@ -968,6 +996,7 @@ export type UserUncheckedCreateWithoutConnectRequestsReceivedInput = {
   placementOffers?: Prisma.PlacementOfferUncheckedCreateNestedManyWithoutUserInput
   interviews?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutRequesterInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConnectRequestsReceivedInput = {
@@ -1008,6 +1037,7 @@ export type UserUpdateWithoutConnectRequestsSentInput = {
   placementOffers?: Prisma.PlacementOfferUpdateManyWithoutUserNestedInput
   interviews?: Prisma.InterviewExperienceUpdateManyWithoutAuthorNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConnectRequestsSentInput = {
@@ -1032,6 +1062,7 @@ export type UserUncheckedUpdateWithoutConnectRequestsSentInput = {
   placementOffers?: Prisma.PlacementOfferUncheckedUpdateManyWithoutUserNestedInput
   interviews?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutAuthorNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutConnectRequestsReceivedInput = {
@@ -1067,6 +1098,7 @@ export type UserUpdateWithoutConnectRequestsReceivedInput = {
   placementOffers?: Prisma.PlacementOfferUpdateManyWithoutUserNestedInput
   interviews?: Prisma.InterviewExperienceUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUpdateManyWithoutRequesterNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConnectRequestsReceivedInput = {
@@ -1091,6 +1123,123 @@ export type UserUncheckedUpdateWithoutConnectRequestsReceivedInput = {
   placementOffers?: Prisma.PlacementOfferUncheckedUpdateManyWithoutUserNestedInput
   interviews?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutUserElectivesInput = {
+  id?: string
+  rollNumber: string
+  email: string
+  password: string
+  fullName: string
+  role: $Enums.Role
+  batch: string
+  currentYear?: number | null
+  currentSemester?: $Enums.SemesterTerm | null
+  isActive?: boolean
+  refreshToken?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.ProfileCreateNestedOneWithoutUserInput
+  resources?: Prisma.ResourceCreateNestedManyWithoutUploaderInput
+  driveResources?: Prisma.DriveResourceCreateNestedManyWithoutUploaderInput
+  placementOffers?: Prisma.PlacementOfferCreateNestedManyWithoutUserInput
+  interviews?: Prisma.InterviewExperienceCreateNestedManyWithoutAuthorInput
+  connectRequestsSent?: Prisma.ConnectRequestCreateNestedManyWithoutRequesterInput
+  connectRequestsReceived?: Prisma.ConnectRequestCreateNestedManyWithoutAlumniInput
+}
+
+export type UserUncheckedCreateWithoutUserElectivesInput = {
+  id?: string
+  rollNumber: string
+  email: string
+  password: string
+  fullName: string
+  role: $Enums.Role
+  batch: string
+  currentYear?: number | null
+  currentSemester?: $Enums.SemesterTerm | null
+  isActive?: boolean
+  refreshToken?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.ProfileUncheckedCreateNestedOneWithoutUserInput
+  resources?: Prisma.ResourceUncheckedCreateNestedManyWithoutUploaderInput
+  driveResources?: Prisma.DriveResourceUncheckedCreateNestedManyWithoutUploaderInput
+  placementOffers?: Prisma.PlacementOfferUncheckedCreateNestedManyWithoutUserInput
+  interviews?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutAuthorInput
+  connectRequestsSent?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutRequesterInput
+  connectRequestsReceived?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutAlumniInput
+}
+
+export type UserCreateOrConnectWithoutUserElectivesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserElectivesInput, Prisma.UserUncheckedCreateWithoutUserElectivesInput>
+}
+
+export type UserUpsertWithoutUserElectivesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUserElectivesInput, Prisma.UserUncheckedUpdateWithoutUserElectivesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserElectivesInput, Prisma.UserUncheckedCreateWithoutUserElectivesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUserElectivesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUserElectivesInput, Prisma.UserUncheckedUpdateWithoutUserElectivesInput>
+}
+
+export type UserUpdateWithoutUserElectivesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  rollNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  batch?: Prisma.StringFieldUpdateOperationsInput | string
+  currentYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currentSemester?: Prisma.NullableEnumSemesterTermFieldUpdateOperationsInput | $Enums.SemesterTerm | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.ProfileUpdateOneWithoutUserNestedInput
+  resources?: Prisma.ResourceUpdateManyWithoutUploaderNestedInput
+  driveResources?: Prisma.DriveResourceUpdateManyWithoutUploaderNestedInput
+  placementOffers?: Prisma.PlacementOfferUpdateManyWithoutUserNestedInput
+  interviews?: Prisma.InterviewExperienceUpdateManyWithoutAuthorNestedInput
+  connectRequestsSent?: Prisma.ConnectRequestUpdateManyWithoutRequesterNestedInput
+  connectRequestsReceived?: Prisma.ConnectRequestUpdateManyWithoutAlumniNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUserElectivesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  rollNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  batch?: Prisma.StringFieldUpdateOperationsInput | string
+  currentYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currentSemester?: Prisma.NullableEnumSemesterTermFieldUpdateOperationsInput | $Enums.SemesterTerm | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  refreshToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.ProfileUncheckedUpdateOneWithoutUserNestedInput
+  resources?: Prisma.ResourceUncheckedUpdateManyWithoutUploaderNestedInput
+  driveResources?: Prisma.DriveResourceUncheckedUpdateManyWithoutUploaderNestedInput
+  placementOffers?: Prisma.PlacementOfferUncheckedUpdateManyWithoutUserNestedInput
+  interviews?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutAuthorNestedInput
+  connectRequestsSent?: Prisma.ConnectRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  connectRequestsReceived?: Prisma.ConnectRequestUncheckedUpdateManyWithoutAlumniNestedInput
 }
 
 export type UserCreateWithoutResourcesInput = {
@@ -1115,6 +1264,7 @@ export type UserCreateWithoutResourcesInput = {
   interviews?: Prisma.InterviewExperienceCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutResourcesInput = {
@@ -1139,6 +1289,7 @@ export type UserUncheckedCreateWithoutResourcesInput = {
   interviews?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutResourcesInput = {
@@ -1179,6 +1330,7 @@ export type UserUpdateWithoutResourcesInput = {
   interviews?: Prisma.InterviewExperienceUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutResourcesInput = {
@@ -1203,6 +1355,7 @@ export type UserUncheckedUpdateWithoutResourcesInput = {
   interviews?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPlacementOffersInput = {
@@ -1227,6 +1380,7 @@ export type UserCreateWithoutPlacementOffersInput = {
   interviews?: Prisma.InterviewExperienceCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPlacementOffersInput = {
@@ -1251,6 +1405,7 @@ export type UserUncheckedCreateWithoutPlacementOffersInput = {
   interviews?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPlacementOffersInput = {
@@ -1291,6 +1446,7 @@ export type UserUpdateWithoutPlacementOffersInput = {
   interviews?: Prisma.InterviewExperienceUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPlacementOffersInput = {
@@ -1315,6 +1471,7 @@ export type UserUncheckedUpdateWithoutPlacementOffersInput = {
   interviews?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDriveResourcesInput = {
@@ -1339,6 +1496,7 @@ export type UserCreateWithoutDriveResourcesInput = {
   interviews?: Prisma.InterviewExperienceCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDriveResourcesInput = {
@@ -1363,6 +1521,7 @@ export type UserUncheckedCreateWithoutDriveResourcesInput = {
   interviews?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutAuthorInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDriveResourcesInput = {
@@ -1403,6 +1562,7 @@ export type UserUpdateWithoutDriveResourcesInput = {
   interviews?: Prisma.InterviewExperienceUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDriveResourcesInput = {
@@ -1427,6 +1587,7 @@ export type UserUncheckedUpdateWithoutDriveResourcesInput = {
   interviews?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutAuthorNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInterviewsInput = {
@@ -1451,6 +1612,7 @@ export type UserCreateWithoutInterviewsInput = {
   placementOffers?: Prisma.PlacementOfferCreateNestedManyWithoutUserInput
   connectRequestsSent?: Prisma.ConnectRequestCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInterviewsInput = {
@@ -1475,6 +1637,7 @@ export type UserUncheckedCreateWithoutInterviewsInput = {
   placementOffers?: Prisma.PlacementOfferUncheckedCreateNestedManyWithoutUserInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutRequesterInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedCreateNestedManyWithoutAlumniInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInterviewsInput = {
@@ -1515,6 +1678,7 @@ export type UserUpdateWithoutInterviewsInput = {
   placementOffers?: Prisma.PlacementOfferUpdateManyWithoutUserNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInterviewsInput = {
@@ -1539,6 +1703,7 @@ export type UserUncheckedUpdateWithoutInterviewsInput = {
   placementOffers?: Prisma.PlacementOfferUncheckedUpdateManyWithoutUserNestedInput
   connectRequestsSent?: Prisma.ConnectRequestUncheckedUpdateManyWithoutRequesterNestedInput
   connectRequestsReceived?: Prisma.ConnectRequestUncheckedUpdateManyWithoutAlumniNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1553,6 +1718,7 @@ export type UserCountOutputType = {
   interviews: number
   connectRequestsSent: number
   connectRequestsReceived: number
+  userElectives: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1562,6 +1728,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   interviews?: boolean | UserCountOutputTypeCountInterviewsArgs
   connectRequestsSent?: boolean | UserCountOutputTypeCountConnectRequestsSentArgs
   connectRequestsReceived?: boolean | UserCountOutputTypeCountConnectRequestsReceivedArgs
+  userElectives?: boolean | UserCountOutputTypeCountUserElectivesArgs
 }
 
 /**
@@ -1616,6 +1783,13 @@ export type UserCountOutputTypeCountConnectRequestsReceivedArgs<ExtArgs extends 
   where?: Prisma.ConnectRequestWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUserElectivesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserElectiveWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1640,6 +1814,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   interviews?: boolean | Prisma.User$interviewsArgs<ExtArgs>
   connectRequestsSent?: boolean | Prisma.User$connectRequestsSentArgs<ExtArgs>
   connectRequestsReceived?: boolean | Prisma.User$connectRequestsReceivedArgs<ExtArgs>
+  userElectives?: boolean | Prisma.User$userElectivesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1706,6 +1881,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   interviews?: boolean | Prisma.User$interviewsArgs<ExtArgs>
   connectRequestsSent?: boolean | Prisma.User$connectRequestsSentArgs<ExtArgs>
   connectRequestsReceived?: boolean | Prisma.User$connectRequestsReceivedArgs<ExtArgs>
+  userElectives?: boolean | Prisma.User$userElectivesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1721,6 +1897,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     interviews: Prisma.$InterviewExperiencePayload<ExtArgs>[]
     connectRequestsSent: Prisma.$ConnectRequestPayload<ExtArgs>[]
     connectRequestsReceived: Prisma.$ConnectRequestPayload<ExtArgs>[]
+    userElectives: Prisma.$UserElectivePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2139,6 +2316,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   interviews<T extends Prisma.User$interviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$interviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewExperiencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   connectRequestsSent<T extends Prisma.User$connectRequestsSentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$connectRequestsSentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConnectRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   connectRequestsReceived<T extends Prisma.User$connectRequestsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$connectRequestsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConnectRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userElectives<T extends Prisma.User$userElectivesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userElectivesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserElectivePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2736,6 +2914,30 @@ export type User$connectRequestsReceivedArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.ConnectRequestScalarFieldEnum | Prisma.ConnectRequestScalarFieldEnum[]
+}
+
+/**
+ * User.userElectives
+ */
+export type User$userElectivesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserElective
+   */
+  select?: Prisma.UserElectiveSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserElective
+   */
+  omit?: Prisma.UserElectiveOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserElectiveInclude<ExtArgs> | null
+  where?: Prisma.UserElectiveWhereInput
+  orderBy?: Prisma.UserElectiveOrderByWithRelationInput | Prisma.UserElectiveOrderByWithRelationInput[]
+  cursor?: Prisma.UserElectiveWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserElectiveScalarFieldEnum | Prisma.UserElectiveScalarFieldEnum[]
 }
 
 /**

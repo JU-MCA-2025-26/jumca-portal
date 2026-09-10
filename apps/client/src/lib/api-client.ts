@@ -6,9 +6,14 @@ let refreshInFlight: Promise<boolean> | null = null;
 let csrfToken: string | null = null;
 let csrfTokenInFlight: Promise<string> | null = null;
 
-const getCsrfToken = async (): Promise<string> => {
-  if (csrfToken) {
+const getCsrfToken = async (forceRefresh = false): Promise<string> => {
+  if (csrfToken && !forceRefresh) {
     return csrfToken;
+  }
+
+  if (forceRefresh) {
+    csrfToken = null;
+    csrfTokenInFlight = null;
   }
 
   if (!csrfTokenInFlight) {
@@ -34,6 +39,11 @@ const getCsrfToken = async (): Promise<string> => {
   }
 
   return csrfTokenInFlight;
+};
+
+const clearCsrfToken = (): void => {
+  csrfToken = null;
+  csrfTokenInFlight = null;
 };
 
 const refreshSession = async (): Promise<boolean> => {
@@ -74,29 +84,33 @@ export const apiClient = async <T>(endpoint: string, options: RequestInit = {}):
   const method = options.method?.toUpperCase() ?? "GET";
   const requiresCsrfToken = !["GET", "HEAD", "OPTIONS"].includes(method);
 
-  const token = getToken();
-  const requestCsrfToken = requiresCsrfToken ? await getCsrfToken() : null;
-
-  const doFetch = () =>
+  const doFetch = (csrf: string | null) =>
     fetch(`${API_BASE}${endpoint}`, {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        ...(requestCsrfToken ? { "X-CSRF-Token": requestCsrfToken } : {}),
-        ...(token && !isAuthEndpoint ? { Authorization: `Bearer ${token}` } : {}),
+        ...(csrf ? { "X-CSRF-Token": csrf } : {}),
+        ...(!isAuthEndpoint && getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
         ...options.headers,
       },
       credentials: "include",
     });
 
-  let response = await doFetch();
+  let response = await doFetch(requiresCsrfToken ? await getCsrfToken() : null);
+
+  // Stale CSRF token (e.g. cached before a server restart rotated the
+  // session) → drop the cached token, fetch a fresh one, retry once.
+  if (response.status === 403 && requiresCsrfToken) {
+    clearCsrfToken();
+    response = await doFetch(await getCsrfToken(true));
+  }
 
   // Access token expired → try silent refresh once
   if (response.status === 401 && !isAuthEndpoint) {
     const refreshed = await refreshSession();
     if (refreshed) {
       // Retry with new token (doFetch will read updated token from storage)
-      response = await doFetch();
+      response = await doFetch(requiresCsrfToken ? await getCsrfToken() : null);
     } else {
       // Refresh failed → clear any stored user data and token
       removeToken();
@@ -106,6 +120,9 @@ export const apiClient = async <T>(endpoint: string, options: RequestInit = {}):
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
+    if (response.status === 403 && typeof errorData.message === "string") {
+      throw new Error(errorData.message);
+    }
     throw new Error(errorData.message || "Request failed");
   }
 

@@ -13,6 +13,15 @@ export const errorHandler = (err: Error, _req: Request, res: Response, _next: Ne
     });
   }
 
+  // lusca's CSRF middleware forwards plain Errors with "CSRF token ..."
+  // messages — surface them as 403 so the client can retry with a fresh token.
+  if (/csrf token/i.test(err.message)) {
+    return res.status(403).json({
+      success: false,
+      message: err.message,
+    });
+  }
+
   console.error(err);
 
   return res.status(500).json({

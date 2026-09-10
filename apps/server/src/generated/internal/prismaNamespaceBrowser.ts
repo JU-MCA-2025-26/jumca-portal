@@ -57,6 +57,7 @@ export const ModelName = {
   Course: 'Course',
   SemesterMapping: 'SemesterMapping',
   Elective: 'Elective',
+  UserElective: 'UserElective',
   Resource: 'Resource',
   PlacementDrive: 'PlacementDrive',
   PlacementOffer: 'PlacementOffer',
@@ -181,6 +182,19 @@ export const ElectiveScalarFieldEnum = {
 } as const
 
 export type ElectiveScalarFieldEnum = (typeof ElectiveScalarFieldEnum)[keyof typeof ElectiveScalarFieldEnum]
+
+
+export const UserElectiveScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  courseCode: 'courseCode',
+  basket: 'basket',
+  semester: 'semester',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserElectiveScalarFieldEnum = (typeof UserElectiveScalarFieldEnum)[keyof typeof UserElectiveScalarFieldEnum]
 
 
 export const ResourceScalarFieldEnum = {

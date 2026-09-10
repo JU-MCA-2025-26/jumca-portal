@@ -7,3 +7,4 @@ export * from "./UserRequest.js";
 export * from "./AuthRequest.js";
 export * from "./Alumni.js";
 export * from "./ConnectionRequestStatus.js";
+export * from "./Course.js";

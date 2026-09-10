@@ -72,6 +72,11 @@ export type SemesterMapping = Prisma.SemesterMappingModel
  */
 export type Elective = Prisma.ElectiveModel
 /**
+ * Model UserElective
+ * 
+ */
+export type UserElective = Prisma.UserElectiveModel
+/**
  * Model Resource
  * 
  */

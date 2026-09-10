@@ -149,6 +149,8 @@ class ProfileService {
         fullName: true,
         role: true,
         batch: true,
+        currentYear: true,
+        currentSemester: true,
         isActive: true,
         createdAt: true,
         profile: true,

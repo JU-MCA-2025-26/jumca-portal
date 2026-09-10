@@ -31,6 +31,8 @@ export interface AuthUser {
   role: "ADMIN" | "STUDENT" | "ALUMNI";
   isActive: boolean;
   batch: string; // null for ADMIN accounts
+  currentYear?: number | null;
+  currentSemester?: "BRIDGE" | "SEM_1" | "SEM_2" | "SEM_3" | "SEM_4" | null;
   profile: UserProfile | null;
   createdAt: string;
 }
@@ -47,5 +49,7 @@ export interface LoginApiResponse {
 export interface MeApiResponse {
   success: boolean;
   message: string;
-  data: AuthUser;
+  data: {
+    user: AuthUser;
+  };
 }

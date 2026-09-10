@@ -177,6 +177,7 @@ export type CourseWhereInput = {
   resources?: Prisma.ResourceListRelationFilter
   elective?: Prisma.XOR<Prisma.ElectiveNullableScalarRelationFilter, Prisma.ElectiveWhereInput> | null
   semesterMapping?: Prisma.XOR<Prisma.SemesterMappingNullableScalarRelationFilter, Prisma.SemesterMappingWhereInput> | null
+  userElectives?: Prisma.UserElectiveListRelationFilter
 }
 
 export type CourseOrderByWithRelationInput = {
@@ -187,6 +188,7 @@ export type CourseOrderByWithRelationInput = {
   resources?: Prisma.ResourceOrderByRelationAggregateInput
   elective?: Prisma.ElectiveOrderByWithRelationInput
   semesterMapping?: Prisma.SemesterMappingOrderByWithRelationInput
+  userElectives?: Prisma.UserElectiveOrderByRelationAggregateInput
 }
 
 export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -200,6 +202,7 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   resources?: Prisma.ResourceListRelationFilter
   elective?: Prisma.XOR<Prisma.ElectiveNullableScalarRelationFilter, Prisma.ElectiveWhereInput> | null
   semesterMapping?: Prisma.XOR<Prisma.SemesterMappingNullableScalarRelationFilter, Prisma.SemesterMappingWhereInput> | null
+  userElectives?: Prisma.UserElectiveListRelationFilter
 }, "code" | "name">
 
 export type CourseOrderByWithAggregationInput = {
@@ -230,6 +233,7 @@ export type CourseCreateInput = {
   resources?: Prisma.ResourceCreateNestedManyWithoutCourseInput
   elective?: Prisma.ElectiveCreateNestedOneWithoutCourseInput
   semesterMapping?: Prisma.SemesterMappingCreateNestedOneWithoutCourseInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateInput = {
@@ -240,6 +244,7 @@ export type CourseUncheckedCreateInput = {
   resources?: Prisma.ResourceUncheckedCreateNestedManyWithoutCourseInput
   elective?: Prisma.ElectiveUncheckedCreateNestedOneWithoutCourseInput
   semesterMapping?: Prisma.SemesterMappingUncheckedCreateNestedOneWithoutCourseInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUpdateInput = {
@@ -250,6 +255,7 @@ export type CourseUpdateInput = {
   resources?: Prisma.ResourceUpdateManyWithoutCourseNestedInput
   elective?: Prisma.ElectiveUpdateOneWithoutCourseNestedInput
   semesterMapping?: Prisma.SemesterMappingUpdateOneWithoutCourseNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateInput = {
@@ -260,6 +266,7 @@ export type CourseUncheckedUpdateInput = {
   resources?: Prisma.ResourceUncheckedUpdateManyWithoutCourseNestedInput
   elective?: Prisma.ElectiveUncheckedUpdateOneWithoutCourseNestedInput
   semesterMapping?: Prisma.SemesterMappingUncheckedUpdateOneWithoutCourseNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateManyInput = {
@@ -337,6 +344,20 @@ export type CourseUpdateOneRequiredWithoutElectiveNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutElectiveInput, Prisma.CourseUpdateWithoutElectiveInput>, Prisma.CourseUncheckedUpdateWithoutElectiveInput>
 }
 
+export type CourseCreateNestedOneWithoutUserElectivesInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutUserElectivesInput, Prisma.CourseUncheckedCreateWithoutUserElectivesInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutUserElectivesInput
+  connect?: Prisma.CourseWhereUniqueInput
+}
+
+export type CourseUpdateOneRequiredWithoutUserElectivesNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutUserElectivesInput, Prisma.CourseUncheckedCreateWithoutUserElectivesInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutUserElectivesInput
+  upsert?: Prisma.CourseUpsertWithoutUserElectivesInput
+  connect?: Prisma.CourseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutUserElectivesInput, Prisma.CourseUpdateWithoutUserElectivesInput>, Prisma.CourseUncheckedUpdateWithoutUserElectivesInput>
+}
+
 export type CourseCreateNestedOneWithoutResourcesInput = {
   create?: Prisma.XOR<Prisma.CourseCreateWithoutResourcesInput, Prisma.CourseUncheckedCreateWithoutResourcesInput>
   connectOrCreate?: Prisma.CourseCreateOrConnectWithoutResourcesInput
@@ -358,6 +379,7 @@ export type CourseCreateWithoutSemesterMappingInput = {
   updatedAt?: Date | string
   resources?: Prisma.ResourceCreateNestedManyWithoutCourseInput
   elective?: Prisma.ElectiveCreateNestedOneWithoutCourseInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutSemesterMappingInput = {
@@ -367,6 +389,7 @@ export type CourseUncheckedCreateWithoutSemesterMappingInput = {
   updatedAt?: Date | string
   resources?: Prisma.ResourceUncheckedCreateNestedManyWithoutCourseInput
   elective?: Prisma.ElectiveUncheckedCreateNestedOneWithoutCourseInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutSemesterMappingInput = {
@@ -392,6 +415,7 @@ export type CourseUpdateWithoutSemesterMappingInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resources?: Prisma.ResourceUpdateManyWithoutCourseNestedInput
   elective?: Prisma.ElectiveUpdateOneWithoutCourseNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutSemesterMappingInput = {
@@ -401,6 +425,7 @@ export type CourseUncheckedUpdateWithoutSemesterMappingInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resources?: Prisma.ResourceUncheckedUpdateManyWithoutCourseNestedInput
   elective?: Prisma.ElectiveUncheckedUpdateOneWithoutCourseNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateWithoutElectiveInput = {
@@ -410,6 +435,7 @@ export type CourseCreateWithoutElectiveInput = {
   updatedAt?: Date | string
   resources?: Prisma.ResourceCreateNestedManyWithoutCourseInput
   semesterMapping?: Prisma.SemesterMappingCreateNestedOneWithoutCourseInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutElectiveInput = {
@@ -419,6 +445,7 @@ export type CourseUncheckedCreateWithoutElectiveInput = {
   updatedAt?: Date | string
   resources?: Prisma.ResourceUncheckedCreateNestedManyWithoutCourseInput
   semesterMapping?: Prisma.SemesterMappingUncheckedCreateNestedOneWithoutCourseInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutElectiveInput = {
@@ -444,6 +471,7 @@ export type CourseUpdateWithoutElectiveInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resources?: Prisma.ResourceUpdateManyWithoutCourseNestedInput
   semesterMapping?: Prisma.SemesterMappingUpdateOneWithoutCourseNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutElectiveInput = {
@@ -452,6 +480,63 @@ export type CourseUncheckedUpdateWithoutElectiveInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resources?: Prisma.ResourceUncheckedUpdateManyWithoutCourseNestedInput
+  semesterMapping?: Prisma.SemesterMappingUncheckedUpdateOneWithoutCourseNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutCourseNestedInput
+}
+
+export type CourseCreateWithoutUserElectivesInput = {
+  code: string
+  name: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resources?: Prisma.ResourceCreateNestedManyWithoutCourseInput
+  elective?: Prisma.ElectiveCreateNestedOneWithoutCourseInput
+  semesterMapping?: Prisma.SemesterMappingCreateNestedOneWithoutCourseInput
+}
+
+export type CourseUncheckedCreateWithoutUserElectivesInput = {
+  code: string
+  name: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resources?: Prisma.ResourceUncheckedCreateNestedManyWithoutCourseInput
+  elective?: Prisma.ElectiveUncheckedCreateNestedOneWithoutCourseInput
+  semesterMapping?: Prisma.SemesterMappingUncheckedCreateNestedOneWithoutCourseInput
+}
+
+export type CourseCreateOrConnectWithoutUserElectivesInput = {
+  where: Prisma.CourseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CourseCreateWithoutUserElectivesInput, Prisma.CourseUncheckedCreateWithoutUserElectivesInput>
+}
+
+export type CourseUpsertWithoutUserElectivesInput = {
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutUserElectivesInput, Prisma.CourseUncheckedUpdateWithoutUserElectivesInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutUserElectivesInput, Prisma.CourseUncheckedCreateWithoutUserElectivesInput>
+  where?: Prisma.CourseWhereInput
+}
+
+export type CourseUpdateToOneWithWhereWithoutUserElectivesInput = {
+  where?: Prisma.CourseWhereInput
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutUserElectivesInput, Prisma.CourseUncheckedUpdateWithoutUserElectivesInput>
+}
+
+export type CourseUpdateWithoutUserElectivesInput = {
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resources?: Prisma.ResourceUpdateManyWithoutCourseNestedInput
+  elective?: Prisma.ElectiveUpdateOneWithoutCourseNestedInput
+  semesterMapping?: Prisma.SemesterMappingUpdateOneWithoutCourseNestedInput
+}
+
+export type CourseUncheckedUpdateWithoutUserElectivesInput = {
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resources?: Prisma.ResourceUncheckedUpdateManyWithoutCourseNestedInput
+  elective?: Prisma.ElectiveUncheckedUpdateOneWithoutCourseNestedInput
   semesterMapping?: Prisma.SemesterMappingUncheckedUpdateOneWithoutCourseNestedInput
 }
 
@@ -462,6 +547,7 @@ export type CourseCreateWithoutResourcesInput = {
   updatedAt?: Date | string
   elective?: Prisma.ElectiveCreateNestedOneWithoutCourseInput
   semesterMapping?: Prisma.SemesterMappingCreateNestedOneWithoutCourseInput
+  userElectives?: Prisma.UserElectiveCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutResourcesInput = {
@@ -471,6 +557,7 @@ export type CourseUncheckedCreateWithoutResourcesInput = {
   updatedAt?: Date | string
   elective?: Prisma.ElectiveUncheckedCreateNestedOneWithoutCourseInput
   semesterMapping?: Prisma.SemesterMappingUncheckedCreateNestedOneWithoutCourseInput
+  userElectives?: Prisma.UserElectiveUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutResourcesInput = {
@@ -496,6 +583,7 @@ export type CourseUpdateWithoutResourcesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   elective?: Prisma.ElectiveUpdateOneWithoutCourseNestedInput
   semesterMapping?: Prisma.SemesterMappingUpdateOneWithoutCourseNestedInput
+  userElectives?: Prisma.UserElectiveUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutResourcesInput = {
@@ -505,6 +593,7 @@ export type CourseUncheckedUpdateWithoutResourcesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   elective?: Prisma.ElectiveUncheckedUpdateOneWithoutCourseNestedInput
   semesterMapping?: Prisma.SemesterMappingUncheckedUpdateOneWithoutCourseNestedInput
+  userElectives?: Prisma.UserElectiveUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 
@@ -514,10 +603,12 @@ export type CourseUncheckedUpdateWithoutResourcesInput = {
 
 export type CourseCountOutputType = {
   resources: number
+  userElectives: number
 }
 
 export type CourseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   resources?: boolean | CourseCountOutputTypeCountResourcesArgs
+  userElectives?: boolean | CourseCountOutputTypeCountUserElectivesArgs
 }
 
 /**
@@ -537,6 +628,13 @@ export type CourseCountOutputTypeCountResourcesArgs<ExtArgs extends runtime.Type
   where?: Prisma.ResourceWhereInput
 }
 
+/**
+ * CourseCountOutputType without action
+ */
+export type CourseCountOutputTypeCountUserElectivesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserElectiveWhereInput
+}
+
 
 export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   code?: boolean
@@ -546,6 +644,7 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   resources?: boolean | Prisma.Course$resourcesArgs<ExtArgs>
   elective?: boolean | Prisma.Course$electiveArgs<ExtArgs>
   semesterMapping?: boolean | Prisma.Course$semesterMappingArgs<ExtArgs>
+  userElectives?: boolean | Prisma.Course$userElectivesArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["course"]>
 
@@ -575,6 +674,7 @@ export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   resources?: boolean | Prisma.Course$resourcesArgs<ExtArgs>
   elective?: boolean | Prisma.Course$electiveArgs<ExtArgs>
   semesterMapping?: boolean | Prisma.Course$semesterMappingArgs<ExtArgs>
+  userElectives?: boolean | Prisma.Course$userElectivesArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CourseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -586,6 +686,7 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     resources: Prisma.$ResourcePayload<ExtArgs>[]
     elective: Prisma.$ElectivePayload<ExtArgs> | null
     semesterMapping: Prisma.$SemesterMappingPayload<ExtArgs> | null
+    userElectives: Prisma.$UserElectivePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     code: string
@@ -989,6 +1090,7 @@ export interface Prisma__CourseClient<T, Null = never, ExtArgs extends runtime.T
   resources<T extends Prisma.Course$resourcesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$resourcesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   elective<T extends Prisma.Course$electiveArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$electiveArgs<ExtArgs>>): Prisma.Prisma__ElectiveClient<runtime.Types.Result.GetResult<Prisma.$ElectivePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   semesterMapping<T extends Prisma.Course$semesterMappingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$semesterMappingArgs<ExtArgs>>): Prisma.Prisma__SemesterMappingClient<runtime.Types.Result.GetResult<Prisma.$SemesterMappingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  userElectives<T extends Prisma.Course$userElectivesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$userElectivesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserElectivePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1474,6 +1576,30 @@ export type Course$semesterMappingArgs<ExtArgs extends runtime.Types.Extensions.
    */
   include?: Prisma.SemesterMappingInclude<ExtArgs> | null
   where?: Prisma.SemesterMappingWhereInput
+}
+
+/**
+ * Course.userElectives
+ */
+export type Course$userElectivesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserElective
+   */
+  select?: Prisma.UserElectiveSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserElective
+   */
+  omit?: Prisma.UserElectiveOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserElectiveInclude<ExtArgs> | null
+  where?: Prisma.UserElectiveWhereInput
+  orderBy?: Prisma.UserElectiveOrderByWithRelationInput | Prisma.UserElectiveOrderByWithRelationInput[]
+  cursor?: Prisma.UserElectiveWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserElectiveScalarFieldEnum | Prisma.UserElectiveScalarFieldEnum[]
 }
 
 /**

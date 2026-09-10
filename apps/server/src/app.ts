@@ -13,6 +13,7 @@ import usersRoutes from "@/routes/user.routes.js";
 import placementRoutes from "@/routes/placement.route.js";
 import alumniRoutes from "@/routes/alumni.routes.js";
 import profileRoutes from "@/routes/profile.routes.js";
+import courseRoutes from "@/routes/course.routes.js";
 import healthRoutes from "@/routes/health.routes.js";
 
 import { errorHandler } from "@/middleware/errorHandler.js";
@@ -45,7 +46,7 @@ const pgPool = new pg.Pool({ connectionString: env.DATABASE_URL });
 
 app.use(
   session({
-    store: new (pgSession(session))({ pool: pgPool }),
+    store: new (pgSession(session))({ pool: pgPool, createTableIfMissing: true }),
     secret: env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: true,
@@ -60,12 +61,14 @@ app.use(
 
 // CSRF protection
 app.use((req, res, next) => {
-  // Skip CSRF validation for safe HTTP methods (GET, HEAD, OPTIONS) and public auth endpoints
+  // Skip CSRF validation for safe HTTP methods (GET, HEAD, OPTIONS) and public/client endpoints.
   if (
     ["GET", "HEAD", "OPTIONS"].includes(req.method) ||
     req.path.startsWith(`${API_PREFIX}/auth/login`) ||
     req.path.startsWith(`${API_PREFIX}/auth/register`) ||
-    req.path.startsWith(`${API_PREFIX}/auth/refresh`)
+    req.path.startsWith(`${API_PREFIX}/auth/refresh`) ||
+    req.path.startsWith(`${API_PREFIX}/auth/logout`) ||
+    req.path.startsWith(`${API_PREFIX}/courses`)
   ) {
     return next();
   }
@@ -79,11 +82,13 @@ app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 app.use(`${API_PREFIX}`, apiLimiter);
 
 // CSRF token generation route (public endpoint to retrieve token)
-app.get(`${API_PREFIX}/csrf-token`, lusca.csrf({ header: "x-csrf-token" }), (req, res) => {
-  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-  res.setHeader("Pragma", "no-cache");
-  res.setHeader("Expires", "0");
-  res.json({ csrfToken: res.locals._csrf });
+app.get(`${API_PREFIX}/csrf-token`, (req, res, _) => {
+  lusca.csrf({ header: "x-csrf-token" })(req, res, () => {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    res.json({ csrfToken: res.locals._csrf });
+  });
 });
 
 // Health route (public)
@@ -95,6 +100,7 @@ app.use(`${API_PREFIX}/users`, usersRoutes);
 app.use(`${API_PREFIX}/placements`, placementRoutes);
 app.use(`${API_PREFIX}/alumni`, alumniRoutes);
 app.use(`${API_PREFIX}/profile`, profileRoutes);
+app.use(`${API_PREFIX}/courses`, courseRoutes);
 
 // Error handling
 app.use(errorHandler);

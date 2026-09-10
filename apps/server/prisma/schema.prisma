@@ -55,6 +55,7 @@ model User {
 
   connectRequestsSent     ConnectRequest[] @relation("ConnectRequestsSent")
   connectRequestsReceived ConnectRequest[] @relation("ConnectRequestsReceived")
+  userElectives           UserElective[]
 
   refreshToken String?
   resetPasswordToken String?
@@ -135,6 +136,7 @@ model Course {
   resources       Resource[]
   elective        Elective?
   semesterMapping SemesterMapping?
+  userElectives   UserElective[]
 
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
@@ -182,6 +184,22 @@ model Elective {
   updatedAt  DateTime       @updatedAt
 
   @@index([basket])
+}
+
+model UserElective {
+  id         String         @id @default(cuid())
+  userId     String
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseCode String
+  course     Course         @relation(fields: [courseCode], references: [code], onDelete: Cascade)
+  basket     ElectiveBasket
+  semester   SemesterTerm   @default(SEM_3)
+
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@unique([userId, basket, semester])
+  @@index([userId])
 }
 
 model Resource {
