@@ -5,6 +5,8 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "lib": ["esnext"],
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
+
     "outDir": "./dist",
     "rootDir": "./src",
     "sourceMap": true,
